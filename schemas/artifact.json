@@ -1,0 +1,11 @@
+{
+    "id": "internal UUID in DB for artifact",
+    "name": "Sring Display name of artifact",
+    "source": "String source name limited to 5 options ['Ancient Magitech', 'Divine', 'Nightmare', 'Prototype Magitech', 'Void']",
+    "description": "String Description of physical appearance of artifact",
+    "effect": "String Effect of artifact when used",
+    "slots": "Positive INT number of inventory slots artifact takes up",
+    "hasDepletion": "Boolean if artifact depletes or not",
+    "depletionDie": "String depletion roll for artifact, e.g. 1d10",
+    "depletionResult": "Postive INT, value of die roll that will deplete artifact"
+}

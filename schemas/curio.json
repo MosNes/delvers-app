@@ -3,5 +3,6 @@
     "name": "Sring Display name of Curio",
     "source": "String source name limited to 5 options ['Ancient Magitech', 'Divine', 'Nightmare', 'Prototype Magitech', 'Void']",
     "description": "String Description of physical appearance of Curio",
-    "effect": "String Effect of Curio when used"
+    "effect": "String Effect of Curio when used",
+    "slots": "Positive INT number of inventory slots curio takes up"
 }
