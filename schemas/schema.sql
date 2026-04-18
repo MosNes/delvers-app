@@ -1,6 +1,7 @@
+-- match SQL schemas to JSON schemas in schemas directory
 -- match to gear.json
-DROP TABLE IF EXISTS gear-items;
-CREATE TABLE  IF NOT EXISTS gear-items (
+DROP TABLE IF EXISTS gear;
+CREATE TABLE  IF NOT EXISTS gear (
     id TEXT PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
@@ -15,6 +16,7 @@ CREATE TABLE  IF NOT EXISTS gear-items (
     clockValue REAL
 );
 
+-- match to curio.json
 DROP TABLE IF EXISTS curios;
 CREATE TABLE curios (
     id TEXT PRIMARY KEY AUTOINCREMENT,
@@ -28,6 +30,7 @@ CREATE TABLE curios (
     slots INTEGER CHECK (slots >= 0)
 );
 
+-- match to weapon.json
 DROP TABLE IF EXISTS weapons;
 CREATE TABLE weapons (
     id TEXT PRIMARY KEY AUTOINCREMENT,
@@ -40,4 +43,17 @@ CREATE TABLE weapons (
     tags TEXT, -- Stored as a JSON-formatted array string
     isMinor BOOLEAN,
     armor INTEGER DEFAULT 0 CHECK (armor >= 0)
+);
+
+--match to armor.json
+CREATE TABLE armor (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    cost INTEGER CHECK (cost >= 0),
+    slots INTEGER CHECK (slots >= 0),
+    special TEXT,
+    tags TEXT, -- Stored as a JSON-formatted array string
+    isMinor BOOLEAN,
+    armor_value INTEGER DEFAULT 0 CHECK (armor_value >= 0)
 );
