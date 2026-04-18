@@ -1,4 +1,5 @@
 {
+ "id": "UUID in DB for gear item",
  "name": "String of gear item's name",
  "description": "String of short description of item",
  "effect": "String of mechanical effect of item",

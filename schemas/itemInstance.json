@@ -1,7 +1,7 @@
 {
-    "id": "UUID of this specific item record",
+    "id": "UUID of this specific item Instance record",
     "characterId": "UUID of the character that this inventory item belongs to",
     "type": "String of type of item, limited to Array of ['artifact', 'curio', 'gear', 'weapon', 'armor']",
     "baseItem": "ID of specific item to pull properties from",
-    "displayName": "String default to name of baseItem name, can be overwritten for custom names"
+    "displayName": "String default to name of baseItem name, can be overwritten with custom name"
 }
