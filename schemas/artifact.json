@@ -7,5 +7,6 @@
     "slots": "Positive INT number of inventory slots artifact takes up",
     "hasDepletion": "Boolean if artifact depletes or not",
     "depletionDie": "String depletion roll for artifact, e.g. 1d10",
-    "depletionResult": "Postive INT, value of die roll that will deplete artifact"
+    "depletionResult": "Postive INT, value of die roll that will deplete artifact",
+    "isMinor": "Boolean if artifact has Minor keyword and takes up no slots "
 }
