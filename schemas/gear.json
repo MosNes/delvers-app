@@ -6,5 +6,7 @@
  "slots": "Positive INT of how many inventory slots the item takes up",
  "special": "String of additional special properties or restrictions of item",
  "stack": "positive INT of how many copies stack per inventory slot",
- "isMinor": "Boolean of whether item has Minor keyword and takes up no slots"
+ "isMinor": "Boolean of whether item has Minor keyword and takes up no slots",
+ "hasclock": "Boolean of whether item has a time duration",
+ "clockValue": "Number of segments before the item's clock runs out"
 }
