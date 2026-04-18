@@ -1,8 +1,9 @@
 {
     "id": "Internal UUID of DB character",
+    "owner": "email address of user who owns character",
     "imgUrl": "STRING PATH TO CHARACTER PORTRAIT JPG OR PNG",
     "characterName": "STRING NAME OF CHARACTER",
-    "player": "String name of player username",
+    "player": "String name of player displayName",
     "ancestry": "String name of Base ancestry",
     "ancestrySpecies": "String name of specific species",
     "destiny": "ID of destiny instance",
