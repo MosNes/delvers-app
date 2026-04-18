@@ -16,6 +16,13 @@
 	"upload_source_maps": true,
 	"compatibility_flags": [
 		"nodejs_compat"
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "delvers-db",
+			"database_id": "4de7476f-9872-4928-9659-c1c12dd8fa2f"
+		}
 	]
 	/**
 	 * Smart Placement
