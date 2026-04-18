@@ -1,0 +1,13 @@
+{
+ "id": "Internal DB UUID of weapon",
+ "name": "String of weapon name",
+ "description": "String of short description of weapon",
+ "baseDmg": "String of base weapon damage, e.g 2d6",
+ "cost": "Positive INT of req cost of weapon",
+ "slots": "Positive INT of how many inventory slots the weapon takes up",
+ "special": "String of additional special properties or restrictions of weapon",
+ "tags": "Array of keyword tag IDs for the weapon",
+ "isMinor": "Boolean of whether weapon has Minor keyword and takes up no slots",
+ "isEquipped": "Boolean if weapon is currently equipped",
+ "armor": "Positive INT of + armor value of weapon (mostly for shields)"
+}

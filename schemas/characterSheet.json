@@ -1,4 +1,5 @@
 {
+    "id": "Internal UUID of DB character",
     "imgUrl": "STRING PATH TO CHARACTER PORTRAIT JPG OR PNG",
     "characterName": "STRING NAME OF CHARACTER",
     "player": "String name of player username",
