@@ -1,0 +1,11 @@
+{
+"id": "Internal DB UUID of armor",
+ "name": "String of armor name",
+ "description": "String of short description of armor",
+ "cost": "Positive INT of req cost of armor",
+ "slots": "Positive INT of how many inventory slots the armor takes up",
+ "special": "String of additional special properties or restrictions of armor",
+ "tags": "Array of keyword tag IDs for the armor",
+ "isMinor": "Boolean of whether armor has Minor keyword and takes up no slots",
+ "armor": "Positive INT of + armor value of armor"
+}
