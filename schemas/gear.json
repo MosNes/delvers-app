@@ -1,0 +1,10 @@
+{
+ "name": "String of gear item's name",
+ "description": "String of short description of item",
+ "effect": "String of mechanical effect of item",
+ "cost": "Positive INT of req cost of item",
+ "slots": "Positive INT of how many inventory slots the item takes up",
+ "special": "String of additional special properties or restrictions of item",
+ "stack": "positive INT of how many copies stack per inventory slot",
+ "isMinor": "Boolean of whether item has Minor keyword and takes up no slots"
+}
