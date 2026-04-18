@@ -1,0 +1,5 @@
+{
+    "id": "UUID of tag in database",
+    "name": "String display name of tag",
+    "description": "Textarea description of tag"
+}
