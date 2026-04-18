@@ -1,0 +1,8 @@
+{
+    "id": "UUID of talent in database",
+    "name": "String display name of Talent",
+    "description": "Textarea of talent description",
+    "flavorText": "Textarea of flavor text",
+    "path": "Associated Path (RPG term, not actual path to file)",
+    "isCore": "Boolean true if is core talent of associated Path"
+}
