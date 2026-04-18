@@ -1,13 +1,19 @@
-export default {
-	fetch(request) {
-		const url = new URL(request.url);
 
-		if (url.pathname.startsWith("/api/")) {
-			return Response.json({
-				name: "Cloudflare",
-			});
-		}
+import { env } from "cloudflare:workers";
+import { httpServerHandler } from "cloudflare:node";
+import express from "express";
 
-		return new Response(null, { status: 404 });
-	},
-};
+const app = express();
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Health check endpoint
+app.get("/api", (req, res) => {
+  res.json({ message: "The Delvers Express.js API Server is running on Cloudflare Workers!" });
+});
+
+
+
+app.listen(3000);
+export default httpServerHandler({ port: 3000 });
