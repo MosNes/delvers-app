@@ -1,7 +1,7 @@
 {
     "id": "internal UUID in DB for curio",
-    "name": "Display name of Curio",
+    "name": "Sring Display name of Curio",
     "source": "String source name limited to 5 options ['Ancient Magitech', 'Divine', 'Nightmare', 'Prototype Magitech', 'Void']",
-    "description": "Description of physical appearance of Curio",
-    "effect": "Effect of Curio when used"
+    "description": "String Description of physical appearance of Curio",
+    "effect": "String Effect of Curio when used"
 }
