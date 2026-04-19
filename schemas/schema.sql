@@ -85,7 +85,8 @@ CREATE TABLE talents (
 CREATE TABLE tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT
+    description TEXT,
+    hasSpecialValue INTEGER DEFAULT 0 CHECK (hasSpecialValue IN (0, 1))
 );
 
 -- 5. ITEM DEFINITIONS
@@ -190,6 +191,7 @@ CREATE TABLE tag_junctions (
     weapon_id INTEGER,
     armor_id INTEGER,
     inventory_instance_id INTEGER,
+    special_value TEXT,
     CHECK (weapon_id IS NOT NULL OR armor_id IS NOT NULL OR inventory_instance_id IS NOT NULL),
     FOREIGN KEY (weapon_id) REFERENCES weapons(id) ON DELETE CASCADE,
     FOREIGN KEY (armor_id) REFERENCES armor(id) ON DELETE CASCADE,
