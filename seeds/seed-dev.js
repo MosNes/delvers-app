@@ -1,3 +1,6 @@
+// import env for env.DB Binding for any functions that need access to DB
+import { env } from "cloudflare:workers";
+
 // import JSON files with seed data
 import armorData from './armor_seed.json';
 
@@ -5,14 +8,14 @@ import armorData from './armor_seed.json';
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
 // pass in env from index.js to give access to the DB object
-export const seedArmor = async (env) => {
+export const seedArmor = async () => {
 
     // stringify seed data
     const armorString = JSON.stringify(armorData);
 
     try {
         // use json_extract() method to seed each row of the table by looping over the JSON file
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO armor (name, description, cost, slots, special, tags, isMinor, armor_value)
         SELECT 
             json_extract(value, '$.name'), 
@@ -29,14 +32,14 @@ export const seedArmor = async (env) => {
 
         return result;
     } catch (err) {
-        throw new Error("Error in seedArmor(): ", err.message);
+        throw new Error("Error in seedArmor(): ",err);
     }
 };
 
 export const seedWeapon = async (env) => {
     const weaponString = JSON.stringify(weaponData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO weapons (name, description, baseDmg, cost, slots, special, tags, isMinor, armor)
         SELECT 
             json_extract(value, '$.name'), 
@@ -52,14 +55,14 @@ export const seedWeapon = async (env) => {
         `).bind(weaponString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedWeapon(): " + err.message);
+        throw new Error("Error in seedWeapon(): " +err);
     }
 };
 
 export const seedGear = async (env) => {
     const gearString = JSON.stringify(gearData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO gear (name, description, effect, cost, slots, special, stack, isMinor, hasClock, clockValue)
         SELECT 
             json_extract(value, '$.name'), 
@@ -76,14 +79,14 @@ export const seedGear = async (env) => {
         `).bind(gearString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedGear(): " + err.message);
+        throw new Error("Error in seedGear(): " +err);
     }
 };
 
 export const seedCurio = async (env) => {
     const curioString = JSON.stringify(curioData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO curios (name, source, description, effect, slots)
         SELECT 
             json_extract(value, '$.name'), 
@@ -95,14 +98,14 @@ export const seedCurio = async (env) => {
         `).bind(curioString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedCurio(): " + err.message);
+        throw new Error("Error in seedCurio(): " +err);
     }
 };
 
 export const seedArtifact = async (env) => {
     const artifactString = JSON.stringify(artifactData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO artifacts (id, name, source, description, effect, slots, hasDepletion, depletionDie, depletionResult, isMinor)
         SELECT 
             json_extract(value, '$.name'), 
@@ -118,7 +121,7 @@ export const seedArtifact = async (env) => {
         `).bind(artifactString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedArtifact(): " + err.message);
+        throw new Error("Error in seedArtifact(): " +err);
     }
 };
 
@@ -127,7 +130,7 @@ export const seedArtifact = async (env) => {
 export const seedPath = async (env) => {
     const pathString = JSON.stringify(pathData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO paths (id, name, description)
         SELECT 
             json_extract(value, '$.id'), 
@@ -137,7 +140,7 @@ export const seedPath = async (env) => {
         `).bind(pathString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedPath(): " + err.message);
+        throw new Error("Error in seedPath(): " +err);
     }
 };
 
@@ -145,7 +148,7 @@ export const seedPath = async (env) => {
 export const seedTalent = async (env) => {
     const talentString = JSON.stringify(talentData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle)
         SELECT 
             json_extract(value, '$.name'), 
@@ -160,14 +163,14 @@ export const seedTalent = async (env) => {
         `).bind(talentString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedTalent(): " + err.message);
+        throw new Error("Error in seedTalent(): " +err);
     }
 };
 
 export const seedDestiny = async (env) => {
     const destinyString = JSON.stringify(destinyData);
     try {
-        const result = await DB.prepare(`
+        const result = await env.DB.prepare(`
         INSERT INTO destinies (name, description)
         SELECT 
             json_extract(value, '$.name'), 
@@ -176,6 +179,6 @@ export const seedDestiny = async (env) => {
         `).bind(destinyString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedDestiny(): " + err.message);
+        throw new Error("Error in seedDestiny(): " +err);
     }
 };

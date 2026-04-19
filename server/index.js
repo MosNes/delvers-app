@@ -2,11 +2,7 @@
 import { env } from "cloudflare:workers";
 import { httpServerHandler } from "cloudflare:node";
 import express from "express";
-import { seedArmor } from "../seeds/seed-dev.js";
 import seedRouter from "./routes/seed_routes.js";
-
-// declare DB as global variable so that nested route functions can access the DB object
-const DB = env.DB;
 
 const app = express();
 
