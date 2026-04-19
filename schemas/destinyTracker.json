@@ -1,0 +1,5 @@
+{
+    "id": "Primary Key internal UUID of tracker",
+    "character_id": "Foreign Key to link tracker to specific character",
+    "completed_beats": "Array of IDs of each story beat the character has completed"
+}

@@ -126,3 +126,61 @@ CREATE TABLE campaigns (
 );
 
 -- match characterSheet.json
+CREATE TABLE characters (
+    
+    -- Identification & Ownership
+    id TEXT PRIMARY KEY,
+    owner TEXT NOT NULL,
+    campaign TEXT,
+    imgUrl TEXT,
+    characterName TEXT NOT NULL,
+    player TEXT NOT NULL,
+    
+    -- Foreign Key Relations
+    -- delete all characters if user is deleted
+    FOREIGN KEY (owner) REFERENCES users(email) ON DELETE CASCADE,
+    -- do not delete campaign if user is deleted
+    FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE SET NULL
+
+    -- Character Definition
+    ancestry TEXT NOT NULL,
+    ancestrySpecies TEXT NOT NULL,
+    -- on character deletion, delete associated Destiny Tracker record
+    destiny FOREIGN KEY (id) REFERENCES destinyTracker(characterid) ON DELETE CASCADE,
+    path TEXT NOT NULL,
+    background TEXT,
+    domains TEXT, -- JSON Array of Strings
+    skills TEXT,  -- JSON Array of Strings
+
+    -- Combat & Defense Stats
+    maxGuard INTEGER DEFAULT 0 CHECK (maxGuard >= 0),
+    currentGuard INTEGER DEFAULT 0 CHECK (currentGuard >= 0),
+    armor INTEGER DEFAULT 0 CHECK (armor >= 0),
+
+    -- Attribute Tracks
+    maxBody INTEGER DEFAULT 0 CHECK (maxBody >= 0),
+    currentBody INTEGER DEFAULT 0 CHECK (currentBody >= 0),
+    maxSpeed INTEGER DEFAULT 0 CHECK (maxSpeed >= 0),
+    currentSpeed INTEGER DEFAULT 0 CHECK (currentSpeed >= 0),
+    maxMind INTEGER DEFAULT 0 CHECK (maxMind >= 0),
+    currentMind INTEGER DEFAULT 0 CHECK (currentMind >= 0),
+    maxSpirit INTEGER DEFAULT 0 CHECK (maxSpirit >= 0),
+    currentSpirit INTEGER DEFAULT 0 CHECK (currentSpirit >= 0),
+
+    -- Meta Trackers
+    blessings INTEGER DEFAULT 0 CHECK (blessings >= 0),
+    curses INTEGER DEFAULT 0 CHECK (curses >= 0),
+    doom INTEGER DEFAULT 0 CHECK (doom BETWEEN 0 AND 5),
+
+    -- Stress States (Booleans)
+    bodyStress INTEGER DEFAULT 0 CHECK (bodyStress IN (0, 1)),
+    speedStress INTEGER DEFAULT 0 CHECK (speedStress IN (0, 1)),
+    mindStress INTEGER DEFAULT 0 CHECK (mindStress IN (0, 1)),
+    spiritStress INTEGER DEFAULT 0 CHECK (spiritStress IN (0, 1)),
+
+    -- Complex Data & Notes
+    inventory TEXT, -- JSON Array of item instances
+    talents TEXT,   -- JSON Array of talent instances
+    notes TEXT,
+
+);

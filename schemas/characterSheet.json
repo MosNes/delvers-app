@@ -1,6 +1,7 @@
 {
     "id": "Internal UUID of DB character",
-    "owner": "email address of user who owns character",
+    "owner": "foreign key string email address of user who owns character",
+    "campaign": "foreign key string ID of campaign record, not required",
     "imgUrl": "STRING PATH TO CHARACTER PORTRAIT JPG OR PNG",
     "characterName": "STRING NAME OF CHARACTER",
     "player": "String name of player displayName",
@@ -29,7 +30,6 @@
     "speedStress": "Boolean of whether speed stress is marked",
     "mindStress": "Boolean of whether mind stress is marked",
     "spiritStress": "Boolean of whether spirit stress is marked",
-    "inventory": "Array of character item instances",
     "talents": "Array of character talent instances",
     "notes": "text area for general note-taking"
 }
