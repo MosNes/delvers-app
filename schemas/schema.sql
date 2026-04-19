@@ -82,8 +82,14 @@ CREATE TABLE talents (
     FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
 );
 
+CREATE TABLE tags (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+)
+
 -- 5. ITEM DEFINITIONS
-CREATE TABLE IF NOT EXISTS gear (
+CREATE TABLE gear (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
@@ -178,6 +184,17 @@ CREATE TABLE talent_instances (
     FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
     FOREIGN KEY (talent_id) REFERENCES talents(id) ON DELETE CASCADE
 );
+
+CREATE TABLE tag_junctions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    weapon_id INTEGER,
+    armor_id INTEGER,
+    item_instance_id INTEGER,
+    CHECK (weapon_id IS NOT NULL OR weapon_id IS NOT NULL OR item_instance_id IS NOT NULL),
+    FOREIGN KEY (weapon_id) REFERENCES weapons(id) ON DELETE CASCADE,
+    FOREIGN KEY (armor_id) REFERENCES armor(id) ON DELETE CASCADE,
+    FOREIGN KEY (item_instance_id) REFERENCES item_instances(id) ON DELETE CASCADE
+)
 
 CREATE TABLE destiny_tracker(
     id INTEGER PRIMARY KEY AUTOINCREMENT,

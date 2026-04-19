@@ -1,6 +1,9 @@
 // import JSON files with seed data
 import armorData from './armor_seed.json';
 
+
+//--------------------------------------INVENTORY ITEMS----------------------------------------------------------
+
 // pass in env from index.js to give access to the DB object
 export const seedArmor = async (env) => {
 
@@ -26,7 +29,7 @@ export const seedArmor = async (env) => {
 
         return result;
     } catch (err) {
-        throw new Error("Error in seedArmor(): ", err);
+        throw new Error("Error in seedArmor(): ", err.message);
     }
 };
 
@@ -116,5 +119,63 @@ export const seedArtifact = async (env) => {
         return result;
     } catch (err) {
         throw new Error("Error in seedArtifact(): " + err.message);
+    }
+};
+
+//--------------------------------------PATHS, TALENTS, DESTINIES----------------------------------------------------------
+
+export const seedPath = async (env) => {
+    const pathString = JSON.stringify(pathData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO paths (id, name, description)
+        SELECT 
+            json_extract(value, '$.id'), 
+            json_extract(value, '$.name'), 
+            json_extract(value, '$.description')
+        FROM json_each(?1)
+        `).bind(pathString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedPath(): " + err.message);
+    }
+};
+
+// need to make sure path_id aligns with paths inserted in previous step
+export const seedTalent = async (env) => {
+    const talentString = JSON.stringify(talentData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle)
+        SELECT 
+            json_extract(value, '$.name'), 
+            json_extract(value, '$.description'),
+            json_extract(value, '$.flavorText'),
+            json_extract(value, '$.path_id'),
+            json_extract(value, '$.isCore'),
+            json_extract(value, '$.isMinor'),
+            json_extract(value, '$.isMajor'),
+            json_extract(value, '$.isPinnacle')
+        FROM json_each(?1)
+        `).bind(talentString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedTalent(): " + err.message);
+    }
+};
+
+export const seedDestiny = async (env) => {
+    const destinyString = JSON.stringify(destinyData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO destinies (name, description)
+        SELECT 
+            json_extract(value, '$.name'), 
+            json_extract(value, '$.description')
+        FROM json_each(?1)
+        `).bind(destinyString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedDestiny(): " + err.message);
     }
 };
