@@ -6,9 +6,9 @@
 
 --   ---------Inventory---------
 -- match to gear.json
-DROP TABLE IF EXISTS gear;
+-- DROP TABLE IF EXISTS gear;
 CREATE TABLE  IF NOT EXISTS gear (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
     effect TEXT,
@@ -17,15 +17,15 @@ CREATE TABLE  IF NOT EXISTS gear (
     special TEXT,
     -- minimum of 1 for stack
     stack INTEGER DEFAULT 1 CHECK (stack >= 0),
-    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1)),
-    hasclock INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1)),
-    clockValue REAL
+    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1)),
+    hasClock INTEGER NOT NULL DEFAULT 0 CHECK (hasClock IN (0, 1)),
+    [clockValue] INTEGER
 );
 
 -- match to curio.json
 DROP TABLE IF EXISTS curios;
 CREATE TABLE curios (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     -- limit to source types
     source TEXT NOT NULL CHECK (
@@ -39,7 +39,7 @@ CREATE TABLE curios (
 -- match to artifact.json
 DROP TABLE IF EXISTS artifacts;
 CREATE TABLE artifacts (
-    id TEXT PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     source TEXT NOT NULL CHECK (
         source IN ('Ancient Magitech', 'Divine', 'Nightmare', 'Prototype Magitech', 'Void')
@@ -47,16 +47,16 @@ CREATE TABLE artifacts (
     description TEXT,
     effect TEXT,
     slots INTEGER CHECK (slots >= 0),
-    hasDepletion INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1)),
+    hasDepletion INTEGER NOT NULL DEFAULT 0 CHECK (hasDepletion IN (0, 1)),
     depletionDie TEXT, -- e.g., '1d6' or '1d10'
     depletionResult INTEGER CHECK (depletionResult >= 0),
-    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1))
+    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1))
 );
 
 -- match to weapon.json
 DROP TABLE IF EXISTS weapons;
 CREATE TABLE weapons (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
     baseDmg TEXT, -- e.g., '2d6'
@@ -64,34 +64,33 @@ CREATE TABLE weapons (
     slots INTEGER CHECK (slots >= 0),
     special TEXT,
     tags TEXT, -- Stored as a JSON-formatted array string
-    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1)),
+    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1)),
     armor INTEGER DEFAULT 0 CHECK (armor >= 0)
 );
 
 --match to armor.json
 DROP TABLE IF EXISTS armor;
 CREATE TABLE armor (
-    id TEXT PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT,
     cost INTEGER CHECK (cost >= 0),
     slots INTEGER CHECK (slots >= 0),
     special TEXT,
     tags TEXT, -- Stored as a JSON-formatted array string
-    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1)),
+    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1)),
     armor_value INTEGER DEFAULT 0 CHECK (armor_value >= 0)
 );
 
 --match to itemInstance.json
 DROP TABLE IF EXISTS inventory_instances;
 CREATE TABLE inventory_instances (
-    id TEXT PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     character_id TEXT NOT NULL,
-    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
-    type TEXT NOT NULL CHECK (
-        type IN ('artifact', 'curio', 'gear', 'weapon', 'armor')
+    itemType TEXT NOT NULL CHECK (
+        itemType IN ('artifact', 'curio', 'gear', 'weapon', 'armor')
     ),
-    isEquipped INTEGER NOT NULL DEFAULT 0 CHECK (is_active IN (0, 1)),
+    isEquipped INTEGER NOT NULL DEFAULT 0 CHECK (isEquipped IN (0, 1)),
     baseItem TEXT NOT NULL, -- The ID from the specific item table
     displayName TEXT,
     dmgOverride TEXT,
@@ -99,14 +98,15 @@ CREATE TABLE inventory_instances (
     slotOverride INTEGER CHECK (slotOverride >= 0),
     stackValue INTEGER CHECK (stackValue >= 0),
     specialOverride TEXT,
-    createdDate TEXT DEFAULT CURRENT_TIMESTAMP
+    createdDate TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
 );
 
 -- Users
 -- match user.json
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-    email TEXT PRIMARY KEY NOT NULL COLLATE NOCASE,
+    email INTEGER PRIMARY KEY NOT NULL COLLATE NOCASE,
     name TEXT,
     passwordHash TEXT NOT NULL,
     createdDate TEXT DEFAULT CURRENT_TIMESTAMP
@@ -116,7 +116,15 @@ CREATE TABLE users (
 -- match destiny.json
 DROP TABLE IF EXISTS destinies;
 CREATE TABLE destinies (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT
+);
+
+-- match path.json
+DROP TABLE IF EXISTS paths;
+CREATE TABLE paths (
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT
 );
@@ -124,7 +132,7 @@ CREATE TABLE destinies (
 -- match talent.json
 DROP TABLE IF EXISTS talents;
 CREATE TABLE talents (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
     flavorText TEXT,
@@ -138,19 +146,12 @@ CREATE TABLE talents (
     FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
 );
 
--- match path.json
-DROP TABLE IF EXISTS paths;
-CREATE TABLE paths (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT
-);
 
 -- match pathInstance.json
 -- Junction record that associates a specific path with a specific character
 DROP TABLE IF EXISTS path_instances;
 CREATE TABLE path_instances (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id TEXT NOT NULL,
     path_id TEXT NOT NULL,
     -- Foreign Key Relationships
@@ -162,7 +163,7 @@ CREATE TABLE path_instances (
 -- junction record that associates a specific talent with a specific character
 DROP TABLE IF EXISTS talent_instances;
 CREATE TABLE talent_instances (
-    id TEXT PRIMARY KEY AUTOINCREMENTS,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id TEXT NOT NULL,
     talent_id TEXT NOT NULL,
     -- Foreign Key Relationships
@@ -174,8 +175,8 @@ CREATE TABLE talent_instances (
 -- junction record that associates a specific destiny with a specific character and allows
 -- the character to track their destiny beats
 CREATE TABLE destiny_tracker(
-    id TEXT PRIMARY KEY AUTOINCREMENT,
-    character_id TEXT NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    character_id INTEGER NOT NULL,
     completed_beats TEXT DEFAULT '[]', -- JSON array of beat UUIDs
     -- delete all associated trackers when character is deleted
     FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
@@ -186,37 +187,30 @@ CREATE TABLE destiny_tracker(
 -- match campaign.json
 DROP TABLE IF EXISTS campaigns;
 CREATE TABLE campaigns (
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_owner TEXT NOT NULL,
     shareCode TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
-    FOREIGN KEY (campaign_owner) REFERENCES users(email) ON DELETE CASCADE,
-    createdDate TEXT DEFAULT CURRENT_TIMESTAMP
+    createdDate TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (campaign_owner) REFERENCES users(email) ON DELETE CASCADE
 );
 
 -- match characterSheet.json
 CREATE TABLE characters (
     
     -- Identification & Ownership
-    id TEXT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner TEXT NOT NULL,
     campaign TEXT,
     imgUrl TEXT,
     characterName TEXT NOT NULL,
     player TEXT NOT NULL,
-    
-    -- Foreign Key Relations
-    -- delete all characters if user is deleted
-    FOREIGN KEY (owner) REFERENCES users(email) ON DELETE CASCADE,
-    -- do not delete campaign if user is deleted
-    FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE SET NULL
 
     -- Character Definition
     ancestry TEXT NOT NULL,
     ancestrySpecies TEXT NOT NULL,
     -- on character deletion, delete associated Destiny Tracker record
-    destiny FOREIGN KEY (id) REFERENCES destinyTracker(characterid) ON DELETE CASCADE,
     path TEXT NOT NULL,
     background TEXT,
     domains TEXT, -- JSON Array of Strings
@@ -250,5 +244,12 @@ CREATE TABLE characters (
 
     -- Notes
     notes TEXT,
+
+    -- Foreign Key Relations
+    -- delete all characters if user is deleted
+    FOREIGN KEY (owner) REFERENCES users(email) ON DELETE CASCADE,
+    -- do not delete campaign if user is deleted
+    FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE SET NULL,
+    FOREIGN KEY (id) REFERENCES destiny_tracker(characterid) ON DELETE CASCADE
 
 );
