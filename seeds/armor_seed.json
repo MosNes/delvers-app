@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Delver's Outfit",
+        "description": "Hardy travel and exploration outfit with Academy livery.",
+        "cost": 0,
+        "slots": 0,
+        "special": null,
+        "tags": [],
+        "isMinor": 1,
+        "armor_value": 0
+    },
+    {
+        "name": "Light Armor",
+        "description": "Protective garments of leather and heavy cloth. Light and flexible.",
+        "cost": 1,
+        "slots": 1,
+        "special": null,
+        "tags": [],
+        "isMinor": 0,
+        "armor_value": 1
+    },
+    {
+        "name": "Medium Armor",
+        "description": "Light armor reinforced with scale or chain mail and small metal plates and a helmet.",
+        "cost": 1,
+        "slots": 2,
+        "special": null,
+        "tags": ["Bulky"],
+        "isMinor": 0,
+        "armor_value": 2
+    },
+      {
+        "name": "Heavy Armor",
+        "description": "Metal plate armor and helm.",
+        "cost": 2,
+        "slots": 2,
+        "special": "Cannot benefit from long rests while wearing, takes a few minutes to don and doff. Only available to 2nd years and above.",
+        "tags": ["Bulky"],
+        "isMinor": 0,
+        "armor_value": 3
+    }
+]

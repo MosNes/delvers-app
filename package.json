@@ -8,7 +8,7 @@
 		"build": "vite build",
 		"preview": "npm run build && wrangler dev",
 		"deploy": "npm run build && wrangler deploy",
-		"seed-dev": "npx wrangler d1 execute delvers-db --file=./schemas/schema.sql && sh ./seeds/seed-dev.sh"
+		"seed-dev": "npx wrangler d1 execute delvers-db --file=./schemas/reset.sql && npx wrangler d1 execute delvers-db --file=./schemas/schema.sql && node ./seeds/seed-dev.js"
 	},
 	"dependencies": {
 		"express": "^5.2.1",
