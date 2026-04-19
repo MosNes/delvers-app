@@ -86,7 +86,8 @@ CREATE TABLE armor (
 DROP TABLE IF EXISTS inventory_instances;
 CREATE TABLE inventory_instances (
     id TEXT PRIMARY KEY,
-    FOREIGN KEY (characterId) REFERENCES characters(id) ON DELETE CASCADE
+    character_id TEXT NOT NULL,
+    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
     type TEXT NOT NULL CHECK (
         type IN ('artifact', 'curio', 'gear', 'weapon', 'armor')
     ),
@@ -121,9 +122,24 @@ CREATE TABLE destinies (
 );
 
 -- match talent.json
+DROP TABLE IF EXISTS talents;
+CREATE TABLE talents (
+    id TEXT PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    flavorText TEXT,
+    path_id TEXT,
+    isCore INTEGER DEFAULT 0 CHECK (isCore IN (0, 1)),
+    isMinor INTEGER DEFAULT 0 CHECK (isMinor IN (0, 1)),
+    isMajor INTEGER DEFAULT 0 CHECK (isMajor IN (0, 1)),
+    isPinnacle INTEGER DEFAULT 0 CHECK (isPinnacle IN (0, 1)),
+    -- on deletion of path delete all associated talents 
+    -- (why would we need this, no idea, but good for consistency)
+    FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
+);
 
 -- match path.json
-DROP TABLE IF EXISTS paths ;
+DROP TABLE IF EXISTS paths;
 CREATE TABLE paths (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -131,10 +147,32 @@ CREATE TABLE paths (
 );
 
 -- match pathInstance.json
+-- Junction record that associates a specific path with a specific character
+DROP TABLE IF EXISTS path_instances;
+CREATE TABLE path_instances (
+    id TEXT PRIMARY KEY AUTOINCREMENT,
+    character_id TEXT NOT NULL,
+    path_id TEXT NOT NULL,
+    -- Foreign Key Relationships
+    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
+    FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
+);
 
 -- match talentInstance.json
+-- junction record that associates a specific talent with a specific character
+DROP TABLE IF EXISTS talent_instances;
+CREATE TABLE talent_instances (
+    id TEXT PRIMARY KEY AUTOINCREMENTS,
+    character_id TEXT NOT NULL,
+    talent_id TEXT NOT NULL,
+    -- Foreign Key Relationships
+    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
+    FOREIGN KEY (talent_id) REFERENCES talents(id) ON DELETE CASCADE
+);
 
 --match destinyTracker.json
+-- junction record that associates a specific destiny with a specific character and allows
+-- the character to track their destiny beats
 
 -- Campaigns and Characters
 
@@ -142,11 +180,11 @@ CREATE TABLE paths (
 DROP TABLE IF EXISTS campaigns;
 CREATE TABLE campaigns (
     id TEXT PRIMARY KEY AUTOINCREMENT,
-    campaignOwner TEXT NOT NULL,
+    campaign_owner TEXT NOT NULL,
     shareCode TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
-    FOREIGN KEY (campaignOwner) REFERENCES users(email) ON DELETE CASCADE,
+    FOREIGN KEY (campaign_owner) REFERENCES users(email) ON DELETE CASCADE,
     createdDate TEXT DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -1,0 +1,5 @@
+{
+    "id": "Primary key UUID of path instance in database",
+    "character_id": "Foreign Key UUID of associated character",
+    "path_id": "Foreign Key UUID of associated path"
+}
