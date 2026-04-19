@@ -1,6 +1,6 @@
 {
-    "id": "UUID of this specific item Instance record",
-    "characterId": "UUID of the character that this inventory item belongs to",
+    "id": "Primary Key UUID of this specific item Instance record",
+    "characterId": "Foreign Key UUID of the character that this inventory item belongs to",
     "type": "String of type of item, limited to Array of ['artifact', 'curio', 'gear', 'weapon', 'armor']",
     "isEquipped": "Boolean if weapon or armor is currently equipped",
     "baseItem": "ID of specific item to pull properties from",
@@ -9,5 +9,6 @@
     "descriptionOverride": "String of description value to override baseItem description defaults to baseItem description",
     "slotOverride": "Positive INT of number of inventory slots item takes up, defaults to baseItem slots",
     "stackValue": "If baseItem has a stack value, Number of items currently in the stack, defaults to max value of stack of baseItem",
-    "specialOverride": "String, if baseItem has special rules, defaults to baseItem special rules"
+    "specialOverride": "String, if baseItem has special rules, defaults to baseItem special rules",
+    "createdDate": "DateTime, for sorting"
 }

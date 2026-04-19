@@ -1,9 +1,8 @@
 {
-    "campaignOwner": "String email address of campaign owner",
-    "players": "Array of email addresses of players who have joined this campaign",
-    "characters": "Array of IDs of characters that are associated with this campaign",
+    "campaignOwner": "Foreign Key String email address of campaign owner",
     "id": "UUID of campaign in database",
     "shareCode": "String UUID of code that can be shared to other players to join the campaign, owner can regenerate",
     "name": "String displayname of campaign, edit permission locked to owner",
-    "description": "textarea description of campaign, edit permission locked to owner"
+    "description": "textarea description of campaign, edit permission locked to owner",
+    "createdDate": "DateTime of creation"
 }

@@ -1,6 +1,6 @@
 {
-    "email": "string of user's email address",
-    "displayName": "String defaults to email address, can be customized, shows on character sheet",
-    "characters": "Array of IDs of characterSheets owned by user",
-    "campaigns": "Array of IDs of campaigns user belongs to"
+    "email": "Primary key, string of user's email address, no duplicates allowed",
+    "name": "display name of user",
+    "passwordHash": "String hashed PW",
+    "createdDate": "DateTime, for sorting"
 }
