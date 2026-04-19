@@ -1,8 +1,22 @@
 -- Cloudflare D1 Database
-PRAGMA foreign_keys = ON;
+-- enable or disable foreign key checks to allow clean drops
+PRAGMA foreign_keys = OFF;
+
+DROP TABLE IF EXISTS destiny_tracker;
+DROP TABLE IF EXISTS talent_instances;
+DROP TABLE IF EXISTS path_instances;
+DROP TABLE IF EXISTS inventory_instances;
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS campaigns;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS talents;
+DROP TABLE IF EXISTS paths;
+DROP TABLE IF EXISTS destinies;
+DROP TABLE IF EXISTS artifacts;
+DROP TABLE IF EXISTS curios;
+DROP TABLE IF EXISTS gear;
 
 -- 1. USERS (Parent Table)
-DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     email TEXT PRIMARY KEY NOT NULL COLLATE NOCASE,
     name TEXT,
@@ -11,7 +25,6 @@ CREATE TABLE users (
 );
 
 -- 2. CAMPAIGNS (Parent of Characters)
-DROP TABLE IF EXISTS campaigns;
 CREATE TABLE campaigns (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_owner TEXT NOT NULL,
@@ -23,7 +36,6 @@ CREATE TABLE campaigns (
 );
 
 -- 3. CHARACTERS (Parent of all instances and trackers)
-DROP TABLE IF EXISTS characters;
 CREATE TABLE characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner TEXT NOT NULL,
@@ -61,21 +73,18 @@ CREATE TABLE characters (
 );
 
 -- 4. BASE DATA TABLES
-DROP TABLE IF EXISTS destinies;
 CREATE TABLE destinies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT
 );
 
-DROP TABLE IF EXISTS paths;
 CREATE TABLE paths (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT
 );
 
-DROP TABLE IF EXISTS talents;
 CREATE TABLE talents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -90,7 +99,6 @@ CREATE TABLE talents (
 );
 
 -- 5. ITEM DEFINITIONS
-DROP TABLE IF EXISTS gear;
 CREATE TABLE IF NOT EXISTS gear (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -105,7 +113,6 @@ CREATE TABLE IF NOT EXISTS gear (
     [clockValue] INTEGER
 );
 
-DROP TABLE IF EXISTS curios;
 CREATE TABLE curios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -115,7 +122,6 @@ CREATE TABLE curios (
     slots INTEGER CHECK (slots >= 0)
 );
 
-DROP TABLE IF EXISTS artifacts;
 CREATE TABLE artifacts (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
@@ -130,7 +136,6 @@ CREATE TABLE artifacts (
 );
 
 -- 6. INSTANCE & JUNCTION TABLES (Created last)
-DROP TABLE IF EXISTS inventory_instances;
 CREATE TABLE inventory_instances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
@@ -147,7 +152,6 @@ CREATE TABLE inventory_instances (
     FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS path_instances;
 CREATE TABLE path_instances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
@@ -156,7 +160,7 @@ CREATE TABLE path_instances (
     FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS talent_instances;
+
 CREATE TABLE talent_instances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
@@ -165,7 +169,6 @@ CREATE TABLE talent_instances (
     FOREIGN KEY (talent_id) REFERENCES talents(id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS destiny_tracker;
 CREATE TABLE destiny_tracker(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
