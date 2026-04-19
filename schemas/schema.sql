@@ -6,15 +6,18 @@ DROP TABLE IF EXISTS destiny_tracker;
 DROP TABLE IF EXISTS talent_instances;
 DROP TABLE IF EXISTS path_instances;
 DROP TABLE IF EXISTS inventory_instances;
+DROP TABLE IF EXISTS armor;
+DROP TABLE IF EXISTS weapons;
+DROP TABLE IF EXISTS artifacts;
+DROP TABLE IF EXISTS curios;
+DROP TABLE IF EXISTS gear;
 DROP TABLE IF EXISTS characters;
 DROP TABLE IF EXISTS campaigns;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS talents;
 DROP TABLE IF EXISTS paths;
 DROP TABLE IF EXISTS destinies;
-DROP TABLE IF EXISTS artifacts;
-DROP TABLE IF EXISTS curios;
-DROP TABLE IF EXISTS gear;
+
 
 -- 1. USERS (Parent Table)
 CREATE TABLE users (
@@ -111,6 +114,32 @@ CREATE TABLE IF NOT EXISTS gear (
     isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1)),
     hasClock INTEGER NOT NULL DEFAULT 0 CHECK (hasClock IN (0, 1)),
     [clockValue] INTEGER
+);
+
+
+CREATE TABLE armor (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    cost INTEGER CHECK (cost >= 0),
+    slots INTEGER CHECK (slots >= 0),
+    special TEXT,
+    tags TEXT, -- Stored as a JSON-formatted array string
+    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1)),
+    armor_value INTEGER DEFAULT 0 CHECK (armor_value >= 0)
+);
+
+CREATE TABLE weapons (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    baseDmg TEXT, -- e.g., '2d6'
+    cost INTEGER CHECK (cost >= 0),
+    slots INTEGER CHECK (slots >= 0),
+    special TEXT,
+    tags TEXT, -- Stored as a JSON-formatted array string
+    isMinor INTEGER NOT NULL DEFAULT 0 CHECK (isMinor IN (0, 1)),
+    armor INTEGER DEFAULT 0 CHECK (armor >= 0)
 );
 
 CREATE TABLE curios (
