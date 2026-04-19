@@ -1,0 +1,5 @@
+{
+    "id": "Primary Key UUID of talent instance",
+    "character_id": "Foreign Key UUID of associated character",
+    "talent_id": "Foreign Key UUID of associated talent"
+}

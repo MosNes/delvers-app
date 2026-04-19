@@ -30,6 +30,5 @@
     "speedStress": "Boolean of whether speed stress is marked",
     "mindStress": "Boolean of whether mind stress is marked",
     "spiritStress": "Boolean of whether spirit stress is marked",
-    "talents": "Array of character talent instances",
     "notes": "text area for general note-taking"
 }
