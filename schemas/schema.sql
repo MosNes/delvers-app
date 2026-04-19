@@ -173,6 +173,13 @@ CREATE TABLE talent_instances (
 --match destinyTracker.json
 -- junction record that associates a specific destiny with a specific character and allows
 -- the character to track their destiny beats
+CREATE TABLE destiny_tracker(
+    id TEXT PRIMARY KEY AUTOINCREMENT,
+    character_id TEXT NOT NULL,
+    completed_beats TEXT DEFAULT '[]', -- JSON array of beat UUIDs
+    -- delete all associated trackers when character is deleted
+    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
+);
 
 -- Campaigns and Characters
 
