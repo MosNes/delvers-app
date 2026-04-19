@@ -122,6 +122,15 @@ CREATE TABLE destinies (
 
 -- match talent.json
 
+-- match path.json
+DROP TABLE IF EXISTS paths ;
+CREATE TABLE paths (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT
+);
+
+-- match pathInstance.json
 
 -- match talentInstance.json
 
