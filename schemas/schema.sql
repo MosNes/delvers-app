@@ -111,6 +111,22 @@ CREATE TABLE users (
     createdDate TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Character Data
+-- match destiny.json
+DROP TABLE IF EXISTS destinies;
+CREATE TABLE destinies (
+    id TEXT PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT
+);
+
+-- match talent.json
+
+
+-- match talentInstance.json
+
+--match destinyTracker.json
+
 -- Campaigns and Characters
 
 -- match campaign.json
@@ -129,7 +145,7 @@ CREATE TABLE campaigns (
 CREATE TABLE characters (
     
     -- Identification & Ownership
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY AUTOINCREMENT,
     owner TEXT NOT NULL,
     campaign TEXT,
     imgUrl TEXT,
@@ -178,9 +194,7 @@ CREATE TABLE characters (
     mindStress INTEGER DEFAULT 0 CHECK (mindStress IN (0, 1)),
     spiritStress INTEGER DEFAULT 0 CHECK (spiritStress IN (0, 1)),
 
-    -- Complex Data & Notes
-    inventory TEXT, -- JSON Array of item instances
-    talents TEXT,   -- JSON Array of talent instances
+    -- Notes
     notes TEXT,
 
 );
