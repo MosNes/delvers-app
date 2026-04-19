@@ -12,7 +12,7 @@ export const seedArmor = async (env) => {
 
     try {
         // use json_extract() method to seed each row of the table by looping over the JSON file
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO armor (name, description, cost, slots, special, tags, isMinor, armor_value)
         SELECT 
             json_extract(value, '$.name'), 
@@ -36,7 +36,7 @@ export const seedArmor = async (env) => {
 export const seedWeapon = async (env) => {
     const weaponString = JSON.stringify(weaponData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO weapons (name, description, baseDmg, cost, slots, special, tags, isMinor, armor)
         SELECT 
             json_extract(value, '$.name'), 
@@ -59,7 +59,7 @@ export const seedWeapon = async (env) => {
 export const seedGear = async (env) => {
     const gearString = JSON.stringify(gearData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO gear (name, description, effect, cost, slots, special, stack, isMinor, hasClock, clockValue)
         SELECT 
             json_extract(value, '$.name'), 
@@ -83,7 +83,7 @@ export const seedGear = async (env) => {
 export const seedCurio = async (env) => {
     const curioString = JSON.stringify(curioData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO curios (name, source, description, effect, slots)
         SELECT 
             json_extract(value, '$.name'), 
@@ -102,7 +102,7 @@ export const seedCurio = async (env) => {
 export const seedArtifact = async (env) => {
     const artifactString = JSON.stringify(artifactData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO artifacts (id, name, source, description, effect, slots, hasDepletion, depletionDie, depletionResult, isMinor)
         SELECT 
             json_extract(value, '$.name'), 
@@ -127,7 +127,7 @@ export const seedArtifact = async (env) => {
 export const seedPath = async (env) => {
     const pathString = JSON.stringify(pathData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO paths (id, name, description)
         SELECT 
             json_extract(value, '$.id'), 
@@ -145,7 +145,7 @@ export const seedPath = async (env) => {
 export const seedTalent = async (env) => {
     const talentString = JSON.stringify(talentData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle)
         SELECT 
             json_extract(value, '$.name'), 
@@ -167,7 +167,7 @@ export const seedTalent = async (env) => {
 export const seedDestiny = async (env) => {
     const destinyString = JSON.stringify(destinyData);
     try {
-        const result = await env.DB.prepare(`
+        const result = await DB.prepare(`
         INSERT INTO destinies (name, description)
         SELECT 
             json_extract(value, '$.name'), 

@@ -2,7 +2,11 @@
 import { env } from "cloudflare:workers";
 import { httpServerHandler } from "cloudflare:node";
 import express from "express";
-import { seedArmor } from "../seeds/seed-dev.js"
+import { seedArmor } from "../seeds/seed-dev.js";
+import seedRouter from "./routes/seed_routes.js";
+
+// declare DB as global variable so that nested route functions can access the DB object
+const DB = env.DB;
 
 const app = express();
 
@@ -14,13 +18,8 @@ app.get("/api", (req, res) => {
   res.json({ message: "The Delvers Express.js API Server is running on Cloudflare Workers!" });
 });
 
-app.post("/api/seed/armor", async (req, res) => {
-  //pass in env to give seed function access to env object with DB binding
-  const result = await seedArmor(env);
-  res.json({ message: result});
-})
-
-
+// Routes for Seeding the database
+app.use("/api/seed", seedRouter);
 
 app.listen(3000);
 export default httpServerHandler({ port: 3000 });
