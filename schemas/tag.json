@@ -1,5 +1,6 @@
 {
     "id": "UUID of tag in database",
     "name": "String display name of tag",
-    "description": "Textarea description of tag"
+    "description": "Textarea description of tag",
+    "hasSpecialValue": "Boolean, indicates if the tag has a special numerical value, e.g. '7+'"
 }

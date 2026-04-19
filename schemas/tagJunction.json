@@ -1,0 +1,7 @@
+{
+    "id": "UUID of tag in database",
+    "weapon_id": "FOREIGN KEY of weapon that this tag applies to",
+    "armor_id": "FOREIGN KEY of armor that this tag applies to",
+    "inventory_instance_id": "FOREIGN KEY of inventory_instance this tag belongs to",
+    "special_value": "TEXT value for any tag that has a numerical value in its effect, e.g. 7+"
+}
