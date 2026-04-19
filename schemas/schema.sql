@@ -85,8 +85,8 @@ CREATE TABLE talents (
 CREATE TABLE tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT,
-)
+    description TEXT
+);
 
 -- 5. ITEM DEFINITIONS
 CREATE TABLE gear (
@@ -189,12 +189,12 @@ CREATE TABLE tag_junctions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     weapon_id INTEGER,
     armor_id INTEGER,
-    item_instance_id INTEGER,
-    CHECK (weapon_id IS NOT NULL OR weapon_id IS NOT NULL OR item_instance_id IS NOT NULL),
+    inventory_instance_id INTEGER,
+    CHECK (weapon_id IS NOT NULL OR armor_id IS NOT NULL OR inventory_instance_id IS NOT NULL),
     FOREIGN KEY (weapon_id) REFERENCES weapons(id) ON DELETE CASCADE,
     FOREIGN KEY (armor_id) REFERENCES armor(id) ON DELETE CASCADE,
-    FOREIGN KEY (item_instance_id) REFERENCES item_instances(id) ON DELETE CASCADE
-)
+    FOREIGN KEY (inventory_instance_id) REFERENCES inventory_instances(id) ON DELETE CASCADE
+);
 
 CREATE TABLE destiny_tracker(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
