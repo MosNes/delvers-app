@@ -64,7 +64,7 @@ CREATE TABLE destinies (
 );
 
 CREATE TABLE paths (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT
 );
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS gear (
 
 
 CREATE TABLE armor (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
     cost INTEGER CHECK (cost >= 0),
@@ -133,7 +133,7 @@ CREATE TABLE curios (
 );
 
 CREATE TABLE artifacts (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     source TEXT NOT NULL CHECK (source IN ('Ancient Magitech', 'Divine', 'Nightmare', 'Prototype Magitech', 'Void')),
     description TEXT,
