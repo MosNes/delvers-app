@@ -4,7 +4,7 @@ import { env } from "cloudflare:workers";
 // import JSON files with seed data
 import armorData from './armor_seed.json';
 import weaponData from './weapon_seed.json';
-
+import tagData from './tag_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
@@ -181,5 +181,22 @@ export const seedDestiny = async () => {
         return result;
     } catch (err) {
         throw new Error("Error in seedDestiny(): " +err);
+    }
+};
+
+export const seedTag = async () => {
+    const tagString = JSON.stringify(tagData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO tags (name, description, hasSpecialValue)
+        SELECT 
+            json_extract(value, '$.name'), 
+            json_extract(value, '$.description'),
+            json_extract(value, '$.hasSpecialValue')
+        FROM json_each(?1)
+        `).bind(tagString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedTag(): " +err);
     }
 };

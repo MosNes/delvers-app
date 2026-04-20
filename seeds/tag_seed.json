@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Close",
+    "description": "Within arm's length of a target",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Reach",
+    "description": "Within 10 feet of a target",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Near",
+    "description": "Within an adjacent zone",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Far",
+    "description": "2 or more Zones away",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Light",
+    "description": "Up to two weapons with this tag can be weilded at the same time",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Hefty",
+    "description": "Only one Hefty item can be wielded at once",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "1H",
+    "description": "Can be wielded in 1 hand",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "2H",
+    "description": "Must be wielded with both hands",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Bulky",
+    "description": "Takes up 2 inventory slots",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Slow",
+    "description": "Cannot be used if the attacker moved this turn",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Restraining",
+    "description": "When damage from this item equals or exceeds the Restrain value, the target is Restrained (cannot move, attacks are Impaired)",
+    "hasSpecialValue": 1
+  },
+  {
+    "name": "Toxic",
+    "description": "Deals Toxic damage. Inflict Impair for the rest of the scene as a Gambit",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Fire",
+    "description": "Deals Fire damage. Inflict Burning 1d4 as a Gambit",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Lightning",
+    "description": "Deals Lightning damage. Inflict Stun as a Gambit",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Armor Piercing",
+    "description": "Damage dealt ignores the target's Armor",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Blast",
+    "description": "Deals damage to all creatures within a Zone",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Ranged",
+    "description": "Cannot be used if you start your turn Close to an opponent. Impaired by confined spaces. Opponents gain +1 Armor from Cover.",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Cold",
+    "description": "Deals cold damage. Inflicts Immobilized on a Gambit",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Concealed",
+    "description": "Can be hidden on your person",
+    "hasSpecialValue": 0
+  },
+  {
+    "name": "Blinding",
+    "description": "Inflicts Blinded on the target. Target can't see for 1 turn.",
+    "hasSpecialValue": 0
+  }
+]
