@@ -1,10 +1,12 @@
 -- enable or disable foreign key checks to allow clean drops
 PRAGMA foreign_keys = OFF;
 
+DROP TABLE IF EXISTS tag_junctions;
 DROP TABLE IF EXISTS destiny_tracker;
 DROP TABLE IF EXISTS talent_instances;
 DROP TABLE IF EXISTS path_instances;
 DROP TABLE IF EXISTS inventory_instances;
+DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS armor;
 DROP TABLE IF EXISTS weapons;
 DROP TABLE IF EXISTS artifacts;
