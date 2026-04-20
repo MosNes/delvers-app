@@ -5,6 +5,7 @@ import { env } from "cloudflare:workers";
 import armorData from './armor_seed.json';
 import weaponData from './weapon_seed.json';
 import tagData from './tag_seed.json';
+import gearData from './gear_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
