@@ -3,6 +3,7 @@ import { env } from "cloudflare:workers";
 
 // import JSON files with seed data
 import armorData from './armor_seed.json';
+import weaponData from './weapon_seed.json';
 
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
@@ -36,7 +37,7 @@ export const seedArmor = async () => {
     }
 };
 
-export const seedWeapon = async (env) => {
+export const seedWeapon = async () => {
     const weaponString = JSON.stringify(weaponData);
     try {
         const result = await env.DB.prepare(`
@@ -59,7 +60,7 @@ export const seedWeapon = async (env) => {
     }
 };
 
-export const seedGear = async (env) => {
+export const seedGear = async () => {
     const gearString = JSON.stringify(gearData);
     try {
         const result = await env.DB.prepare(`
@@ -83,7 +84,7 @@ export const seedGear = async (env) => {
     }
 };
 
-export const seedCurio = async (env) => {
+export const seedCurio = async () => {
     const curioString = JSON.stringify(curioData);
     try {
         const result = await env.DB.prepare(`
@@ -102,7 +103,7 @@ export const seedCurio = async (env) => {
     }
 };
 
-export const seedArtifact = async (env) => {
+export const seedArtifact = async () => {
     const artifactString = JSON.stringify(artifactData);
     try {
         const result = await env.DB.prepare(`
@@ -127,7 +128,7 @@ export const seedArtifact = async (env) => {
 
 //--------------------------------------PATHS, TALENTS, DESTINIES----------------------------------------------------------
 
-export const seedPath = async (env) => {
+export const seedPath = async () => {
     const pathString = JSON.stringify(pathData);
     try {
         const result = await env.DB.prepare(`
@@ -145,7 +146,7 @@ export const seedPath = async (env) => {
 };
 
 // need to make sure path_id aligns with paths inserted in previous step
-export const seedTalent = async (env) => {
+export const seedTalent = async () => {
     const talentString = JSON.stringify(talentData);
     try {
         const result = await env.DB.prepare(`
@@ -167,7 +168,7 @@ export const seedTalent = async (env) => {
     }
 };
 
-export const seedDestiny = async (env) => {
+export const seedDestiny = async () => {
     const destinyString = JSON.stringify(destinyData);
     try {
         const result = await env.DB.prepare(`

@@ -1,3 +1,200 @@
 [
-    
+  {
+    "name": "Shield",
+    "description": "A 1-handed shield for deflecting attacks",
+    "baseDmg": "d4",
+    "cost": 1,
+    "slots": 1,
+    "special": "Sacrifice to avoid all damage from an attack",
+    "tags": "Close, 1H",
+    "isMinor": 0,
+    "armor": 1
+  },
+  {
+    "name": "Light Weapon",
+    "description": "A dagger, or small axe, hammer, or other light weapon",
+    "baseDmg": "d6",
+    "cost": 0,
+    "slots": 1,
+    "special": "",
+    "tags": "Close, Light, 1H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Boot Knife",
+    "description": "A slender blade that can be concealed in a boot or other piece of clothing.",
+    "baseDmg": "d6",
+    "cost": 1,
+    "slots": 0,
+    "special": "",
+    "tags": "Close, Light, 1H, Concealed",
+    "isMinor": 1,
+    "armor": 0
+  },
+  {
+    "name": "Hefty Weapon",
+    "description": "A one-handed weapon, such as a mace, sword, warhammer, pick, etc",
+    "baseDmg": "d8",
+    "cost": 1,
+    "slots": 1,
+    "special": "",
+    "tags": "Close, Hefty, 1H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Polearm",
+    "description": "A two-handed weapon designed to keep enemies at reach, such as a longspear, glaive, halberd, etc",
+    "baseDmg": "d10",
+    "cost": 1,
+    "slots": 2,
+    "special": "",
+    "tags": "Reach, Slow,  Bulky, 2H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Heavy Melee Weapon",
+    "description": "A two-handed weapon such as a Greatsword, Maul, Battle Axe, etc",
+    "baseDmg": "2d10",
+    "cost": 1,
+    "slots": 2,
+    "special": "",
+    "tags": "Close, Slow, Bulky, 2H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Shortbow",
+    "description": "A compact recurve bow",
+    "baseDmg": "d6",
+    "cost": 1,
+    "slots": 1,
+    "special": "",
+    "tags": "Near, 2H, Ranged",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Light Crossbow",
+    "description": "A compact crossbow",
+    "baseDmg": "d8",
+    "cost": 1,
+    "slots": 1,
+    "special": "",
+    "tags": "Far, Loading, 2H, Ranged",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Mastercrafted Light Weapon",
+    "description": "",
+    "baseDmg": "2d6",
+    "cost": 2,
+    "slots": 1,
+    "special": "Only available to 2nd years and above",
+    "tags": "Close, Light, 1H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Mastercrafted Hefty Weapon",
+    "description": "",
+    "baseDmg": "2d8",
+    "cost": 2,
+    "slots": 1,
+    "special": "Only available to 2nd years and above",
+    "tags": "Close, Hefty, 1H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Mastercrafted Polearm",
+    "description": "",
+    "baseDmg": "1d10",
+    "cost": 2,
+    "slots": 2,
+    "special": "Only available to 2nd years and above",
+    "tags": "Reach, Bulky, 2H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Mastercrafted Heavy Weapon",
+    "description": "",
+    "baseDmg": "2d10",
+    "cost": 2,
+    "slots": 2,
+    "special": "Only available to 2nd years and above",
+    "tags": "Close, Bulky, 2H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Tunnel Bow",
+    "description": "A compact shortbow with several compound pulleys resembling a slingshot",
+    "baseDmg": "2d6",
+    "cost": 2,
+    "slots": 1,
+    "special": "Not affected by enclosed spaces",
+    "tags": "Near, 2H, Ranged",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Novice Delver's Pick",
+    "description": "A one-handed climber's pick with an Aetherstone embedded in the head, a caribiner clip on the hilt, and zip line casters ",
+    "baseDmg": "d6",
+    "cost": 2,
+    "slots": 1,
+    "special": "Only available to 2nd years and above. Aetherstone can emit light for 1 hour until recharged. Metal casters allow the user to clip it to a rope or other line and zip line. Can be fastened to a harness. Grants a boon for Climbing.",
+    "tags": "Close, 1H",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Longbow",
+    "description": "A heavy long-range bow",
+    "baseDmg": "d8",
+    "cost": 2,
+    "slots": 2,
+    "special": "",
+    "tags": "Far, Bulky, 2H, Ranged",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Heavy Crossbow",
+    "description": "A large crossbow with complex mechanism",
+    "baseDmg": "2d8",
+    "cost": 2,
+    "slots": 2,
+    "special": "",
+    "tags": "Far, Slow, Bulky, 2H, Ranged",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Hand Ballista",
+    "description": "A heavy man-portable ballista",
+    "baseDmg": "d12",
+    "cost": 3,
+    "slots": 2,
+    "special": "",
+    "tags": "Far, Slow, Bulky, 2H, Ranged, Armor Piercing",
+    "isMinor": 0,
+    "armor": 0
+  },
+  {
+    "name": "Lupine Bolt-Thrower",
+    "description": "A magitech repeating crossbow that fires steel spikes",
+    "baseDmg": "2d8",
+    "cost": 3,
+    "slots": 2,
+    "special": "",
+    "tags": "Far, Restraining (7+), Bulky, Ranged",
+    "isMinor": 0,
+    "armor": 0
+  }
 ]
