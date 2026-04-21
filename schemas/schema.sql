@@ -63,11 +63,14 @@ CREATE TABLE destinies (
     description TEXT
 );
 
+-- paths table also includes Ancestry Talents
 CREATE TABLE paths (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
-    flavorText TEXT
+    flavorText TEXT,
+    isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
+    isAncestry INTEGER DEFAULT 0 CHECK (isAncestry IN (0, 1))
 );
 
 CREATE TABLE talents (
@@ -80,6 +83,8 @@ CREATE TABLE talents (
     isMinor INTEGER DEFAULT 0 CHECK (isMinor IN (0, 1)),
     isMajor INTEGER DEFAULT 0 CHECK (isMajor IN (0, 1)),
     isPinnacle INTEGER DEFAULT 0 CHECK (isPinnacle IN (0, 1)),
+    isAncestry INTEGER DEFAULT 0 CHECK (isAncestry IN (0, 1)),
+    isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
     FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
 );
 
