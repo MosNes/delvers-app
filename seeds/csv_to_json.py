@@ -2,8 +2,8 @@ import csv
 import json
 from pathlib import Path
 
-input_file = "curios.csv"
-output_file = "curios.json"
+input_file = "artifacts.csv"
+output_file = "artifact_seed.json"
 
 path = Path(__file__).with_name(input_file)
 out = Path(__file__).with_name(output_file)
@@ -22,6 +22,10 @@ with path.open(newline="", encoding="utf-8") as f:
                 "description": row[2],
                 "effect": row[3],
                 "slots": int(row[4]),
+                "isMinor": int(row[5]),
+                "hasDepletion": int(row[6]),
+                "depletionDie": row[7],
+                "depletionResult": row[8],
             }
         )
 
