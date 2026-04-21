@@ -155,7 +155,8 @@ export const seedTalent = async () => {
     const talentString = JSON.stringify(talentData);
     try {
         const result = await env.DB.prepare(`
-        INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle, isAncestry, isForbidden)
+        INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle, isAncestry, isForbidden, picklist
+        )
         SELECT 
             json_extract(value, '$.name'), 
             json_extract(value, '$.description'),
@@ -166,7 +167,8 @@ export const seedTalent = async () => {
             json_extract(value, '$.isMajor'),
             json_extract(value, '$.isPinnacle'),
             json_extract(value, '$.isAncestry'),
-            json_extract(value, '$.isForbidden')
+            json_extract(value, '$.isForbidden'),
+            json_extract(value, '$.picklist')
         FROM json_each(?1)
         `).bind(talentString).run();
         return result;

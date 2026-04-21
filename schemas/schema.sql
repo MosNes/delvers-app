@@ -65,8 +65,7 @@ CREATE TABLE destinies (
 
 -- paths table also includes Ancestry Talents
 CREATE TABLE paths (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    name PRIMARY KEY TEXT NOT NULL,
     description TEXT,
     flavorText TEXT,
     isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
@@ -78,14 +77,15 @@ CREATE TABLE talents (
     name TEXT NOT NULL,
     description TEXT,
     flavorText TEXT,
-    path_id INTEGER, -- Changed to INTEGER to match paths.id
+    path_name TEXT,
     isCore INTEGER DEFAULT 0 CHECK (isCore IN (0, 1)),
     isMinor INTEGER DEFAULT 0 CHECK (isMinor IN (0, 1)),
     isMajor INTEGER DEFAULT 0 CHECK (isMajor IN (0, 1)),
     isPinnacle INTEGER DEFAULT 0 CHECK (isPinnacle IN (0, 1)),
     isAncestry INTEGER DEFAULT 0 CHECK (isAncestry IN (0, 1)),
     isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
-    FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
+    picklist TEXT, -- stored as a JSON-formatted array string
+    FOREIGN KEY (path_name) REFERENCES paths(name) ON DELETE CASCADE
 );
 
 CREATE TABLE tags (
