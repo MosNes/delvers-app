@@ -85,6 +85,7 @@ CREATE TABLE talents (
     isAncestry INTEGER DEFAULT 0 CHECK (isAncestry IN (0, 1)),
     isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
     picklist TEXT, -- stored as a JSON-formatted array string
+    picklistHasObj INTEGER DEFAULT 0 CHECK (picklistHasObj IN (0, 1)), -- if true, picklist is an array of objects with name and description properties
     FOREIGN KEY (path_name) REFERENCES paths(name) ON DELETE CASCADE
 );
 
