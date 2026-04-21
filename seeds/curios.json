@@ -1,0 +1,702 @@
+[
+  {
+    "name": "Corruption Extractor",
+    "source": "Ancient Magitech",
+    "description": "Patch of cool gel in a metallic container covered in runes.",
+    "effect": "Apply the gel patch to an infected or poisoned injury. The gel will extract the poison and infection, leaving the flesh unharmed.",
+    "slots": 1
+  },
+  {
+    "name": "Threat Revelator",
+    "source": "Ancient Magitech",
+    "description": "A hand-held metallic device that shines a pale green light in shifting patterns when pointed at a creature.",
+    "effect": "Shine the light upon a creature for a few moments to learn of their attributes, possible strengths and weaknesses, and a detail about how it fights in combat. The user hears this information as whispers in the back of their mind.",
+    "slots": 1
+  },
+  {
+    "name": "Fulgurator",
+    "source": "Ancient Magitech",
+    "description": "Small power sources that appear to have been torn out of larger artifacts.",
+    "effect": "Throw the device to create an blast of electricity that burns anything struck and electrocutes them. (d8, Blast, Stun)",
+    "slots": 1
+  },
+  {
+    "name": "Hydrophobe",
+    "source": "Ancient Magitech",
+    "description": "A tube filled with a greasy substance that smells of mint and metal",
+    "effect": "When the substance is applied to a creature or object, that creature or object cannot be submerged in any liquid.",
+    "slots": 1
+  },
+  {
+    "name": "Glass Tunnel",
+    "source": "Ancient Magitech",
+    "description": "A sphere with intricate etchings and stripes of bright colors.",
+    "effect": "Activate the sphere, indicate a direction, and vacate the area. The Sphere will float in a straight line in the indicated direction, emitting intense heat that buns and melts through dirt, stone, and almost any other mundane material, leaving behind a glassy tunnel of melted material with an 8-foot diameter. The sphere travels up to a Far distance before stopping.",
+    "slots": 1
+  },
+  {
+    "name": "Illusionary Wall",
+    "source": "Ancient Magitech",
+    "description": "A small device on a collapsable metallic stand",
+    "effect": "When set up and activated, the device projects an illusionary surface that matches the surroundings behind it. Anyone or anything behind the illusion is hidden from view.",
+    "slots": 1
+  },
+  {
+    "name": "Instant Barrier",
+    "source": "Ancient Magitech",
+    "description": "A small metallic device decorated with bright colored stripes.",
+    "effect": "Activating the device in a doorway or tunnel will cause it to spew metallic liquid that fills the passageway, creating a 3 inch thick metallic wall as the fluid hardens. The wall is harder and more durable than steel, but lasts for 1 hour before it melts.",
+    "slots": 1
+  },
+  {
+    "name": "Structural Substrate",
+    "source": "Ancient Magitech",
+    "description": "A tube shaped device connected to a bulky canister in a metal frame by a flexible hose.",
+    "effect": "Turning the valve on the tube releases a foamy, grainy substance that can be hand shaped into any structure equal in size to about 4 10-foot cubes. The substance remains malleable for about 30 minutes, after which it dries and becomes harder than steel, but a fraction of the weight.",
+    "slots": 1
+  },
+  {
+    "name": "Liquified Experience",
+    "source": "Ancient Magitech",
+    "description": "Small vial of shimmering liquid, loaded into an injector.",
+    "effect": "When injected into the neck of a user, that user gains a new random Skill or Domain.",
+    "slots": 1
+  },
+  {
+    "name": "Deathcrystal Vapor",
+    "source": "Ancient Magitech",
+    "description": "An armband with a spray nozzle and attached canister.",
+    "effect": "Sprays a mist of fine crystalline particulate in a Near Zone that rapidly condenses into razor sharp spines and spurs (d8, Blast). The area remains a Hazard, dealing d8 to any creature that enters or starts their turn.",
+    "slots": 1
+  },
+  {
+    "name": "Delivery Automaton",
+    "source": "Ancient Magitech",
+    "description": "A tiny mechanical automaton in the form of an insect or other tiny beast.",
+    "effect": "Give the automaton a sample of the target's blood, fur, nail, or an exact description. The Automaton will fly off to deliver a message and any object that you could hold in your palm.",
+    "slots": 1
+  },
+  {
+    "name": "Skeletomuscular Enhancement",
+    "source": "Ancient Magitech",
+    "description": "An injector filled with reddish fluid",
+    "effect": "Injecting the fluid causes the user to temporarily treat their current and maximum Body as 15 for the next 10 minutes.",
+    "slots": 1
+  },
+  {
+    "name": "Kinesthetic Enhancement",
+    "source": "Ancient Magitech",
+    "description": "An injector filled with greenish fluid",
+    "effect": "Injecting the fluid causes the user to temporarily treat their current and maximum Speed as 15 for the next 10 minutes.",
+    "slots": 1
+  },
+  {
+    "name": "Acuity Enhancement",
+    "source": "Ancient Magitech",
+    "description": "An injector filled with bluish fluid",
+    "effect": "Injecting the fluid causes the user to temporarily treat their current and maximum Mind as 15 for the next 10 minutes.",
+    "slots": 1
+  },
+  {
+    "name": "Healing Infusion",
+    "source": "Ancient Magitech",
+    "description": "An injector filled with a shimmering red liquid.",
+    "effect": "Inject a creature, causing them to restore d10 Body. Critically Injured creatures are stabilized.",
+    "slots": 1
+  },
+  {
+    "name": "Dimensional Prison",
+    "source": "Ancient Magitech",
+    "description": "Complex device made of flat concentric rings",
+    "effect": "Activates when placed on a flat surface. The next creature that comes Close to the device disappears and is trapped within an extradimensional space for 1 day.",
+    "slots": 1
+  },
+  {
+    "name": "Illusory Projector",
+    "source": "Ancient Magitech",
+    "description": "A circlet with an etched Aetherstone crystal and spiny protrusions",
+    "effect": "When activated, for the next ten minutes, the bearer projects 3 illusory copies of themself within Close range. The copies perfectly mimic the movements of the user. Anyone attacking the user must first roll a d4, on a 3-4 they target an illusion instead of the user.",
+    "slots": 1
+  },
+  {
+    "name": "Siege Resonator",
+    "source": "Ancient Magitech",
+    "description": "An ancient complex device the size of a backpack",
+    "effect": "When activated, emits a resonant frequency selected by the user: Metal, Stone, or Clay. Over the next 8 hours, the device resonates with the selected susbtance within Far range, causing it to bend, break, crack, and crumble. Any structures composed primarily of the selected substance are destroyed after 8 hours of exposure.",
+    "slots": 1
+  },
+  {
+    "name": "Olfactory Enhancer",
+    "source": "Ancient Magitech",
+    "description": "A nose ring with a thin chain linked to an Aetherstone crystal earring.",
+    "effect": "When affixed to the user's nose, the ring enhances the user's sense of smell for one hour, allowing them to smell disease, poison, faint traces of blood, or other substances.",
+    "slots": 1
+  },
+  {
+    "name": "Grounding Guard",
+    "source": "Ancient Magitech",
+    "description": "A small metallic disc etched with unintelligble runes and embedded into a fine metal bracer",
+    "effect": "When activated, the disc detaches from the bracer, hovering around the user for up to an hour. While it is hovering, any single-target spell or energy attack that targets the weilder is deflected and absorbed harmlessly by the disc.",
+    "slots": 1
+  },
+  {
+    "name": "Gyropack",
+    "source": "Ancient Magitech",
+    "description": "A metal backpack with straps. Two hoop shaped arms angle out from the top of the pack.",
+    "effect": "For the next minute, the user can fly and hover while wearing the pack.",
+    "slots": 1
+  },
+  {
+    "name": "Emergency Antigrav",
+    "source": "Ancient Magitech",
+    "description": "A metallic disc attached to the back of a belt.",
+    "effect": "The device activates if the wearer falls more than 10 feet. The user floats down safely from any height.",
+    "slots": 1
+  },
+  {
+    "name": "Blessing of the Deep Ocean",
+    "source": "Divine",
+    "description": "An ornate bottle full of saltwater.",
+    "effect": "Drink to gain the ability to swim through air as if it were water for 1 hour. Only works underground.",
+    "slots": 1
+  },
+  {
+    "name": "Memory Dust",
+    "source": "Divine",
+    "description": "A satchel full of pale blue sparkling powder.",
+    "effect": "Cast the dust around an area to learn what transpired here in the past hour. The dust will take the form of creatures and objects, replaying the last hour of activity.",
+    "slots": 1
+  },
+  {
+    "name": "Divine Essence",
+    "source": "Divine",
+    "description": "A gilded organic container filled with glowing pale blue liquid.",
+    "effect": "Consume the seed to permanently gain a holy mutation. Roll on the Divine section of the Mutations table.",
+    "slots": 1
+  },
+  {
+    "name": "Glimpse of Possibility",
+    "source": "Divine",
+    "description": "A clear crystal sphere wrapped in silver chain.",
+    "effect": "Think of the actions you are planning to take, break the chain, and gaze into the crystal to see a few moments into your immediate future.",
+    "slots": 1
+  },
+  {
+    "name": "Seeing Spirit",
+    "source": "Divine",
+    "description": "A small Aetherstone statuette in the form of an insect or other tiny animal",
+    "effect": "Activate the statuette, causing it to transform into a spectral version of the animal. It will travel up to a Far distance and scout the area for ten minutes before returning. By absorbing the spirit, the user will receive a vision of what the spirit perceived in those ten minutes.",
+    "slots": 1
+  },
+  {
+    "name": "Guiding Spirit",
+    "source": "Divine",
+    "description": "A bone or other preserved body part of a tiny mundane creature, wrapped in strips of prayer paper",
+    "effect": "Summon the spirit and give it a Landmark or a description of a nearby location. The spirit will guide the user for up to a day along the most direct route to that landmark or location.",
+    "slots": 1
+  },
+  {
+    "name": "Green Warden's Repose",
+    "source": "Divine",
+    "description": "A pouch of seeds and spores that smell of earth and herbs",
+    "effect": "Sprinkle the seeds and spores on the corpse of a creature. Vegetation and mushrooms cover the corpse, rapidly decomposing it within a few minutes and returning it to earth, leaving behind only a patch of verdant greenery.",
+    "slots": 1
+  },
+  {
+    "name": "Raincaller Horn",
+    "source": "Divine",
+    "description": "A horn from an unknown creature engraved with the sigils of the Storm Father",
+    "effect": "This curio can only be used outside. Sounding the horn causes dark stormclouds to gather moments later, drenching the entire area in heavy rains and thunderstorm for the next d6 hours. The horn cracks and crumbles to dust.",
+    "slots": 1
+  },
+  {
+    "name": "Elixir of Astral Projection",
+    "source": "Divine",
+    "description": "A dark blue fluid in a bottle sealed with wax and ritual prayer paper.",
+    "effect": "Consuming the liquid will transport the user's essense and soul to the Divine Dream, leaving their body catatonic for the duration. While wandering the Divine Dream, they can project their consciousness to any location, becoming visible as a spirit and perceiving their surroundings. The user's spirit form can be attacked, and if banished, the user will return to their body. The effect lasts 1 hour.",
+    "slots": 1
+  },
+  {
+    "name": "Storm Fragment",
+    "source": "Divine",
+    "description": "An unadorned bottle containing a miniature whirlwind",
+    "effect": "Throw the bottle and shatter it, releasing the whirlwind. Nearby creatures are pulled in to the cyclone (d8, Blast, Restrained)",
+    "slots": 1
+  },
+  {
+    "name": "Searing Radiance",
+    "source": "Divine",
+    "description": "A faintly glowing bead of glass",
+    "effect": "Throwing the bead shatters it, releasing a brief but brilliantly intense flash of light that burns everything Near to the impact (d8, Blast, Blinding)",
+    "slots": 1
+  },
+  {
+    "name": "Arboreal Curse",
+    "source": "Divine",
+    "description": "A small, sharp seed that is warm with divine magic.",
+    "effect": "Affix the seed to an arrow or bolt and fire it into a creature. Over the next minute, their body transforms into a tree that resembles their form.",
+    "slots": 1
+  },
+  {
+    "name": "Elixir of Tranquility",
+    "source": "Divine",
+    "description": "A bottle filled with amber fluid that is cool to the touch and exudes a calming aura.",
+    "effect": "Drink the fluid to experience divine tranquility as your mind is transported to a peaceful area of the Divine Dream. When you regain consciousness an hour later, you restore any Mind or Spirit loss.",
+    "slots": 1
+  },
+  {
+    "name": "Emotion Piercer",
+    "source": "Divine",
+    "description": "A small, thin needle of nearly invisible glass bearing the faint sigil of the Golden Shadow",
+    "effect": "When stuck into a creature, this painless needle incites strong feelings of one of the following emotions, chosen by the wielder: anger, despair, fear, joy, calm, infatuation, or great hunger. The emotion lasts for ten minutes. Can be thrown or affixed to an arrow.",
+    "slots": 1
+  },
+  {
+    "name": "Admeasurement Bond",
+    "source": "Divine",
+    "description": "A pure white cord of soft fabric that flutters in an invisible breeze",
+    "effect": "When two creatures join hands and wrap the cord around their hands, one creature may suffer attribute loss of any type to restore that much attribute to the other creature.",
+    "slots": 1
+  },
+  {
+    "name": "Thunderous Blessing",
+    "source": "Divine",
+    "description": "A piece of rune paper with the sigil of the Storm Father",
+    "effect": "When the rune paper is applied to a melee weapon, it leaves behind a glowing runic sigil for 1 day. Each time the wielder hits a creature with the weapon, an explosive thunderclap that knocks the target back to a Near location. Both the wielder and the target are knocked down by the force.",
+    "slots": 1
+  },
+  {
+    "name": "Eavesdropping Spirit",
+    "source": "Divine",
+    "description": "A small Aetherstone statuette of an insect or other small creature, holding a marble-sized bead.",
+    "effect": "Insert the bead into your ear to activate the spirit. It invisibly travels to a point you can see and relays all sounds that could be heard from that point, even those as soft as a whisper to the bead for ten minutes.",
+    "slots": 1
+  },
+  {
+    "name": "Shadowstep Arrow",
+    "source": "Divine",
+    "description": "A black arrow flecked with gold",
+    "effect": "Firing the arrow causes it to silently impact in a puff of shadowy smoke, teleporting the shooter to the location of impact. For the next 10 minutes, the shooter is invisible until they take an action that includes attacking or forcing another creature to make a Save against an effect.",
+    "slots": 1
+  },
+  {
+    "name": "Mask of Deceit",
+    "source": "Divine",
+    "description": "A black wooden mask with gold inlay.",
+    "effect": "Wear the mask and focus on a person or outfit to activate it. The mask visually disguises the wearer as a perfect illusory copy of the person or outfit for up to one day.",
+    "slots": 1
+  },
+  {
+    "name": "Harassing Spirit",
+    "source": "Divine",
+    "description": "A jade figurine of an insect or other flying pest.",
+    "effect": "Activate the figurine, transforming it into a flying spirit that harasses one opponent that you choose within Far range, Impairing their attacks for up to a minute.",
+    "slots": 1
+  },
+  {
+    "name": "Sentry Skull",
+    "source": "Nightmare",
+    "description": "A small skull of an unidentifiable creature, missing several teeth, and covered in occult markings.",
+    "effect": "Contains 1d6 remaining teeth. Pry out and plant the teeth on the ground. Until the next dawn, whenever a creature gets Close to one of the teeth, the eyes of the skull will glow orange and the bearer will feel a spike of anxiety and mentally know which tooth the effect is coming from.",
+    "slots": 1
+  },
+  {
+    "name": "Phobia Ward",
+    "source": "Nightmare",
+    "description": "A blood red orb cradled in a twisted black claw.",
+    "effect": "Activate to create an aura of fear. Whenever a creature moves near the Ward, they experience terrifying hallucinations of their worst nightmares.",
+    "slots": 1
+  },
+  {
+    "name": "Sludge Rune",
+    "source": "Nightmare",
+    "description": "A sticky, viscous dark substance on a sheet of waxen paper. A disturbing rune has been traced in the substance.",
+    "effect": "Stick the rune to armor or clothing, causing the dark substance to creep across it in a spiderweb of tendrils before hardening. For the next day, gain +1 Armor, after which the tendrils crumble to dust.",
+    "slots": 1
+  },
+  {
+    "name": "Pain Needle",
+    "source": "Nightmare",
+    "description": "A twisted black organic spike the size of a pen.",
+    "effect": "When inserted underneath the skin, transforms the user's pain into strength, temporarily increasing their Max Speed or Body by 1d6 for one hour.",
+    "slots": 1
+  },
+  {
+    "name": "Revelation in Flesh",
+    "source": "Nightmare",
+    "description": "A foul, pitted seed infested with tiny black worms.",
+    "effect": "Consume the seed to permanently gain a nightmarish but powerful mutation. Roll on the Nightmare section of the Mutations table.",
+    "slots": 1
+  },
+  {
+    "name": "Sporebloom",
+    "source": "Nightmare",
+    "description": "A pock-marked and perforated bulb that slowly leaks black powder",
+    "effect": "Throw the bulb to create a cloud of Nightmare spores (d8 Blast, Toxic). Any living creature killed by the spores reanimates as an undead fungal monstrosity 1d4 hours later.",
+    "slots": 1
+  },
+  {
+    "name": "Sphere of Madness",
+    "source": "Nightmare",
+    "description": "A dark metallic orb suspended in an organic lattice",
+    "effect": "When activated, produces unearthly shrieking sounds and targets up to d6 intelligent creatures within Near range who can hear the noise. Those creatures are overcome by terrifying visions that drive them to madness. Roll a d6 to determine their next action: \n1 - Spend their entire turn screaming\n2 - Attack the nearest creature\n3 - Run away as fast as possible in a random direction\n4 - Try to eat a random creature or object\n5 - Collapse into a fetal position and rock back and forth\n6 - Become a conduit for the Nightmare",
+    "slots": 1
+  },
+  {
+    "name": "Cloak of Dessication",
+    "source": "Nightmare",
+    "description": "A unnaturally dry tattered black cloth, stained with the sigil of the Great Devourer",
+    "effect": "When a creature or object is wrapped within the cloth, it is completed dried out within a few moments. The cloth is large enough to cover a Kin sized creature. (d12, Armor Piercing)",
+    "slots": 1
+  },
+  {
+    "name": "Emetic Discharge",
+    "source": "Nightmare",
+    "description": "A carefully warded vial containing a deep violet fluid.",
+    "effect": "Throwing and shattering the vial releases a cloud of violet gas in the Zone. Any living creature in the Zone that inhales the gas must spend their next turn retching and vomiting. The gas persists for 1d6 minutes",
+    "slots": 1
+  },
+  {
+    "name": "Herald of the Grotesque",
+    "source": "Nightmare",
+    "description": "A fetish constructed of unknown tiny animal skulls and bones that is uncomfortable to look at.",
+    "effect": "Brandish the fetish while focusing on Nearby targets that can see it. Those targets are wracked with pain as their bodies twist and mutate under the influence of the Great Devourer. (d6, Blast) Roll a random mutation on the Nightmare section of the Mutation Table. Cause an additional d10 Mind and Spirit loss in individuals who woudl be horrified by this mutation.",
+    "slots": 1
+  },
+  {
+    "name": "Spectral Weapon",
+    "source": "Nightmare",
+    "description": "A disturbing bone charm with tiny metal shards resembling blades and a thin, blood red lanyard",
+    "effect": " Wrap the charm around the hilt of a melee weapon. When activated, a nightmarish, ghostly echo of the weapon appears Close to you, mimicking the attacks you make with the charmed weapon. Until the end of the scene, your attack pool increases by an amount equal to the copied weapon.",
+    "slots": 1
+  },
+  {
+    "name": "Undermining Curse",
+    "source": "Nightmare",
+    "description": "A crumbling wand of dry and brittle twigs with a dark Aetherstone set into the jaw of a small skull",
+    "effect": "Point the wand at an object or surface, affecting a 10-foot cube of material. The material gains the consistency of tissue paper, becoming dessicated, brittle, and weak. Creatures can easiliy tear chunks of the material with their bare hands, causing it to crumble to dust.",
+    "slots": 1
+  },
+  {
+    "name": "Stolen Essense",
+    "source": "Nightmare",
+    "description": "Black powder contained in a small leather pouch of unknown provenance",
+    "effect": "Roll a d4 to determine the type of stolen essence. 1-Body 2-Speed 3-Mind 4-Spirit. When inhaled, restore d10 to that attribute (min 2)",
+    "slots": 1
+  },
+  {
+    "name": "Interrogator Spirit",
+    "source": "Nightmare",
+    "description": "A small urn containing gravedust and the skeleton of a tiny creature",
+    "effect": "When activated, the skeleton of the creature animates and crawls onto the target's head, wrapping its tail around their neck. Each time the target knowingly lies, the creature tightens its tail and sends searing pain through the target's scalp. The effect lasts for up to 5 questions.",
+    "slots": 1
+  },
+  {
+    "name": "Voracity Larvae",
+    "source": "Nightmare",
+    "description": "A disturbing finger sized larvae of an unknown insect suspended in a translucent egg-shaped canister full of green fluid",
+    "effect": "Can be thrown or attached to an arrow or other suitable projectile. When it hits a creature, the larvae hatches and burrows into the target, eating d6 Body each round unless somehow removed.",
+    "slots": 1
+  },
+  {
+    "name": "Sludgespewer",
+    "source": "Nightmare",
+    "description": "An organic wormlike creature attached to a foul smelling sac of dark sludge",
+    "effect": "Once activated, the spewer can be used for 1 minute as a weapon that sprays adhesive caustic sludge (2d6, Close, Blast, Restraining, Acid)",
+    "slots": 1
+  },
+  {
+    "name": "Mark of Inevitibility",
+    "source": "Nightmare",
+    "description": "A filthy Lapine coin etched with disturbing runes",
+    "effect": "When activated and touched by or touched to another creature, the target creature is marked by a curse that lasts for 1 day. While under the effects of the curse, the target experiences intense paranoia, as if someone is watching their every move. The user knows the exact location and distance to the target for the duration, and feels the target's fear and paranoia as a mild euphoric sensation. If the user kills the target before the effect wears off, they restore one attribute of their choice. If the user does not, the user suffers d12 Spirit loss as they are wracked with painful dissatisfaction.",
+    "slots": 1
+  },
+  {
+    "name": "Flesh Lure",
+    "source": "Nightmare",
+    "description": "A rope attached to a translucent membrane sac filled with cursed blood and chunks of flesh of unknown provenance.",
+    "effect": "When thrown and splattered, all creatures that are primarily driven by hunger are ferociously attracted to the contents of the sac, paying heed to nothing else for the next minute.",
+    "slots": 1
+  },
+  {
+    "name": "Anykey",
+    "source": "Prototype Magitech",
+    "description": "A small, roughly disc shaped complex device.",
+    "effect": "Place against a locked door or container to automatically unlock it.",
+    "slots": 1
+  },
+  {
+    "name": "Pocket Appraiser",
+    "source": "Prototype Magitech",
+    "description": "Small etched Aetherstone crystal in a protective case",
+    "effect": "Activate to examine a Curio or Artifact to learn of its properties and effects",
+    "slots": 1
+  },
+  {
+    "name": "Firesnuff",
+    "source": "Prototype Magitech",
+    "description": "A hand-held perforated brass canister with a trigger mechanism.",
+    "effect": "When triggered and thrown, creates a blast of fire-suppressant smoke and powder that coats a Zone and extinguishes all flame, mundane or otherwise.",
+    "slots": 1
+  },
+  {
+    "name": "Metallure",
+    "source": "Prototype Magitech",
+    "description": "An etched Aether crystal with coils of thin metal bands.",
+    "effect": "Wrap the bands around your arm and hand. For the next hour, you can repel or attract metal objects through magnetic force.",
+    "slots": 1
+  },
+  {
+    "name": "Heartjolt",
+    "source": "Prototype Magitech",
+    "description": "A complicated device connected to electrical wires and adhesive metallic pads",
+    "effect": "Attach the device to a critically injured character. It will send a jolt of healing energy through their body, stabilizing them and causing them to immediately regain consciousness.",
+    "slots": 1
+  },
+  {
+    "name": "Breatheeasy",
+    "source": "Prototype Magitech",
+    "description": "A facemask connected to a canister with a flexible tube.",
+    "effect": "Equip the facemask. For the next hour, you can breathe normally and ignore the effects of toxic gasses or lack of oxygen, even when submerged or buried.",
+    "slots": 1
+  },
+  {
+    "name": "Grappleshot",
+    "source": "Prototype Magitech",
+    "description": "A tube with a pistol-grip and trigger and a spool of thin rope.",
+    "effect": "Fire the grappleshot at a point up to a Far distance away. A dart tipped with a grapple spike will embed itself into most material at that point, trailing a rope behind it. A winch on the device can be activated to reel in the rope, pulling the target closer or the user closer to the target.",
+    "slots": 1
+  },
+  {
+    "name": "Sneakbite",
+    "source": "Prototype Magitech",
+    "description": "A bear-trap like device with embedded Aetherstone circuitry",
+    "effect": "Place the trap to activate it, causing it to cloak itself in an illusion rendering it invisible. Any creature that steps on the plate will trigger it, taking d8 Speed damage and impairing the creature's movement.",
+    "slots": 1
+  },
+  {
+    "name": "Optic Balm",
+    "source": "Prototype Magitech",
+    "description": "A colorless balm in a chilled container powered by Aetherstone.",
+    "effect": "Applying the balm to a kin sized creature or object renders it invisible for d6 hours.",
+    "slots": 1
+  },
+  {
+    "name": "Farspeakers",
+    "source": "Prototype Magitech",
+    "description": "A pair of beadlike devices created from the same Aetherstone crystal",
+    "effect": "A pair of creatures can place one device in their ear to speak with and hear with the other creature for 1 day.",
+    "slots": 1
+  },
+  {
+    "name": "Arcanoreflector",
+    "source": "Prototype Magitech",
+    "description": "A complex magitech device with a carrying strap.",
+    "effect": "While wearing the device, the user can activate it at any time, creating a small reflective field in a bubble around themselves. Any spell that targets the user is reflected back at its source for the next minute.",
+    "slots": 1
+  },
+  {
+    "name": "Everyman's Scrambler",
+    "source": "Prototype Magitech",
+    "description": "A cobbled together device of metal, wires, and Aetherstone",
+    "effect": "Throwing the device causes it to detonate, causing all Near magitech objects in the Zone to stop functioning for one hour.",
+    "slots": 1
+  },
+  {
+    "name": "Emergency Invigoration",
+    "source": "Prototype Magitech",
+    "description": "A canister of pressurized gasses, with an Aetherstone crystal embedded on the side.",
+    "effect": "Press the trigger and throw, causing the Zone to fill with herbal essences charged by Aether. All injured creatures in the Zone restore d6 Body and Speed",
+    "slots": 1
+  },
+  {
+    "name": "Blindsmoke",
+    "source": "Prototype Magitech",
+    "description": "A canister of pressurized gasses, with a glass window revealing sparkling gray mist",
+    "effect": "When thrown, the canister releases a cloud of blinding smoke that fills the Zone. The enchanted smoke also blinds creatures that do not rely on sight, or have magical sight.",
+    "slots": 1
+  },
+  {
+    "name": "Dimensional Anchor",
+    "source": "Prototype Magitech",
+    "description": "A heavy chunk of metal with Aetherstone inlay in the shape of an anchor",
+    "effect": "Whenever the bearer is teleported, banished to a different plane, or otherwise dimensionally manipulated, they may activate the anchor to negate that effect.",
+    "slots": 1
+  },
+  {
+    "name": "Boost Rig",
+    "source": "Prototype Magitech",
+    "description": "Several rocket tubes attached to boots or a harness",
+    "effect": "Choose a direction and activate the rockets to fly in a straight line up to a far distance in the chosen direction. The user may carry up to one additional kin-sized passenger for the boost.",
+    "slots": 1
+  },
+  {
+    "name": "Clockbreaker",
+    "source": "Prototype Magitech",
+    "description": "A timepiece connected to an unstable Aetherstone contraption.",
+    "effect": "When activated, time slows to a crawl around the user for 6 seconds, while they move at normal speed, allowing them to perform an additional action on their turn.",
+    "slots": 1
+  },
+  {
+    "name": "Flamespewer",
+    "source": "Prototype Magitech",
+    "description": "A handheld tube connected via hose to a brass canister.",
+    "effect": "Once activated, the spewer can be used for 1 minute as a weapon that sprays a cone of fire (2d8, Close, Blast, Fire)",
+    "slots": 1
+  },
+  {
+    "name": "Omnigoggles",
+    "source": "Prototype Magitech",
+    "description": "Heavy metallic goggles with an array of lenses.",
+    "effect": "Activate the goggles, granting one of the following effects for one hour: Darkvision, Thermal vision, Aethervision, or see into adjacent dimensions (like the Divine Dream or Nightmare)",
+    "slots": 1
+  },
+  {
+    "name": "Droplet of Darkness",
+    "source": "Void",
+    "description": "A small glass containing a floating dodecahedral bead of void-black liquid full of tiny stars.",
+    "effect": "Smash the glass to fill a Zone with supernatural darkness that no light can penetrate for 1 hour.",
+    "slots": 1
+  },
+  {
+    "name": "Void Infusion",
+    "source": "Void",
+    "description": "A semi-transparent pentagonal spine with an organic bulb of shimmering oily fluid.",
+    "effect": "Inject the fluid to gain permanently an alien mutation. Roll on the Void section of the Mutations table.",
+    "slots": 1
+  },
+  {
+    "name": "Heartwyrm",
+    "source": "Void",
+    "description": "A headless 5-sided snake-like creature with a spectral body that wraps contentedly around your arm.",
+    "effect": "Direct the wyrm at a target and it will launch itself from your arm and burrow into the chest of the target, seeking the creature's heart and replacing it. (2d8, Armor Piercing). If a creature is slain by the heartwyrm, it becomes a thrall under your control for one hour, after which the wyrm expires, as does the creature.",
+    "slots": 1
+  },
+  {
+    "name": "Chameleon Unguent",
+    "source": "Void",
+    "description": "A 5-sided bottle of fluid that is constantly shifting in color and pattern",
+    "effect": "Applying the fluid to a creature or object the size of an average folk causes the fluid to take on the color and pattern of its nearby surroundings. The creature or object is nearly invisibile if not moving.",
+    "slots": 1
+  },
+  {
+    "name": "Memory Thief",
+    "source": "Void",
+    "description": "A small crystalline 5-eyed centipede creature that reflects unusual colors.",
+    "effect": "Use by focusing on a nearby creature. The centipede scurries over to them and inflicts a painless bite. You may excise one memory from them, up to one hour ago.The target forgets that memory. When the centipede-like creature returns to you, it can bite you, injecting the stolen memory.",
+    "slots": 1
+  },
+  {
+    "name": "Storage Shunt",
+    "source": "Void",
+    "description": "A 5-pronged organic device the size of a canteen.",
+    "effect": "Use by focusing on one nearby object that can fit within a 10 foot cube. The object disappears and is shunted into an extradimensional pocket within the device. At any time in the future, you can release the object, summoning it within a Near location.",
+    "slots": 1
+  },
+  {
+    "name": "Shard of Silence",
+    "source": "Void",
+    "description": "A transparent, nearly invisible crystal wrapped in thick oily cloth",
+    "effect": "Striking the crystal with a metallic object will break it, filling the Zone with absolute silence for the next 10 minutes. No sound can occur within the Zone. Creatures within the Zone lose d4 Mind as they experience absolute silence.",
+    "slots": 1
+  },
+  {
+    "name": "Somnus Ward",
+    "source": "Void",
+    "description": "5 stakes of unknown organic material, a coarse powder, and a diagram.",
+    "effect": "Placing the 5 stakes on a surface and spreading the powder between them according to the diagram will create a ward trap that lasts for 1 day. Any living creature that enters the warded area will fall asleep.",
+    "slots": 1
+  },
+  {
+    "name": "Spatial Randomizer",
+    "source": "Void",
+    "description": "A wand of twisted calcified tissue and 5 strange crystals",
+    "effect": "Point the Wand at a Zone to activate it. All creatures in the Zone are randomly teleported (safely) to a new Near location.",
+    "slots": 1
+  },
+  {
+    "name": "Timefreeze",
+    "source": "Void",
+    "description": "A tiny dessicated wormlike creature with 5 tails",
+    "effect": "Snapping the worm in half causes everyone within the Zone except the user to be frozen in time for the next minute.",
+    "slots": 1
+  },
+  {
+    "name": "Hypnotic Coil",
+    "source": "Void",
+    "description": "A coil of 5 wormlike creatures on the end of a golden chain.",
+    "effect": "Brandish the item and focus on one or more creatures Close to you that can see it. They must follow a reasonably worded suggestion to the best of their ability.",
+    "slots": 1
+  },
+  {
+    "name": "Dimensional Breach",
+    "source": "Void",
+    "description": "A heavy sharp pentagonal spike on the end of a chain",
+    "effect": "Spin the chain and throw it, where it embeds into a surface, creating a breach into the Void. 5 inky spectral tentacles emerge from that surface, graspng anything within Reach (d8, Restrain)",
+    "slots": 1
+  },
+  {
+    "name": "Oracle Star",
+    "source": "Void",
+    "description": "A tiny mote of light in a squishy marble-sized bead",
+    "effect": "Squeeze the marble til it pops and drop the fluid containing the mote into your eye. You enter a trance for ten minutes, during which you gain the answer to a single question.",
+    "slots": 1
+  },
+  {
+    "name": "Biolume Adaptation",
+    "source": "Void",
+    "description": "A strange 5-eyed insect encased in amber. The abdomen and eyes of the insect glow with a green-yellow light.",
+    "effect": "Swallow the amber, for the next hour, bioluminescent swirls and whorls appear across your body, illuminating the area with a yellow-green light, acting as a torch for one hour. The light has a calming, soporific effect on beasts.",
+    "slots": 1
+  },
+  {
+    "name": "Banishing Star",
+    "source": "Void",
+    "description": "A spectral 5-armed creature resembling a brittle star from the ocean.",
+    "effect": "When placed on a melee weapon, the star wraps its spectral arms around the striking surface and disappears, leaving behind a strange glowing pattern. For the next hour, any time the user strikes a creature with the weapon, that creature is teleported to a random location within 300 feet of the weilder.",
+    "slots": 1
+  },
+  {
+    "name": "Ontologic Unraveller",
+    "source": "Void",
+    "description": "A wand formed from the calcified remains of 5 worm-like creatures impossibly entwined with one another.",
+    "effect": "Point the wand at an object no larger than a 5ft cube, or a single creature no larger than a Kin. The object or creature is erased from existence.",
+    "slots": 1
+  },
+  {
+    "name": "Winnowing Wurm of Ignorance",
+    "source": "Void",
+    "description": "A tiny scaled wurm with 5 spiny mouthparts encased in a sharp sapphire pentachoron",
+    "effect": "Activating the pentachoron causes it to shatter, releasing the wurm. The wurm floats and flies at unnatural speed towards the creature with lowest current Mind attribute and attaches to that creatures's skull (or equivalent) causing 10 Mind loss.",
+    "slots": 1
+  },
+  {
+    "name": "Winnowing Wurm of Sloth",
+    "source": "Void",
+    "description": "A tiny scaled wurm with 5 spiny mouthparts encased in a sharp emerald pentachoron",
+    "effect": "Activating the pentachoron causes it to shatter, releasing the wurm. The wurm floats and flies at unnatural speed towards the creature with lowest current Speed attribute and attaches to that creatures's skull (or equivalent) causing 10 Speed loss.",
+    "slots": 1
+  },
+  {
+    "name": "Winnowing Wurm of Frailty",
+    "source": "Void",
+    "description": "A tiny scaled wurm with 5 spiny mouthparts encased in a sharp ruby pentachoron",
+    "effect": "Activating the pentachoron causes it to shatter, releasing the wurm. The wurm floats and flies at unnatural speed towards the creature with lowest current Body attribute and attaches to that creatures's skull (or equivalent) causing 10 Body loss.",
+    "slots": 1
+  },
+  {
+    "name": "Winnowing Wurm of Doubt",
+    "source": "Void",
+    "description": "A tiny scaled wurm with 5 spiny mouthparts encased in a sharp amethyst pentachoron",
+    "effect": "Activating the pentachoron causes it to shatter, releasing the wurm. The wurm floats and flies at unnatural speed towards the creature with lowest current Spirit attribute and attaches to that creatures's skull (or equivalent) causing 10 Spirit loss.",
+    "slots": 1
+  },
+  {
+    "name": "Mass Manipulator",
+    "source": "Void",
+    "description": "A metallic creature clutching a small crystal with five spindly limbs.",
+    "effect": "Activate and focus on a nearby object. You may either increase the object to 20 times it's original size or shrink it to 20 times its original size. Either effect lasts for 1 day.",
+    "slots": 1
+  }
+]
