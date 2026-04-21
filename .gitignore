@@ -45,5 +45,6 @@ __screenshots__/
 .env*
 !.env.example
 
-# database files
+# spreadsheet files
 *.xlsx
+*.csv
