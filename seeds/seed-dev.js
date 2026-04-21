@@ -135,11 +135,13 @@ export const seedPath = async () => {
     const pathString = JSON.stringify(pathData);
     try {
         const result = await env.DB.prepare(`
-        INSERT INTO paths (id, name, description)
+        INSERT INTO paths (name, description, flavorText, isForbidden, isAncestry)
         SELECT 
-            json_extract(value, '$.id'), 
             json_extract(value, '$.name'), 
-            json_extract(value, '$.description')
+            json_extract(value, '$.description'),
+            json_extract(value, '$.flavorText'),
+            json_extract(value, '$.isForbidden'),
+            json_extract(value, '$.isAncestry')
         FROM json_each(?1)
         `).bind(pathString).run();
         return result;
@@ -153,7 +155,7 @@ export const seedTalent = async () => {
     const talentString = JSON.stringify(talentData);
     try {
         const result = await env.DB.prepare(`
-        INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle)
+        INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle, isAncestry, isForbidden)
         SELECT 
             json_extract(value, '$.name'), 
             json_extract(value, '$.description'),
@@ -162,7 +164,9 @@ export const seedTalent = async () => {
             json_extract(value, '$.isCore'),
             json_extract(value, '$.isMinor'),
             json_extract(value, '$.isMajor'),
-            json_extract(value, '$.isPinnacle')
+            json_extract(value, '$.isPinnacle'),
+            json_extract(value, '$.isAncestry'),
+            json_extract(value, '$.isForbidden')
         FROM json_each(?1)
         `).bind(talentString).run();
         return result;
