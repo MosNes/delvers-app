@@ -8,7 +8,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Diplomat Vest",
@@ -19,7 +19,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Fel Spines of Power",
@@ -30,7 +30,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Abyssal Antennae",
@@ -41,7 +41,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Messenger Beads",
@@ -52,7 +52,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Contingency Rig",
@@ -63,7 +63,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Cloak of Protection",
@@ -74,7 +74,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Void Ink",
@@ -85,7 +85,7 @@
     "isMinor": 1,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Aeternal Rope",
@@ -96,7 +96,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Dictation Device",
@@ -107,7 +107,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Heavenly Restriction",
@@ -118,7 +118,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Fleshweapon",
@@ -129,7 +129,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Everburning Flame",
@@ -140,7 +140,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Ripsaw",
@@ -151,7 +151,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Springclaws",
@@ -162,7 +162,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Suppression Baton",
@@ -173,7 +173,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Voracity Symbiote",
@@ -184,7 +184,7 @@
     "isMinor": 0,
     "hasDepletion": 0,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   },
   {
     "name": "Nightmare Eyes",
@@ -393,6 +393,6 @@
     "isMinor": 0,
     "hasDepletion": 1,
     "depletionDie": "",
-    "depletionResult": ""
+    "depletionResult": "0"
   }
 ]

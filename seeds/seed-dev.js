@@ -7,6 +7,7 @@ import weaponData from './weapon_seed.json';
 import tagData from './tag_seed.json';
 import gearData from './gear_seed.json';
 import curioData from './curio_seed.json';
+import artifactData from './artifact_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
@@ -109,7 +110,7 @@ export const seedArtifact = async () => {
     const artifactString = JSON.stringify(artifactData);
     try {
         const result = await env.DB.prepare(`
-        INSERT INTO artifacts (id, name, source, description, effect, slots, hasDepletion, depletionDie, depletionResult, isMinor)
+        INSERT INTO artifacts (name, source, description, effect, slots, hasDepletion, depletionDie, depletionResult, isMinor)
         SELECT 
             json_extract(value, '$.name'), 
             json_extract(value, '$.source'), 
