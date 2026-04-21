@@ -1,5 +1,5 @@
 import express from 'express';
-import { seedArmor, seedWeapon, seedTag, seedGear } from "../../seeds/seed-dev.js";
+import { seedArmor, seedWeapon, seedTag, seedGear, seedCurio } from "../../seeds/seed-dev.js";
 
 const router = express.Router();
 
@@ -18,9 +18,13 @@ router.post("/gear", async (req, res) => {
   res.json({ message: result});
 });
 
-
 router.post("/tag", async (req, res) => {
   const result = await seedTag();
+  res.json({ message: result});
+});
+
+router.post("/curio", async (req, res) => {
+  const result = await seedCurio();
   res.json({ message: result});
 });
 
