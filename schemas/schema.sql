@@ -66,7 +66,8 @@ CREATE TABLE destinies (
 CREATE TABLE paths (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT
+    description TEXT,
+    flavorText TEXT
 );
 
 CREATE TABLE talents (
