@@ -8,6 +8,7 @@ import tagData from './tag_seed.json';
 import gearData from './gear_seed.json';
 import curioData from './curio_seed.json';
 import artifactData from './artifact_seed.json';
+import talentData from './talent_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
@@ -206,3 +207,7 @@ export const seedTag = async () => {
         throw new Error("Error in seedTag(): " +err);
     }
 };
+
+// #region agent log
+fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'6de2c2'},body:JSON.stringify({sessionId:'6de2c2',location:'seed-dev.js:module-tail',message:'seed-dev finished evaluating',data:{typeofSeedTalent:typeof seedTalent,typeofSeedPath:typeof seedPath,typeofSeedDestiny:typeof seedDestiny},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+// #endregion
