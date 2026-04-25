@@ -78,16 +78,25 @@ CREATE TABLE talents (
     description TEXT,
     flavorText TEXT,
     path_name TEXT,
-    isCore INTEGER DEFAULT 0 CHECK (isCore IN (0, 1)),
-    isMinor INTEGER DEFAULT 0 CHECK (isMinor IN (0, 1)),
-    isMajor INTEGER DEFAULT 0 CHECK (isMajor IN (0, 1)),
-    isPinnacle INTEGER DEFAULT 0 CHECK (isPinnacle IN (0, 1)),
-    isAncestry INTEGER DEFAULT 0 CHECK (isAncestry IN (0, 1)),
-    isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
+    type TEXT NOT NULL CHECK (type IN ('Core','Minor', 'Major', 'Pinnacle', 'Ancestry')),
     picklist TEXT, -- stored as a JSON-formatted array string
     picklistHasObj INTEGER DEFAULT 0 CHECK (picklistHasObj IN (0, 1)), -- if true, picklist is an array of objects with name and description properties
     FOREIGN KEY (path_name) REFERENCES paths(name) ON DELETE CASCADE
 );
+
+CREATE TABLE fightingStyles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+);
+
+CREATE TABLE rituals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    time TEXT NOT NULL,
+    items TEXT NOT NULL,
+)
 
 CREATE TABLE tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
