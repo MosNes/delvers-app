@@ -65,7 +65,7 @@ CREATE TABLE destinies (
 
 -- paths table also includes Ancestry Talents
 CREATE TABLE paths (
-    name PRIMARY KEY TEXT NOT NULL,
+    name TEXT PRIMARY KEY NOT NULL,
     description TEXT,
     flavorText TEXT,
     isForbidden INTEGER DEFAULT 0 CHECK (isForbidden IN (0, 1)),
@@ -93,16 +93,16 @@ CREATE TABLE advances (
 CREATE TABLE fightingStyles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT NOT NULL
 );
 
 CREATE TABLE rituals (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT,
-    time TEXT NOT NULL,
-    items TEXT NOT NULL,
-)
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+   name TEXT NOT NULL,
+   description TEXT,
+   time TEXT NOT NULL,
+   items TEXT NOT NULL
+);
 
 CREATE TABLE tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -194,18 +194,18 @@ CREATE TABLE inventory_instances (
 CREATE TABLE path_instances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
-    path_id INTEGER NOT NULL, -- Changed to INTEGER
+    path_name TEXT NOT NULL,
     FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
-    FOREIGN KEY (path_id) REFERENCES paths(id) ON DELETE CASCADE
+    FOREIGN KEY (path_name) REFERENCES paths(name) ON DELETE CASCADE
 );
 
 
 CREATE TABLE talent_instances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
-    talent_id INTEGER NOT NULL, -- Changed to INTEGER
+    talent_name TEXT NOT NULL,
     FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
-    FOREIGN KEY (talent_id) REFERENCES talents(id) ON DELETE CASCADE
+    FOREIGN KEY (talent_name) REFERENCES talents(name) ON DELETE CASCADE
 );
 
 CREATE TABLE tag_junctions (
