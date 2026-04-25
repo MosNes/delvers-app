@@ -8,6 +8,7 @@ import tagData from './tag_seed.json';
 import gearData from './gear_seed.json';
 import curioData from './curio_seed.json';
 import artifactData from './artifact_seed.json';
+import pathData from './path_seed.json';
 import talentData from './talent_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------

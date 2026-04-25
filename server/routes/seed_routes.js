@@ -49,6 +49,11 @@ router.post("/artifact", async (req, res) => {
   res.json({ message: result});
 });
 
+router.post("/path", async (req, res) => {
+  const result = await seedPath();
+  res.json({ message: result});
+});
+
 router.post("/talent", async (req, res) => {
   // #region agent log
   fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'6de2c2'},body:JSON.stringify({sessionId:'6de2c2',location:'seed_routes.js:/talent-entry',message:'POST /talent handler entered',data:{typeofSeedTalent:typeof seedTalent},timestamp:Date.now(),hypothesisId:'H3'})}).catch(()=>{});
