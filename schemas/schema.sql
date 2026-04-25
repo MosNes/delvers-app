@@ -73,15 +73,21 @@ CREATE TABLE paths (
 );
 
 CREATE TABLE talents (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    name TEXT PRIMARY KEY NOT NULL UNIQUE,
     description TEXT,
     flavorText TEXT,
-    path_name TEXT,
+    path_name TEXT NOT NULL,
     type TEXT NOT NULL CHECK (type IN ('Core','Minor', 'Major', 'Pinnacle', 'Ancestry')),
     picklist TEXT, -- stored as a JSON-formatted array string
     picklistHasObj INTEGER DEFAULT 0 CHECK (picklistHasObj IN (0, 1)), -- if true, picklist is an array of objects with name and description properties
     FOREIGN KEY (path_name) REFERENCES paths(name) ON DELETE CASCADE
+);
+
+CREATE TABLE advances (
+   name TEXT PRIMARY KEY NOT NULL UNIQUE,
+   talent_name TEXT NOT NULL,
+   description TEXT,
+   FOREIGN KEY (talent_name) REFERENCES talents(name) ON DELETE CASCADE
 );
 
 CREATE TABLE fightingStyles (
