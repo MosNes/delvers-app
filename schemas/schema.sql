@@ -78,8 +78,10 @@ CREATE TABLE talents (
     flavorText TEXT,
     path_name TEXT NOT NULL,
     type TEXT NOT NULL CHECK (type IN ('Core','Minor', 'Major', 'Pinnacle', 'Ancestry')),
-    picklist TEXT, -- stored as a JSON-formatted array string
+    hasPicklist INTEGER DEFAULT 0 CHECK (hasPicklist IN (0, 1)),
+    picklistValues TEXT, -- can be a JSON-formatted array string or a single string pointing to a database table
     picklistHasObj INTEGER DEFAULT 0 CHECK (picklistHasObj IN (0, 1)), -- if true, picklist is an array of objects with name and description properties
+    isRepeatable INTEGER DEFAULT 0 CHECK (picklistHasObj IN (0, 1)), 
     FOREIGN KEY (path_name) REFERENCES paths(name) ON DELETE CASCADE
 );
 
