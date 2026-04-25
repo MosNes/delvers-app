@@ -24,7 +24,7 @@ CREATE TABLE characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner TEXT NOT NULL,
     campaign INTEGER, -- Changed to INTEGER to match campaigns.id
-    imgUrl TEXT,
+    imgUrl TEXT, -- stored as a string path to the image file
     characterName TEXT NOT NULL,
     player TEXT NOT NULL,
     ancestry TEXT NOT NULL,
@@ -33,6 +33,11 @@ CREATE TABLE characters (
     background TEXT,
     domains TEXT, 
     skills TEXT,
+    talents TEXT, -- stored as a JSON-formatted array string of talent name values
+    advances TEXT, -- stored as a JSON-formatted array string of advance name values
+    minorAdvances INTEGER DEFAULT 0,
+    majorAdvances INTEGER DEFAULT 0,
+    pinnacleAdvances INTEGER DEFAULT 0,
     maxGuard INTEGER DEFAULT 0 CHECK (maxGuard >= 0),
     currentGuard INTEGER DEFAULT 0 CHECK (currentGuard >= 0),
     armor INTEGER DEFAULT 0 CHECK (armor >= 0),
