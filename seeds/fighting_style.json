@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Zerzuzan Dervish Style",
+		"description": "While wielding two d6 weapons, one in each hand, your attacks gain the Blast quality when you are Close to 2 or more foes."
+	},
+	{
+		"name": "Bastian Dueling Style",
+		"description": "While wielding a weapon in one hand and no shield or weapon in the other, your attacks ignore the Armor of creatures your size or smaller."
+	},
+	{
+		"name": "Ursine Breaker Style",
+		"description": "While wielding a two handed weapon and wearing no gear that grants you Armor, your attacks ignore the Armor of creatures larger than you."
+	},
+	{
+		"name": "Canid Wall Style",
+		"description": "If you have a shield equipped, when fighting next to an ally who also has a shield, you both gain +1 Armor."
+	},
+	{
+		"name": "Lapine Fury Style",
+		"description": "You may wield two Hefty weapons, one in each hand."
+	},
+	{
+		"name": "Chiroptid Stalker Style",
+		"description": "You may still make attacks with a ranged weapon if you start your turn Close to an opponent."
+	}
+]

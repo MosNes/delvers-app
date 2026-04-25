@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Ritual of Sanctuary",
+        "time": "10 minutes",
+        "items": "Salt, Incense",
+        "description": "Create a 20 ft diameter circular ward on the ground. Creatures you designate can freely pass through the ward. All other creatures feel an intense and painful burning sensation the closer they approach the ward, which deters most beasts and unintelligent monsters. If an unwelcome creature enters the ward, you are immediately alerted to its presence. Lasts for 8 hours."
+    },
+    {
+        "name": "Ritual of the Shared Mind",
+        "time": "10 minutes",
+        "items": "Silver thread",
+        "description": "Link the minds of up to 5 individuals with your own, allowing the group to communicate telepathically while within Near distance of one another. Lasts for 4 hours."
+    },
+    {
+        "name": "Ritual of Blood and Ash",
+        "time": "10 minutes",
+        "items": "Ritual Knife, Ash mixed with grease, Blood offering from participants",
+        "description": "You mark each participant with ash mixed with blood drawn from the ritual knife. For the next 2 hours, whenever one of the participants feels pain, the other participants gain a d6 bonus die to their attack pools until the end of their turn."
+    },
+    {
+        "name": "Ritual of Protection",
+        "time": "10 minutes",
+        "items": "Saltwater, string, and small wooden charms",
+        "description": "Each participant increases their maximum Guard by 2 for the next 8 hours."
+    },
+    {
+        "name": "Ritual of Seance",
+        "time": "30 minutes",
+        "items": "Planchette, Spirit board, darkness, and a cancle",
+        "description": "Attempt to communicate with a local spirit, or the spirit of a dead folk associated with the location OR one of the participants. The spirit is limited to answering Yes or No questions, or spelling out single words using the Planchette and Spirit Board. There is a 1 in 6 chance that the spirit will be a malicious impostor. Last up to 30 minutes (the duration of the ritual)."
+    }
+]
