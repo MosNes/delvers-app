@@ -1,0 +1,72 @@
+[
+    {
+        "name": "Path of the Warrior",
+        "description": "Focus on martial combat",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Warden",
+        "description": "Focus on protecting yourself and your allies from  harm",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Scholar",
+        "description": "Focus on knowledge and skills",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Mage",
+        "description": "Focus on Arcane magic",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Faithful",
+        "description": "Focus on Divine magic",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Shadow",
+        "description": "Focus on stealth and subterfuge",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Engineer",
+        "description": "Focus on gadgets, curios, and gear",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 0
+    },
+    {
+        "name": "Ancestry Talents",
+        "description": "Choose one Ancestry Talent when you create your character.",
+        "flavorText": null,
+        "isAncestry": 1,
+        "isForbidden": 0
+    },
+    {
+        "name": "Path of the Nightmare",
+        "description": "Focus on fear, necromancy, and subjugation",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 1
+    },
+    {
+        "name": "Path of the Void",
+        "description": "Focus on fear, necromancy, and subjugation",
+        "flavorText": null,
+        "isAncestry": 0,
+        "isForbidden": 1
+    }
+]
