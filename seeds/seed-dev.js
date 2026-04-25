@@ -150,26 +150,22 @@ export const seedPath = async () => {
     }
 };
 
-// need to make sure path_id aligns with paths inserted in previous step
+// need to make sure path_name aligns with paths inserted in previous step
 export const seedTalent = async () => {
     const talentString = JSON.stringify(talentData);
     try {
         const result = await env.DB.prepare(`
-        INSERT INTO talents (name, description, flavorText, path_id, isCore, isMinor, isMajor, isPinnacle, isAncestry, isForbidden, picklist
-        , picklistHasObj)
+        INSERT INTO talents (name, description, flavorText, path_name, picklistValues, picklistHasObj, isRepeatable, type, hasPicklist)
         SELECT 
             json_extract(value, '$.name'), 
             json_extract(value, '$.description'),
             json_extract(value, '$.flavorText'),
-            json_extract(value, '$.path_id'),
-            json_extract(value, '$.isCore'),
-            json_extract(value, '$.isMinor'),
-            json_extract(value, '$.isMajor'),
-            json_extract(value, '$.isPinnacle'),
-            json_extract(value, '$.isAncestry'),
-            json_extract(value, '$.isForbidden'),
-            json_extract(value, '$.picklist'),
-            json_extract(value, '$.picklistHasObj')
+            json_extract(value, '$.path_name'),
+            json_extract(value, '$.picklistValues'),
+            json_extract(value, '$.picklistHasObj'),
+            json_extract(value, '$.isRepeatable'),
+            json_extract(value, '$.type'),
+            json_extract(value, '$.hasPicklist')
         FROM json_each(?1)
         `).bind(talentString).run();
         return result;

@@ -33,4 +33,9 @@ router.post("/artifact", async (req, res) => {
   res.json({ message: result});
 });
 
+router.post("/talent", async (req, res) => {
+  const result = await seedTalent();
+  res.json({ message: result});
+});
+
 export default router;
