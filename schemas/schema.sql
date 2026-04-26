@@ -94,6 +94,8 @@ CREATE TABLE advances (
    name TEXT PRIMARY KEY NOT NULL UNIQUE,
    talent_name TEXT NOT NULL,
    description TEXT,
+   isRepeatable INTEGER DEFAULT 0 CHECK (isRepeatable IN (0, 1)),
+   dataSource TEXT, -- stored as a single string pointing to the database table name
    FOREIGN KEY (talent_name) REFERENCES talents(name) ON DELETE CASCADE
 );
 

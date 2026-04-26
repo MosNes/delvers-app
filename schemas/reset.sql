@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS talent_instances;
 DROP TABLE IF EXISTS path_instances;
 DROP TABLE IF EXISTS inventory_instances;
 DROP TABLE IF EXISTS advances;
+DROP TABLE IF EXISTS augments;
 DROP TABLE IF EXISTS fightingStyles;
 DROP TABLE IF EXISTS rituals;
 DROP TABLE IF EXISTS tags;
