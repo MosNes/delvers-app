@@ -10,6 +10,7 @@ import curioData from './curio_seed.json';
 import artifactData from './artifact_seed.json';
 import pathData from './path_seed.json';
 import talentData from './talent_seed.json';
+import advanceData from './advance_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
@@ -38,7 +39,7 @@ export const seedArmor = async () => {
 
         return result;
     } catch (err) {
-        throw new Error("Error in seedArmor(): ",err);
+        throw new Error("Error in seedArmor(): ", err);
     }
 };
 
@@ -61,7 +62,7 @@ export const seedWeapon = async () => {
         `).bind(weaponString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedWeapon(): " +err);
+        throw new Error("Error in seedWeapon(): " + err);
     }
 };
 
@@ -85,7 +86,7 @@ export const seedGear = async () => {
         `).bind(gearString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedGear(): " +err);
+        throw new Error("Error in seedGear(): " + err);
     }
 };
 
@@ -104,7 +105,7 @@ export const seedCurio = async () => {
         `).bind(curioString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedCurio(): " +err);
+        throw new Error("Error in seedCurio(): " + err);
     }
 };
 
@@ -127,7 +128,7 @@ export const seedArtifact = async () => {
         `).bind(artifactString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedArtifact(): " +err);
+        throw new Error("Error in seedArtifact(): " + err);
     }
 };
 
@@ -148,7 +149,7 @@ export const seedPath = async () => {
         `).bind(pathString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedPath(): " +err);
+        throw new Error("Error in seedPath(): " + err);
     }
 };
 
@@ -172,7 +173,7 @@ export const seedTalent = async () => {
         `).bind(talentString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedTalent(): " +err);
+        throw new Error("Error in seedTalent(): " + err);
     }
 };
 
@@ -188,7 +189,7 @@ export const seedDestiny = async () => {
         `).bind(destinyString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedDestiny(): " +err);
+        throw new Error("Error in seedDestiny(): " + err);
     }
 };
 
@@ -205,10 +206,26 @@ export const seedTag = async () => {
         `).bind(tagString).run();
         return result;
     } catch (err) {
-        throw new Error("Error in seedTag(): " +err);
+        throw new Error("Error in seedTag(): " + err);
     }
 };
 
-// #region agent log
-fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'6de2c2'},body:JSON.stringify({sessionId:'6de2c2',location:'seed-dev.js:module-tail',message:'seed-dev finished evaluating',data:{typeofSeedTalent:typeof seedTalent,typeofSeedPath:typeof seedPath,typeofSeedDestiny:typeof seedDestiny},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
-// #endregion
+export const seedAdvance = async () => {
+    const advanceString = JSON.stringify(advanceData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO advances (name, talent_name, description, isRepeatable, dataSource)
+        SELECT 
+            json_extract(value, '$.name'),
+            json_extract(value, '$.talent_name'), 
+            json_extract(value, '$.description'),
+            json_extract(value, '$.isRepeatable'),
+            json_extract(value, '$.dataSource')
+
+        FROM json_each(?1)
+        `).bind(advanceString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedAdvance(): " + err);
+    }
+};
