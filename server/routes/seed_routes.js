@@ -1,5 +1,5 @@
 import express from 'express';
-import { seedArmor, seedWeapon, seedTag, seedGear, seedCurio, seedArtifact, seedTalent, seedPath, seedAdvance } from "../../seeds/seed-dev.js";
+import { seedArmor, seedWeapon, seedTag, seedGear, seedCurio, seedArtifact, seedTalent, seedPath, seedAdvance, seedRitual, seedFightingStyle } from "../../seeds/seed-dev.js";
 
 const router = express.Router();
 
@@ -12,8 +12,11 @@ router.post("/all", async (req, res) => {
   const result6 = await seedArtifact();
   const result7 = await seedPath();
   const result8 = await seedTalent();
-  // const result9 = await seedAdvance();
-  res.json({ message: result});
+  const result9 = await seedAdvance();
+  const result10 = await seedRitual();
+  const result11 = await seedFightingStyle();
+  const finalResult = [result, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11];
+  res.json({ message: finalResult});
 });
 
 router.post("/armor", async (req, res) => {

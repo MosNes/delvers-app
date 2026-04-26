@@ -11,6 +11,8 @@ import artifactData from './artifact_seed.json';
 import pathData from './path_seed.json';
 import talentData from './talent_seed.json';
 import advanceData from './advance_seed.json';
+import fightingStyleData from './fighting_style_seed.json';
+import ritualData from './ritual_seed.json';
 
 //--------------------------------------INVENTORY ITEMS----------------------------------------------------------
 
@@ -227,5 +229,39 @@ export const seedAdvance = async () => {
         return result;
     } catch (err) {
         throw new Error("Error in seedAdvance(): " + err);
+    }
+};
+
+export const seedFightingStyle = async () => {
+    const fightingStyleString = JSON.stringify(fightingStyleData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO fightingStyles (name, description)
+        SELECT 
+            json_extract(value, '$.name'), 
+            json_extract(value, '$.description')
+        FROM json_each(?1)
+        `).bind(fightingStyleString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedFightingStyle(): " + err);
+    }
+};
+
+export const seedRitual = async () => {
+    const ritualString = JSON.stringify(ritualData);
+    try {
+        const result = await env.DB.prepare(`
+        INSERT INTO rituals (name, description, time, items)
+        SELECT 
+            json_extract(value, '$.name'),
+            json_extract(value, '$.description'),
+            json_extract(value, '$.time'),
+            json_extract(value, '$.items')
+        FROM json_each(?1)
+        `).bind(ritualString).run();
+        return result;
+    } catch (err) {
+        throw new Error("Error in seedRitual(): " + err);
     }
 };
