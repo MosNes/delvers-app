@@ -1,0 +1,191 @@
+[
+    {
+        "name": "Fighting Style",
+        "description": "Gain an additional Fighting Style",
+        "talent_name": "Fighting Style",
+        "isRepeatable": 1,
+        "dataSource": "db.fightingStyles"
+    },
+    {
+        "name": "Incendiary Traps",
+        "description": "You may add the Fire tag to your trap effects. Creatures that trigger the trap begin Burning for d6 each turn.",
+        "talent_name": "Trapper",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Poison Traps",
+        "description": "You may add the Toxic tag to your trap effects. Creatures that trigger the trap are Impaired.",
+        "talent_name": "Trapper",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Big Game Hunter",
+        "description": "Your traps have their full effect on creatures larger than a typical kin, even if they have the Detachment tag.",
+        "talent_name": "Trapper",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Quick Deploy",
+        "description": "Once per session, you may place a trap immediately, even during pitched battle.",
+        "talent_name": "Trapper",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Ritual",
+        "description": "Gain an additional Ritual",
+        "talent_name": "Ritualist",
+        "isRepeatable": 1,
+        "dataSource": "db.rituals"
+    },
+    {
+        "name": "Psychometry",
+        "description": "You can enter your mind palace while holding an object to learn the following information:\nThe object\u2019s function\nThe last creature who used it\nAny scenes it witnessed that would leave a strong impression",
+        "talent_name": "Mind Palace",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Profiling",
+        "description": "You can enter your mind palace while focusing on a specific person. You simulate a conversation with that person, where they respond as if they were speaking with a trusted confidante. You can learn the following information:\nTheir motivation\nWhat they fear most\nTheir most likely next steps",
+        "talent_name": "Mind Palace",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Residual Arcana",
+        "description": "When upgraded with the Blast tag, the spell leaves behind a lingering hazard in the area corresponding to the type of damage until the end of the scene.",
+        "talent_name": "Arcane Blast",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Arcane Strike",
+        "description": "Make a melee attack instead, increasing the damage die by one step.",
+        "talent_name": "Arcane Blast",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Expanded Repertoire",
+        "description": "Gain an additional spell of your Tier or lower.",
+        "talent_name": "Spellcasting",
+        "isRepeatable": 1,
+        "dataSource": "db.spells"
+    },
+    {
+        "name": "Potent Prayer",
+        "description": "When you use a prayer, its effect is increased as if you had spent an additional focus.",
+        "talent_name": "Divine Prayer",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Hallowed Ground",
+        "description": "When you use a prayer, the area around you (Near) becomes Hallowed until the end of the scene. Undead and demons take 1d6 damage when they enter or start their turn in the area.",
+        "talent_name": "Divine Prayer",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Divine Intervention",
+        "description": "Once per session, you can call for your deity's direct help. Describe what you want to happen; the GM will decide the cost or consequence.",
+        "talent_name": "Divine Prayer",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Backstab",
+        "description": "When you attack an unaware or Impaired enemy from hiding or from behind, add +1d6 to your damage die.",
+        "talent_name": "Ambush",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Coup de Grace",
+        "description": "When you use Ambush against an enemy with 5 HP or less, they are immediately taken out of the fight.",
+        "talent_name": "Ambush",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Vanish",
+        "description": "Once per scene, you can spend 1 Stress to immediately enter hiding, even if you are being observed.",
+        "talent_name": "Ambush",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Assassinate",
+        "description": "When you use Ambush, you may choose to automatically deal a Critical Hit instead of rolling your attack die. This can stack with Secret Technique.",
+        "talent_name": "Ambush",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Alter Self",
+        "description": "Through alchemical or magical means, you can transform your body to impersonate someone of another ancestry and gender. The effect lasts for 8 hours.",
+        "talent_name": "Disguise",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Chameleon",
+        "description": "You can spend 2 stress to immediately swap your current disguise for another one, easily throwing off suspicion.",
+        "talent_name": "Disguise",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Shadowstep",
+        "description": "When you first use Warm Shadow, or when you spend 1 Stress while invisible, you can teleport up to a Near distance to another area of darkness or shadow.",
+        "talent_name": "Warm Shadow",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Ghost",
+        "description": "Your invisibility lasts up to 10 minutes and the first time your invisibility would break, you may instead remain invisible.",
+        "talent_name": "Warm Shadow",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Multitasking",
+        "description": "Choose two benefits and gain both benefits. You can\u2019t choose the same benefit twice.",
+        "talent_name": "Field Modifications",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Cannibalize",
+        "description": "If you have a few minutes to spare, consume a Curio or Artifact to give yourself or one ally one of the benefits above. This does not count as the per-session use of this ability",
+        "talent_name": "Field Modifications",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "The Flesh is Weak",
+        "description": "Choose another body part to replace. You can't make the same choice twice.",
+        "talent_name": "Magitech Augment",
+        "isRepeatable": 1,
+        "dataSource": "db.augments"
+    },
+    {
+        "name": "Cognitoculus",
+        "description": "Gain an additional void Eye. Spend 1 Stress. For the rest of the scene, you can see what someone is currently thinking about.",
+        "talent_name": "Mark of the Void",
+        "isRepeatable": 0,
+        "dataSource": null
+    },
+    {
+        "name": "Ardenoculus",
+        "description": "Gain an additional void Eye. Spend 1 Stress. For the rest of the scene, your gaze acts as a ranged weapon (2d8, near, ignores armor).",
+        "talent_name": "Mark of the Void",
+        "isRepeatable": 0,
+        "dataSource": null
+    }
+]
