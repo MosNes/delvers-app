@@ -1,5 +1,6 @@
 <script setup>
 import Panel from '@/volt/Panel.vue';
+import Divider from '@/volt/Divider.vue';
 </script>
 
 <template>
@@ -11,12 +12,15 @@ import Panel from '@/volt/Panel.vue';
       <Panel>
         Character header, contains name, player, ancestry, destiny, path, background
       </Panel>
+      <Divider />
       <Panel>
         Contains Attribute Scores, Stress Tracks, and
       </Panel>
+      <Divider />
       <Panel>
         Contains Skills and Domains
       </Panel>
+      <Divider />
       <Panel>
         Contains Talents - use Volt Accordion component, use Multiple property and pass in value as array of dynamic
         Talent objects
