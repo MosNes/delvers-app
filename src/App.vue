@@ -4,6 +4,8 @@ import CharacterSheet from './views/CharacterSheet.vue';
 </script>
 
 <template>
+  <!-- add navbar here -->
+
   <CharacterSheet />
 
   <!-- <RouterView /> -->
