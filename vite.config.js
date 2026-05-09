@@ -4,13 +4,16 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import * as vueCompiler from '@vue/compiler-sfc'
 
 import { cloudflare } from "@cloudflare/vite-plugin"
 
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
-		vue(),
+		vue({
+			compiler: vueCompiler,
+		}),
 		vueDevTools(),
 		cloudflare(),
 		tailwindcss()
