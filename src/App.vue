@@ -1,12 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-
+import Panel from '@/volt/Panel.vue';
 </script>
 
 <template>
 
-  <div>
-
-  </div>
+<Panel class="font-bold">
+  LET'S GET DELVIN!
+</Panel>
   <!-- <RouterView /> -->
 </template>
