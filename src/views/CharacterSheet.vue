@@ -25,7 +25,7 @@ import Panel from '@/volt/Panel.vue';
         Contains Inventory
       </Panel>
     </section>
-    <footer class="shrink-0">
+    <footer class="shrink-0 dark:text-surface-500">
       Contains nav buttons on mobile view. use Volt Drawer component for mobile view?
     </footer>
   </main>

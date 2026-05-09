@@ -1,8 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer:ital@0;1&display=swap');
 @import './base.css';
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 @import 'tailwindcss-primeui';
 
 @theme {
     --font-serif: 'IM Fell Great Primer', serif;
+}
+
+@custom-variant dark (&:where(:root *));
+
+@layer base {
+    html {
+        color-scheme: dark;
+    }
+    html, body {
+        min-height: 100%;
+        background-color: var(--p-surface-950);
+        color: var(--p-text-color);
+    }
 }
