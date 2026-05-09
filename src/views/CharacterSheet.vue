@@ -1,6 +1,7 @@
 <script setup>
 import Panel from '@/volt/Panel.vue';
 import Divider from '@/volt/Divider.vue';
+import Card from '@/volt/Card.vue';
 </script>
 
 <template>
@@ -14,7 +15,15 @@ import Divider from '@/volt/Divider.vue';
       </Panel>
       <Divider />
       <Panel>
-        Contains Attribute Scores, Stress Tracks, and
+        Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters
+        <Card>
+          <template #title>
+            Body
+          </template>
+          <template #content>
+            Boop
+          </template>
+        </Card>
       </Panel>
       <Divider />
       <Panel>
