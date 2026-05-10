@@ -64,7 +64,7 @@ const viewData = reactive({
     <section class="flex flex-1 flex-col">
       <Panel id="character-header-el">
         <!-- outer wrapper div flexbox for character header content -->
-        <div class="flex flex-col gap-4 md:flex-row md:items-start">
+        <div class="flex flex-col gap-4 md:flex-row md:items-stretch">
           <!-- Portrait and name container: always at least ~50% -->
           <div id="character-name-and-portrait-el" class="flex w-full shrink-0 flex-row gap-4 md:w-1/2 md:max-w-none">
             <div
@@ -108,13 +108,13 @@ const viewData = reactive({
 
 
           <!-- action buttons for things like Rest, Advance, etc. -->
-          <div id="action-buttons-el" class="flex min-w-0 flex-1 flex-col">
-            <div class="min-w-0 flex-1">
-              <Button label="Do Something" />
-              <Button label="Do Something" />
-              <Button label="Do Something" />
-              <Button label="Do Something" />
-            </div>
+          <div id="action-buttons-el" class="flex w-full flex-col md:flex-1 md:min-h-0 lg:justify-end lg:ml-auto gap-2">
+         
+              <Button icon="ra ra-meat" label="Snack" class="art-deco-frame font-display text-lg"/>
+              <Button icon="ra ra-campfire" label="Rest" class="art-deco-frame font-display text-lg"/>
+              <Button icon="ra ra-torch" label="Light" class="art-deco-frame font-display text-lg"/>
+              <Button icon="ra ra-muscle-fat" label="Advancement" class="art-deco-frame font-display text-lg"/>
+
           </div>
 
         </div>

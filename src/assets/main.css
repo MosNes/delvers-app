@@ -62,3 +62,14 @@
 	box-shadow:
         -4px -4px 0 -5px var(--p-accent-color);
 }
+
+.art-deco-frame {
+	position: relative;
+	border: 2px solid var(--p-accent-color);
+	outline: 1px solid var(--p-accent-color);
+	outline-offset: -5px;
+    /* hide the arcs from overflowing the card */
+    overflow: hidden;
+    /* 4px blur for drop shadow */
+    box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.35);
+}
