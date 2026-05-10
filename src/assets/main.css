@@ -73,3 +73,27 @@
     /* 4px blur for drop shadow */
     box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.35);
 }
+
+/* animation for red pulse effect on cards when values get critically low */
+.pulse-box-red {
+	box-shadow: inset 0 0 10px var(--p-primary-400);
+	animation: colorShiftRed 2s infinite;
+}
+
+@keyframes colorShiftRed {
+	0% {
+		box-shadow: inset 0 0 10px var(--p-primary-400);
+	}
+	50% {
+		box-shadow: inset 0 0 40px var(--p-primary-400);
+	}
+	100% {
+		box-shadow: inset 0 0 10px var(--p-primary-400);
+	}
+}
+
+/* inset box shadow in orange for attribute cards when marked with stress */
+.box-orange {
+	box-shadow: inset 0 0 40px #f58834;
+}
+
