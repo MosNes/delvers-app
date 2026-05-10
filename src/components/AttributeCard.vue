@@ -34,16 +34,16 @@ const props = defineProps({
     <div class="flex flex-col items-center justify-center attribute-card-border">
         <Card class="min-w-[150px]">
             <template #header>
-                <div class="text-center font-bold text-2xl mt-4">
+                <div class="text-center font-bold text-2xl mt-6">
                     {{ attributeTitle }}
                 </div>
             </template>
             <template #content>
-                <div class="text-center text-6xl font-sans">
+                <div class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2">
                     {{ currentValue }}
                 </div>
-                <div class="text-lg text-center mt-4">
-                    Max: <span class="font-sans">{{ maxValue }}</span>
+                <div class="text-xl text-center mt-4 border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] mx-auto p-1">
+                    <span class="font-sans">{{ maxValue }}</span>
                 </div>
             </template>
             <template #footer class="text-center">
