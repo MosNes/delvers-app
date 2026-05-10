@@ -1,12 +1,12 @@
 <script setup>
 import Panel from '@/volt/Panel.vue';
 import Divider from '@/volt/Divider.vue';
-import Card from '@/volt/Card.vue';
+import AttributeCard from '@/components/AttributeCard.vue';
 </script>
 
 <template>
   <!-- adjust padding on main -->
-   <!-- flex flex-col creates vertical stack -->
+  <!-- flex flex-col creates vertical stack -->
   <main class="min-h-screen flex flex-col p-2">
     <!-- flex-1 creates a flex container that takes up the remaining space in the parent container -->
     <section class="flex flex-1 flex-col">
@@ -16,14 +16,12 @@ import Card from '@/volt/Card.vue';
       <Divider />
       <Panel>
         Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters
-        <Card>
-          <template #title>
-            Body
-          </template>
-          <template #content>
-            Boop
-          </template>
-        </Card>
+        <div class="flex flex-row flex-wrap items-stretch justify-center gap-2">
+          <AttributeCard attributeTitle="Body" maxValue="10" currentValue="5" stressMarked="true" />
+          <AttributeCard attributeTitle="Speed" maxValue="10" currentValue="5" stressMarked="true" />
+          <AttributeCard attributeTitle="Mind" maxValue="10" currentValue="5" stressMarked="true" />
+          <AttributeCard attributeTitle="Spirit" maxValue="10" currentValue="5" stressMarked="true" />
+        </div>
       </Panel>
       <Divider />
       <Panel>

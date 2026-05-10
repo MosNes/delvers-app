@@ -1,5 +1,6 @@
 <script setup>
 import Card from '@/volt/Card.vue';
+import Divider from '@/volt/Divider.vue';
 
 // define props
 const props = defineProps({
@@ -23,20 +24,27 @@ const props = defineProps({
 </script>
 
 <template>
-    <Card>
-        <template #header>
-            {{ attributeTitle }}
-        </template>
-        <template #content>
-            {{  currentValue  }}
-        </template>
-        <template #footer>
-            {{  maxValue }}
-        </template>
-    </Card>
-    <Card>
-        <template #content>
-            {{  stressMarked  }}
-        </template>
-    </Card>
+    <!-- wrapper div to center the card and stress card -->
+    <div class="flex flex-col items-center justify-center">
+        <Card>
+            <template #header>
+                <div class="text-center font-bold text-2xl">
+                    {{ attributeTitle }}
+                </div>
+            </template>
+            <template #content>
+                <div class="text-center text-6xl font-bold mb-8">
+                    {{ currentValue }}
+                </div>
+                <div class="text-lg">
+                    Max: {{ maxValue }}
+                </div>
+            </template>
+            <template #footer class="text-center">
+                <div class="text-center">
+                    {{ stressMarked }}
+                </div>
+            </template>
+        </Card>
+    </div>
 </template>
