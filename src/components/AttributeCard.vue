@@ -1,6 +1,7 @@
 <script setup>
 import Card from '@/volt/Card.vue';
-import { computed } from 'vue';
+import Button from '@/volt/Button.vue';
+import { computed, defineEmits } from 'vue';
 
 // define props
 const props = defineProps({
@@ -26,10 +27,20 @@ const props = defineProps({
 const valueCritical = computed(() => {
     return props.currentValue < props.maxValue * 0.5;
 });
+
+
+// allows parent component to update stressMarked value
+const emit = defineEmits(['update:stressMarked']);
+
+const toggleStress = () => {
+    emit('update:stressMarked', !props.stressMarked);
+};
+
+
 </script>
 
 <style scoped>
-.attribute-card-border :deep(.rounded-xl){
+.attribute-card-border :deep(.rounded-xl) {
     border-radius: 0;
 }
 </style>
@@ -45,16 +56,21 @@ const valueCritical = computed(() => {
                 </div>
             </template>
             <template #content>
-                <div class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2">
+                <div
+                    class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2">
                     {{ currentValue }}
                 </div>
-                <div class="text-xl text-center mt-4 border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] mx-auto p-1">
+                <div
+                    class="text-xl text-center mt-4 border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] mx-auto p-1">
                     <span class="font-sans">{{ maxValue }}</span>
                 </div>
             </template>
             <template #footer class="text-center">
-                <div class="text-center">
-                    {{ stressMarked }}
+                <div class="flex justify-center translate-y-3">
+                    <!-- stress button -->
+                     <!-- changes color of button when stressMarked is true -->
+                    <Button :label="stressMarked ? 'Clear' : 'Stress'" class="art-deco-frame font-display text-lg"
+                        :class="stressMarked ? '!bg-[#f58834] hover:!bg-[#e07a2e] !text-[var(--p-surface-900)]' : ''" @click="toggleStress" />
                 </div>
             </template>
         </Card>
