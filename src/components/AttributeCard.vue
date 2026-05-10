@@ -31,8 +31,9 @@ const props = defineProps({
 
 <template>
     <!-- wrapper div to center the card and stress card -->
-    <div class="flex flex-col items-center justify-center attribute-card-border">
-        <Card class="min-w-[150px]">
+    <div class="flex flex-col items-center attribute-card-border">
+        <!-- h-full stretches background color to full height -->
+        <Card class="min-w-[150px] h-full">
             <template #header>
                 <div class="text-center text-2xl mt-6 font-display">
                     {{ attributeTitle }}

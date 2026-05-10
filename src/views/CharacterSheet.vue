@@ -8,7 +8,7 @@ import Panel from '@/volt/Panel.vue';
 import Divider from '@/volt/Divider.vue';
 import AttributeCard from '@/components/AttributeCard.vue';
 import Button from '@/volt/Button.vue';
-import Card from '@/volt/Card.vue';
+import SmallCard from '@/components/SmallCard.vue';
 
 //test character data
 // actual character data will be imported from pinia store
@@ -130,22 +130,11 @@ const viewData = reactive({
         <!-- atribute cards for body, speed, mind, and spirit -->
         <div class="flex flex-row flex-wrap items-stretch justify-center gap-4">
           <!-- guard tracker and armor -->
-           <div class="flex flex-col gap-2">
-            <Card class="min-w-[150px] attribute-card-border">
-              <template #header>
-                <div class="text-center text-lg font-display">
-                  Guard
-                </div>
-              </template>
-              <template #content>
-                <div class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2">
-                  {{ charData.currentGuard }}
-                </div>
-              </template>
-            </Card>
-            <Card class="min-w-[150px] attribute-card-border">
-
-            </Card>
+           <div class="flex flex-col gap-4 self-stretch min-h-0">
+            <SmallCard title="Guard" :value="charData.currentGuard" :maxValue="charData.maxGuard" :hasMaxValue="true"
+            class="min-h-0 flex-1" />
+            <SmallCard title="Armor" :value="charData.armor" 
+            class="min-h-0 flex-1"/>
            </div>
           
           <!-- body attribute card -->
