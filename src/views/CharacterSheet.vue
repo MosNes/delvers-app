@@ -63,18 +63,17 @@ const viewData = reactive({
     <!-- flex-1 creates a flex container that takes up the remaining space in the parent container -->
     <section class="flex flex-1 flex-col">
       <Panel id="character-header-el">
-        <!-- wrapper div flexbox for character header content -->
-        <div class="flex flex-row gap-4">
+        <!-- outer wrapper div flexbox for character header content -->
+        <div class="flex flex-col gap-4 md:flex-row md:items-start">
           <!-- Left: always ~25% -->
-          <div class="w-1/4 shrink-0 max-w-[200px] min-w-[200px] rounded-2xl overflow-hidden border-2 border-[var(--p-accent-color)] shadow-[6px_6px_4px_rgba(0,0,0,0.35)]">
-            <!--character portrait -->
-            <img :src="charData.imgUrl" alt="Character Portrait" class="w-full h-full object-cover">
-          </div>
+          <div id="character-name-and-portrait-el"
+            class="flex w-full shrink-0 flex-row gap-4 md:w-1/2 md:max-w-none">
+            <div
+              class="max-w-[200px] max-h-[200px] min-w-[200px] rounded-2xl overflow-hidden border-2 border-[var(--p-accent-color)] shadow-[6px_6px_4px_rgba(0,0,0,0.35)]">
+              <!--character portrait -->
+              <img :src="charData.imgUrl" alt="Character Portrait" class="w-full h-full object-cover">
+            </div>
 
-          <!-- Right: 75% — stacked on small screens, side‑by‑side from md up -->
-          <div class="flex min-w-0 flex-1 flex-col gap-4 md:flex-row">
-
-            <!-- middle -->
             <!-- Contains character information -->
             <div class="min-w-0 flex-1">
               <div class="text-2xl font-bold">{{ charData.characterName }}</div>
@@ -85,9 +84,10 @@ const viewData = reactive({
               <div class="text-lg">{{ charData.path }}</div>
               <div class="text-lg">{{ charData.background }}</div>
             </div>
+          </div>
 
-            <!-- right -->
-             <!-- Contains action buttons -->
+
+          <div id="action-buttons-el" class="flex min-w-0 flex-1 flex-col">
             <div class="min-w-0 flex-1">
               <Button label="Do Something" />
               <Button label="Do Something" />
