@@ -56,8 +56,10 @@ const toggleStress = () => {
                 </div>
             </template>
             <template #content>
+                <!-- current value changes color to red when valueCritical is true -->
                 <div
-                    class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2">
+                    class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2"
+                    :class="{ 'text-[var(--p-primary-400)]': valueCritical }">
                     {{ currentValue }}
                 </div>
                 <div
