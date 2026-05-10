@@ -8,6 +8,7 @@ import Panel from '@/volt/Panel.vue';
 import Divider from '@/volt/Divider.vue';
 import AttributeCard from '@/components/AttributeCard.vue';
 import Button from '@/volt/Button.vue';
+import Card from '@/volt/Card.vue';
 
 //test character data
 // actual character data will be imported from pinia store
@@ -108,13 +109,14 @@ const viewData = reactive({
 
 
           <!-- action buttons for things like Rest, Advance, etc. -->
-          <div id="action-buttons-el" class="flex w-full flex-col md:flex-1 md:min-h-0 lg:justify-end lg:ml-auto gap-2">
+          <div id="action-buttons-el" class="flex w-full flex-col md:flex-1 md:min-h-0 lg:justify-end">
          
+            <div class="flex flex-col gap-2 lg:flex-row lg:flex-wrap lg:justify-end">
               <Button icon="ra ra-meat" label="Snack" class="art-deco-frame font-display text-lg"/>
               <Button icon="ra ra-campfire" label="Rest" class="art-deco-frame font-display text-lg"/>
               <Button icon="ra ra-torch" label="Light" class="art-deco-frame font-display text-lg"/>
               <Button icon="ra ra-muscle-fat" label="Advancement" class="art-deco-frame font-display text-lg"/>
-
+            </div>
           </div>
 
         </div>
@@ -127,6 +129,25 @@ const viewData = reactive({
         <!-- Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters -->
         <!-- atribute cards for body, speed, mind, and spirit -->
         <div class="flex flex-row flex-wrap items-stretch justify-center gap-4">
+          <!-- guard tracker and armor -->
+           <div class="flex flex-col gap-2">
+            <Card class="min-w-[150px] attribute-card-border">
+              <template #header>
+                <div class="text-center text-lg font-display">
+                  Guard
+                </div>
+              </template>
+              <template #content>
+                <div class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2">
+                  {{ charData.currentGuard }}
+                </div>
+              </template>
+            </Card>
+            <Card class="min-w-[150px] attribute-card-border">
+
+            </Card>
+           </div>
+          
           <!-- body attribute card -->
           <AttributeCard attributeTitle="Body" :maxValue="charData.maxBody" :currentValue="charData.currentBody"
             :stressMarked="charData.bodyStress" />
