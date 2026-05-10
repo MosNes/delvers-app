@@ -82,8 +82,8 @@ const viewData = reactive({
               <Divider />
               <div class="text-lg">{{ charData.ancestry }} {{ charData.ancestrySpecies }}</div>
               <div class="text-lg">{{ charData.destiny }}</div>
-              <div class="text-lg text-gray-500">{{ charData.path }}</div>
-              <div class="text-lg text-gray-500">{{ charData.background }}</div>
+              <div class="text-lg">{{ charData.path }}</div>
+              <div class="text-lg">{{ charData.background }}</div>
             </div>
 
             <!-- right -->

@@ -34,7 +34,7 @@ const props = defineProps({
     <div class="flex flex-col items-center justify-center attribute-card-border">
         <Card class="min-w-[150px]">
             <template #header>
-                <div class="text-center font-bold text-2xl mt-6">
+                <div class="text-center text-2xl mt-6 font-display">
                     {{ attributeTitle }}
                 </div>
             </template>
