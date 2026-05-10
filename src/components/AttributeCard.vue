@@ -28,15 +28,15 @@ const props = defineProps({
     <div class="flex flex-col items-center justify-center">
         <Card class="min-w-[150px]">
             <template #header>
-                <div class="text-center font-bold text-2xl">
+                <div class="text-center font-bold text-2xl mt-4">
                     {{ attributeTitle }}
                 </div>
             </template>
             <template #content>
-                <div class="text-center text-6xl font-bold mb-4">
+                <div class="text-center text-6xl font-bold">
                     {{ currentValue }}
                 </div>
-                <div class="text-lg">
+                <div class="text-lg text-center mt-4">
                     Max: {{ maxValue }}
                 </div>
             </template>

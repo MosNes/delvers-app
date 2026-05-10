@@ -15,7 +15,8 @@ import AttributeCard from '@/components/AttributeCard.vue';
       </Panel>
       <Divider />
       <Panel>
-        Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters
+        <!-- Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters -->
+        <!-- atribute cards for body, speed, mind, and spirit -->
         <div class="flex flex-row flex-wrap items-stretch justify-center gap-2">
           <AttributeCard attributeTitle="Body" maxValue="10" currentValue="5" stressMarked="true" />
           <AttributeCard attributeTitle="Speed" maxValue="10" currentValue="5" stressMarked="true" />
