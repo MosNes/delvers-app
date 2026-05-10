@@ -1,6 +1,6 @@
 <script setup>
 import Card from '@/volt/Card.vue';
-import Divider from '@/volt/Divider.vue';
+import { computed } from 'vue';
 
 // define props
 const props = defineProps({
@@ -21,6 +21,11 @@ const props = defineProps({
         required: true
     }
 });
+
+// returns true if currentValue is under 50% of maxValue
+const valueCritical = computed(() => {
+    return props.currentValue < props.maxValue * 0.5;
+});
 </script>
 
 <style scoped>
@@ -33,7 +38,7 @@ const props = defineProps({
     <!-- wrapper div to center the card and stress card -->
     <div class="flex flex-col items-center attribute-card-border">
         <!-- h-full stretches background color to full height -->
-        <Card class="min-w-[150px] h-full">
+        <Card class="min-w-[150px] h-full" :class="{ 'box-orange': stressMarked, 'pulse-box-red': valueCritical }">
             <template #header>
                 <div class="text-center text-2xl mt-6 font-display">
                     {{ attributeTitle }}
