@@ -3,6 +3,7 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 @import 'tailwindcss-primeui';
+@import './rpg-awesome.min.css';
 
 @theme {
 	--font-serif: 'IM Fell Great Primer', serif;
