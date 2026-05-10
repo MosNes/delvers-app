@@ -110,12 +110,12 @@ const viewData = reactive({
 
           <!-- action buttons for things like Rest, Advance, etc. -->
           <div id="action-buttons-el" class="flex w-full flex-col md:flex-1 md:min-h-0 lg:justify-end">
-         
+
             <div class="flex flex-col gap-2 lg:flex-row lg:flex-wrap lg:justify-end">
-              <Button icon="ra ra-meat" label="Snack" class="art-deco-frame font-display text-lg"/>
-              <Button icon="ra ra-campfire" label="Rest" class="art-deco-frame font-display text-lg"/>
-              <Button icon="ra ra-torch" label="Light" class="art-deco-frame font-display text-lg"/>
-              <Button icon="ra ra-muscle-fat" label="Advancement" class="art-deco-frame font-display text-lg"/>
+              <Button icon="ra ra-meat" label="Snack" class="art-deco-frame font-display text-lg" />
+              <Button icon="ra ra-campfire" label="Rest" class="art-deco-frame font-display text-lg" />
+              <Button icon="ra ra-torch" label="Light" class="art-deco-frame font-display text-lg" />
+              <Button icon="ra ra-muscle-fat" label="Advancement" class="art-deco-frame font-display text-lg" />
             </div>
           </div>
 
@@ -127,16 +127,15 @@ const viewData = reactive({
       <Divider />
       <Panel id="attribute-scores-el">
         <!-- Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters -->
-        <!-- atribute cards for body, speed, mind, and spirit -->
         <div class="flex flex-row flex-wrap items-stretch justify-center gap-4">
+
           <!-- guard tracker and armor -->
-           <div class="flex flex-col gap-4 self-stretch min-h-0">
+          <div class="flex flex-col gap-4 self-stretch min-h-0">
             <SmallCard title="Guard" :value="charData.currentGuard" :maxValue="charData.maxGuard" :hasMaxValue="true"
-            class="min-h-0 flex-1" />
-            <SmallCard title="Armor" :value="charData.armor" 
-            class="min-h-0 flex-1"/>
-           </div>
-          
+              class="min-h-0 flex-1" />
+            <SmallCard title="Armor" :value="charData.armor" class="min-h-0 flex-1" />
+          </div>
+
           <!-- body attribute card -->
           <AttributeCard attributeTitle="Body" :maxValue="charData.maxBody" :currentValue="charData.currentBody"
             :stressMarked="charData.bodyStress" />
@@ -149,6 +148,13 @@ const viewData = reactive({
           <!-- spirit attribute card -->
           <AttributeCard attributeTitle="Spirit" :maxValue="charData.maxSpirit" :currentValue="charData.currentSpirit"
             :stressMarked="charData.spiritStress" />
+
+          <!-- blessings and curses counters -->
+          <div class="flex flex-col gap-4 self-stretch min-h-0">
+            <SmallCard title="Blessings" :value="charData.blessings"
+              class="min-h-0 flex-1" />
+            <SmallCard title="Curses" :value="charData.curses" class="min-h-0 flex-1" />
+          </div>
 
         </div>
       </Panel>
