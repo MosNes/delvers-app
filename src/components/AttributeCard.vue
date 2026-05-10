@@ -33,11 +33,11 @@ const props = defineProps({
                 </div>
             </template>
             <template #content>
-                <div class="text-center text-6xl font-bold">
+                <div class="text-center text-6xl font-sans">
                     {{ currentValue }}
                 </div>
                 <div class="text-lg text-center mt-4">
-                    Max: {{ maxValue }}
+                    Max: <span class="font-sans">{{ maxValue }}</span>
                 </div>
             </template>
             <template #footer class="text-center">
