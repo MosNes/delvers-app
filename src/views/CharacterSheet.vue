@@ -68,7 +68,7 @@ const viewData = reactive({
       <Panel>
         <!-- Contains Attribute Scores, Stress Tracks, and Blessings/Curses counters -->
         <!-- atribute cards for body, speed, mind, and spirit -->
-        <div class="flex flex-row flex-wrap items-stretch justify-center gap-2">
+        <div class="flex flex-row flex-wrap items-stretch justify-center gap-4">
           <!-- body attribute card -->
           <AttributeCard attributeTitle="Body" :maxValue="charData.maxBody" :currentValue="charData.currentBody"
             :stressMarked="charData.bodyStress" />

@@ -5,19 +5,58 @@
 @import 'tailwindcss-primeui';
 
 @theme {
-    --font-serif: 'IM Fell Great Primer', serif;
-    --font-sans: 'Cause', sans-serif;
+	--font-serif: 'IM Fell Great Primer', serif;
+	--font-sans: 'Cause', sans-serif;
 }
 
 @custom-variant dark (&:where(:root *));
 
 @layer base {
-    html {
-        color-scheme: dark;
-    }
-    html, body {
-        min-height: 100%;
-        background-color: var(--p-surface-950);
-        color: var(--p-text-color);
-    }
+	html {
+		color-scheme: dark;
+	}
+	html,
+	body {
+		min-height: 100%;
+		background-color: var(--p-surface-950);
+		color: var(--p-text-color);
+	}
+}
+
+/* art-deco double border for attribute cards */
+.attribute-card-border {
+	position: relative;
+	border: 2px solid var(--p-accent-color);
+	outline: 1px solid var(--p-accent-color);
+	outline-offset: -8px;
+    /* hide the arcs from overflowing the card */
+    overflow: hidden;
+    /* 4px blur for drop shadow */
+    box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* art-deco curved arcs for corners of attribute cards */
+.attribute-card-border::before,
+.attribute-card-border::after {
+	content: '';
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	background: transparent;
+}
+
+.attribute-card-border::before {
+	top: -22px;
+	left: -22px;
+	border-bottom-right-radius: 100%;
+	box-shadow:
+		4px 4px 0 -5px var(--p-accent-color);
+}
+
+.attribute-card-border::after {
+	bottom: -22px;
+	right: -22px;
+	border-top-left-radius: 100%;
+	box-shadow:
+        -4px -4px 0 -5px var(--p-accent-color);
 }

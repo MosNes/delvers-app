@@ -23,9 +23,15 @@ const props = defineProps({
 });
 </script>
 
+<style scoped>
+.attribute-card-border :deep(.rounded-xl){
+    border-radius: 0;
+}
+</style>
+
 <template>
     <!-- wrapper div to center the card and stress card -->
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center attribute-card-border">
         <Card class="min-w-[150px]">
             <template #header>
                 <div class="text-center font-bold text-2xl mt-4">
