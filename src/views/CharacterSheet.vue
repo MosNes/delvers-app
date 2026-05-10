@@ -65,9 +65,8 @@ const viewData = reactive({
       <Panel id="character-header-el">
         <!-- outer wrapper div flexbox for character header content -->
         <div class="flex flex-col gap-4 md:flex-row md:items-start">
-          <!-- Left: always ~25% -->
-          <div id="character-name-and-portrait-el"
-            class="flex w-full shrink-0 flex-row gap-4 md:w-1/2 md:max-w-none">
+          <!-- Portrait and name container: always at least ~50% -->
+          <div id="character-name-and-portrait-el" class="flex w-full shrink-0 flex-row gap-4 md:w-1/2 md:max-w-none">
             <div
               class="max-w-[200px] max-h-[200px] min-w-[200px] rounded-2xl overflow-hidden border-2 border-[var(--p-accent-color)] shadow-[6px_6px_4px_rgba(0,0,0,0.35)]">
               <!--character portrait -->
@@ -77,16 +76,38 @@ const viewData = reactive({
             <!-- Contains character information -->
             <div class="min-w-0 flex-1">
               <div class="text-2xl font-bold">{{ charData.characterName }}</div>
-              <div class="text-lg text-gray-500">{{ charData.player }}</div>
+              <div class="text-lg text-gray-400">{{ charData.player }}</div>
+
               <Divider />
-              <div class="text-lg">{{ charData.ancestry }} {{ charData.ancestrySpecies }}</div>
-              <div class="text-lg">{{ charData.destiny }}</div>
-              <div class="text-lg">{{ charData.path }}</div>
-              <div class="text-lg">{{ charData.background }}</div>
+
+              <div id="character-info-container-el" class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                <div>
+                  <div class="text-sm text-gray-400 font-display">Ancestry</div>
+                  <div class="text-lg">{{ charData.ancestry }} {{ charData.ancestrySpecies }}</div>
+                </div>
+
+                <div>
+                  <div class="text-sm text-gray-400 font-display">Destiny</div>
+                  <div class="text-lg">{{ charData.destiny }}</div>
+                </div>
+
+                <div>
+                  <div class="text-sm text-gray-400 font-display">Path</div>
+                  <div class="text-lg">{{ charData.path }}</div>
+                </div>
+
+                <div>
+                  <div class="text-sm text-gray-400 font-display">Background</div>
+                  <div class="text-lg">{{ charData.background }}</div>
+                </div>
+              </div>
+
+
             </div>
           </div>
 
 
+          <!-- action buttons for things like Rest, Advance, etc. -->
           <div id="action-buttons-el" class="flex min-w-0 flex-1 flex-col">
             <div class="min-w-0 flex-1">
               <Button label="Do Something" />
