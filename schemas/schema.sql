@@ -1,7 +1,7 @@
 -- Cloudflare D1 Database
 
--- 1. USERS (Parent Table)
-CREATE TABLE users (
+-- 1. USER PROFILES (Parent Table)
+CREATE TABLE user_profiles (
     auth_id TEXT PRIMARY KEY NOT NULL,
     email TEXT NOT NULL UNIQUE COLLATE NOCASE,
     name TEXT,
@@ -16,7 +16,7 @@ CREATE TABLE campaigns (
     name TEXT NOT NULL,
     description TEXT,
     createdDate TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (campaign_owner) REFERENCES users(auth_id) ON DELETE CASCADE
+    FOREIGN KEY (campaign_owner) REFERENCES user_profiles(auth_id) ON DELETE CASCADE
 );
 
 -- 3. CHARACTERS (Parent of all instances and trackers)
@@ -57,7 +57,7 @@ CREATE TABLE characters (
     mindStress INTEGER DEFAULT 0 CHECK (mindStress IN (0, 1)),
     spiritStress INTEGER DEFAULT 0 CHECK (spiritStress IN (0, 1)),
     notes TEXT,
-    FOREIGN KEY (owner) REFERENCES users(auth_id) ON DELETE CASCADE,
+    FOREIGN KEY (owner) REFERENCES user_profiles(auth_id) ON DELETE CASCADE,
     FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE SET NULL
 );
 

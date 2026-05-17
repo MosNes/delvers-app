@@ -4,8 +4,8 @@
 -- Extensions (enable in Supabase SQL editor if not already present)
 CREATE EXTENSION IF NOT EXISTS "citext";
 
--- 1. USERS (Parent Table) — linked to Supabase Auth via auth_id
-CREATE TABLE users (
+-- 1. USER PROFILES (Parent Table) — linked to Supabase Auth via auth_id
+CREATE TABLE user_profiles (
     auth_id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     email citext NOT NULL UNIQUE,
     name text,
@@ -15,7 +15,7 @@ CREATE TABLE users (
 -- 2. CAMPAIGNS (Parent of Characters)
 CREATE TABLE campaigns (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    campaign_owner uuid NOT NULL REFERENCES users(auth_id) ON DELETE CASCADE,
+    campaign_owner uuid NOT NULL REFERENCES user_profiles(auth_id) ON DELETE CASCADE,
     "shareCode" text NOT NULL UNIQUE,
     name text NOT NULL,
     description text,
@@ -25,7 +25,7 @@ CREATE TABLE campaigns (
 -- 3. CHARACTERS (Parent of all instances and trackers)
 CREATE TABLE characters (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    owner uuid NOT NULL REFERENCES users(auth_id) ON DELETE CASCADE,
+    owner uuid NOT NULL REFERENCES user_profiles(auth_id) ON DELETE CASCADE,
     campaign uuid REFERENCES campaigns(id) ON DELETE SET NULL,
     "imgUrl" text,
     "characterName" text NOT NULL,
@@ -250,7 +250,7 @@ CREATE TABLE destiny_tracker (
 CREATE INDEX idx_destiny_tracker_character_id ON destiny_tracker(character_id);
 
 -- =============================================================================
--- Supabase Auth → public.users sync (runs on sign-up / first OAuth identity creation)
+-- Supabase Auth → public.user_profiles sync (runs on sign-up / first OAuth identity creation)
 -- =============================================================================
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger
@@ -259,7 +259,7 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 BEGIN
-    INSERT INTO public.users (auth_id, email, name)
+    INSERT INTO public.user_profiles (auth_id, email, name)
     VALUES (
         NEW.id,
         NEW.email::citext,
@@ -267,7 +267,7 @@ BEGIN
     )
     ON CONFLICT (auth_id) DO UPDATE SET
         email = EXCLUDED.email,
-        name = COALESCE(NULLIF(EXCLUDED.name, ''), public.users.name);
+        name = COALESCE(NULLIF(EXCLUDED.name, ''), public.user_profiles.name);
     RETURN NEW;
 END;
 $$;
@@ -279,7 +279,8 @@ CREATE TRIGGER on_auth_user_created
 
 -- =============================================================================
 -- Row Level Security (Supabase)
--- Policies use auth.uid() (matches public.users.auth_id and characters.owner).
+-- Policies use auth.uid() (matches public.user_profiles.auth_id and characters.owner).
+-- Campaign peers: read-only SELECT on characters and linked instance/tracker/junction rows.
 -- Reference catalog tables: authenticated read-only.
 -- Campaign owner CRUD on campaigns is not included; use service_role or add policies later.
 -- =============================================================================
@@ -348,8 +349,23 @@ AS $$
     );
 $$;
 
+-- Inventory instance belongs to a character in a campaign the current user shares
+CREATE OR REPLACE FUNCTION public.user_shares_campaign_with_inventory_instance(instance_uuid uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SET search_path = public
+AS $$
+    SELECT EXISTS (
+        SELECT 1
+        FROM inventory_instances ii
+        WHERE ii.id = instance_uuid
+          AND public.user_shares_campaign_with_character(ii.character_id)
+    );
+$$;
+
 -- Enable RLS on all tables
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE campaigns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE characters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE destinies ENABLE ROW LEVEL SECURITY;
@@ -371,26 +387,26 @@ ALTER TABLE tag_junctions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE destiny_tracker ENABLE ROW LEVEL SECURITY;
 
 -- -----------------------------------------------------------------------------
--- users: full access to own row (auth_id = auth.uid())
+-- user_profiles: full access to own row (auth_id = auth.uid())
 -- -----------------------------------------------------------------------------
-CREATE POLICY "users_select_own"
-    ON users FOR SELECT
+CREATE POLICY "user_profiles_select_own"
+    ON user_profiles FOR SELECT
     TO authenticated
     USING (auth_id = auth.uid());
 
-CREATE POLICY "users_insert_own"
-    ON users FOR INSERT
+CREATE POLICY "user_profiles_insert_own"
+    ON user_profiles FOR INSERT
     TO authenticated
     WITH CHECK (auth_id = auth.uid());
 
-CREATE POLICY "users_update_own"
-    ON users FOR UPDATE
+CREATE POLICY "user_profiles_update_own"
+    ON user_profiles FOR UPDATE
     TO authenticated
     USING (auth_id = auth.uid())
     WITH CHECK (auth_id = auth.uid());
 
-CREATE POLICY "users_delete_own"
-    ON users FOR DELETE
+CREATE POLICY "user_profiles_delete_own"
+    ON user_profiles FOR DELETE
     TO authenticated
     USING (auth_id = auth.uid());
 
@@ -569,6 +585,30 @@ CREATE POLICY "destiny_tracker_delete_own"
     USING (public.user_owns_character(character_id));
 
 -- -----------------------------------------------------------------------------
+-- Campaign peers: read-only access to party members' instance / tracker rows
+-- (same campaign as one of the current user's characters; campaign must be set)
+-- -----------------------------------------------------------------------------
+CREATE POLICY "inventory_instances_select_campaign_peers"
+    ON inventory_instances FOR SELECT
+    TO authenticated
+    USING (public.user_shares_campaign_with_character(character_id));
+
+CREATE POLICY "path_instances_select_campaign_peers"
+    ON path_instances FOR SELECT
+    TO authenticated
+    USING (public.user_shares_campaign_with_character(character_id));
+
+CREATE POLICY "talent_instances_select_campaign_peers"
+    ON talent_instances FOR SELECT
+    TO authenticated
+    USING (public.user_shares_campaign_with_character(character_id));
+
+CREATE POLICY "destiny_tracker_select_campaign_peers"
+    ON destiny_tracker FOR SELECT
+    TO authenticated
+    USING (public.user_shares_campaign_with_character(character_id));
+
+-- -----------------------------------------------------------------------------
 -- tag_junctions: full access when linked to own inventory instance
 -- -----------------------------------------------------------------------------
 CREATE POLICY "tag_junctions_select_own_inventory"
@@ -577,6 +617,14 @@ CREATE POLICY "tag_junctions_select_own_inventory"
     USING (
         inventory_instance_id IS NOT NULL
         AND public.user_owns_inventory_instance(inventory_instance_id)
+    );
+
+CREATE POLICY "tag_junctions_select_campaign_peers_inventory"
+    ON tag_junctions FOR SELECT
+    TO authenticated
+    USING (
+        inventory_instance_id IS NOT NULL
+        AND public.user_shares_campaign_with_inventory_instance(inventory_instance_id)
     );
 
 CREATE POLICY "tag_junctions_insert_own_inventory"
