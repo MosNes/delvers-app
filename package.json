@@ -11,6 +11,7 @@
 		"reset-db": "npx wrangler d1 execute delvers-db --file=./schemas/reset.sql && npx wrangler d1 execute delvers-db --file=./schemas/schema.sql"
 	},
 	"dependencies": {
+		"@supabase/supabase-js": "^2.105.4",
 		"@tailwindcss/vite": "^4.2.4",
 		"express": "^5.2.1",
 		"primevue": "^4.5.5",
