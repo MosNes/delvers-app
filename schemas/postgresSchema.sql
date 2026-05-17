@@ -282,7 +282,7 @@ CREATE TRIGGER on_auth_user_created
 -- Policies use auth.uid() (matches public.user_profiles.auth_id and characters.owner).
 -- Campaign peers: read-only SELECT on characters and linked instance/tracker/junction rows.
 -- Reference catalog tables: authenticated read-only.
--- Campaign owner CRUD on campaigns is not included; use service_role or add policies later.
+-- Campaign owners (campaign_owner) have full CRUD on their campaigns; participants have read-only SELECT.
 -- =============================================================================
 
 CREATE OR REPLACE FUNCTION public.user_owns_character(character_uuid uuid)
@@ -451,8 +451,29 @@ CREATE POLICY "characters_leave_campaign"
     );
 
 -- -----------------------------------------------------------------------------
--- campaigns: read-only for campaigns the user has a character in
+-- campaigns: owner full access; participants read-only
 -- -----------------------------------------------------------------------------
+CREATE POLICY "campaigns_select_owner"
+    ON campaigns FOR SELECT
+    TO authenticated
+    USING (campaign_owner = auth.uid());
+
+CREATE POLICY "campaigns_insert_owner"
+    ON campaigns FOR INSERT
+    TO authenticated
+    WITH CHECK (campaign_owner = auth.uid());
+
+CREATE POLICY "campaigns_update_owner"
+    ON campaigns FOR UPDATE
+    TO authenticated
+    USING (campaign_owner = auth.uid())
+    WITH CHECK (campaign_owner = auth.uid());
+
+CREATE POLICY "campaigns_delete_owner"
+    ON campaigns FOR DELETE
+    TO authenticated
+    USING (campaign_owner = auth.uid());
+
 CREATE POLICY "campaigns_select_participant"
     ON campaigns FOR SELECT
     TO authenticated
