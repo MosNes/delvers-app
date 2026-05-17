@@ -1,5 +1,5 @@
 {
-    "campaignOwner": "Foreign Key String email address of campaign owner",
+    "campaignOwner": "Foreign key UUID (users.auth_id) of campaign owner",
     "id": "UUID of campaign in database",
     "shareCode": "String UUID of code that can be shared to other players to join the campaign, owner can regenerate",
     "name": "String displayname of campaign, edit permission locked to owner",

@@ -1,6 +1,6 @@
 {
     "id": "Internal UUID of DB character",
-    "owner": "foreign key string email address of user who owns character",
+    "owner": "foreign key UUID (users.auth_id) of user who owns character",
     "campaign": "foreign key string ID of campaign record, not required",
     "imgUrl": "STRING PATH TO CHARACTER PORTRAIT JPG OR PNG",
     "characterName": "STRING NAME OF CHARACTER",

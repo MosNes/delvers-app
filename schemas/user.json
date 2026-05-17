@@ -1,6 +1,6 @@
 {
-    "email": "Primary key, string of user's email address, no duplicates allowed",
+    "auth_id": "Primary key UUID, matches Supabase auth.users.id",
+    "email": "User email address, unique, no duplicates allowed",
     "name": "display name of user",
-    "passwordHash": "String hashed PW",
     "createdDate": "DateTime, for sorting"
 }

@@ -4,18 +4,18 @@
 -- Extensions (enable in Supabase SQL editor if not already present)
 CREATE EXTENSION IF NOT EXISTS "citext";
 
--- 1. USERS (Parent Table)
+-- 1. USERS (Parent Table) — linked to Supabase Auth via auth_id
 CREATE TABLE users (
-    email citext PRIMARY KEY NOT NULL,
+    auth_id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email citext NOT NULL UNIQUE,
     name text,
-    "passwordHash" text NOT NULL,
     "createdDate" timestamptz NOT NULL DEFAULT now()
 );
 
 -- 2. CAMPAIGNS (Parent of Characters)
 CREATE TABLE campaigns (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    campaign_owner citext NOT NULL REFERENCES users(email) ON DELETE CASCADE,
+    campaign_owner uuid NOT NULL REFERENCES users(auth_id) ON DELETE CASCADE,
     "shareCode" text NOT NULL UNIQUE,
     name text NOT NULL,
     description text,
@@ -25,7 +25,7 @@ CREATE TABLE campaigns (
 -- 3. CHARACTERS (Parent of all instances and trackers)
 CREATE TABLE characters (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    owner citext NOT NULL REFERENCES users(email) ON DELETE CASCADE,
+    owner uuid NOT NULL REFERENCES users(auth_id) ON DELETE CASCADE,
     campaign uuid REFERENCES campaigns(id) ON DELETE SET NULL,
     "imgUrl" text,
     "characterName" text NOT NULL,
@@ -248,3 +248,361 @@ CREATE TABLE destiny_tracker (
 
 -- Indexes for faster queries on the destiny_tracker table, e.g. finding the destiny tracker for a character
 CREATE INDEX idx_destiny_tracker_character_id ON destiny_tracker(character_id);
+
+-- =============================================================================
+-- Supabase Auth → public.users sync (runs on sign-up / first OAuth identity creation)
+-- =============================================================================
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+    INSERT INTO public.users (auth_id, email, name)
+    VALUES (
+        NEW.id,
+        NEW.email::citext,
+        COALESCE(NEW.raw_user_meta_data->>'name', '')
+    )
+    ON CONFLICT (auth_id) DO UPDATE SET
+        email = EXCLUDED.email,
+        name = COALESCE(NULLIF(EXCLUDED.name, ''), public.users.name);
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW
+    EXECUTE FUNCTION public.handle_new_user();
+
+-- =============================================================================
+-- Row Level Security (Supabase)
+-- Policies use auth.uid() (matches public.users.auth_id and characters.owner).
+-- Reference catalog tables: authenticated read-only.
+-- Campaign owner CRUD on campaigns is not included; use service_role or add policies later.
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION public.user_owns_character(character_uuid uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SET search_path = public
+AS $$
+    SELECT EXISTS (
+        SELECT 1
+        FROM characters c
+        WHERE c.id = character_uuid
+          AND c.owner = auth.uid()
+    );
+$$;
+
+-- User has at least one character in the given campaign
+CREATE OR REPLACE FUNCTION public.user_participates_in_campaign(campaign_uuid uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SET search_path = public
+AS $$
+    SELECT EXISTS (
+        SELECT 1
+        FROM characters c
+        WHERE c.campaign = campaign_uuid
+          AND c.owner = auth.uid()
+    );
+$$;
+
+-- Another user's character is visible when both share a non-null campaign
+CREATE OR REPLACE FUNCTION public.user_shares_campaign_with_character(target_character_uuid uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SET search_path = public
+AS $$
+    SELECT EXISTS (
+        SELECT 1
+        FROM characters target
+        WHERE target.id = target_character_uuid
+          AND target.campaign IS NOT NULL
+          AND EXISTS (
+              SELECT 1
+              FROM characters mine
+              WHERE mine.owner = auth.uid()
+                AND mine.campaign = target.campaign
+          )
+    );
+$$;
+
+CREATE OR REPLACE FUNCTION public.user_owns_inventory_instance(instance_uuid uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SET search_path = public
+AS $$
+    SELECT EXISTS (
+        SELECT 1
+        FROM inventory_instances ii
+        WHERE ii.id = instance_uuid
+          AND public.user_owns_character(ii.character_id)
+    );
+$$;
+
+-- Enable RLS on all tables
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE campaigns ENABLE ROW LEVEL SECURITY;
+ALTER TABLE characters ENABLE ROW LEVEL SECURITY;
+ALTER TABLE destinies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE paths ENABLE ROW LEVEL SECURITY;
+ALTER TABLE talents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE advances ENABLE ROW LEVEL SECURITY;
+ALTER TABLE fighting_styles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE rituals ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE gear ENABLE ROW LEVEL SECURITY;
+ALTER TABLE armor ENABLE ROW LEVEL SECURITY;
+ALTER TABLE weapons ENABLE ROW LEVEL SECURITY;
+ALTER TABLE curios ENABLE ROW LEVEL SECURITY;
+ALTER TABLE artifacts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE inventory_instances ENABLE ROW LEVEL SECURITY;
+ALTER TABLE path_instances ENABLE ROW LEVEL SECURITY;
+ALTER TABLE talent_instances ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tag_junctions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE destiny_tracker ENABLE ROW LEVEL SECURITY;
+
+-- -----------------------------------------------------------------------------
+-- users: full access to own row (auth_id = auth.uid())
+-- -----------------------------------------------------------------------------
+CREATE POLICY "users_select_own"
+    ON users FOR SELECT
+    TO authenticated
+    USING (auth_id = auth.uid());
+
+CREATE POLICY "users_insert_own"
+    ON users FOR INSERT
+    TO authenticated
+    WITH CHECK (auth_id = auth.uid());
+
+CREATE POLICY "users_update_own"
+    ON users FOR UPDATE
+    TO authenticated
+    USING (auth_id = auth.uid())
+    WITH CHECK (auth_id = auth.uid());
+
+CREATE POLICY "users_delete_own"
+    ON users FOR DELETE
+    TO authenticated
+    USING (auth_id = auth.uid());
+
+-- -----------------------------------------------------------------------------
+-- characters: full access to rows where owner = auth.uid()
+-- -----------------------------------------------------------------------------
+CREATE POLICY "characters_select_own"
+    ON characters FOR SELECT
+    TO authenticated
+    USING (owner = auth.uid());
+
+CREATE POLICY "characters_insert_own"
+    ON characters FOR INSERT
+    TO authenticated
+    WITH CHECK (owner = auth.uid());
+
+CREATE POLICY "characters_update_own"
+    ON characters FOR UPDATE
+    TO authenticated
+    USING (owner = auth.uid())
+    WITH CHECK (owner = auth.uid());
+
+CREATE POLICY "characters_delete_own"
+    ON characters FOR DELETE
+    TO authenticated
+    USING (owner = auth.uid());
+
+-- Read-only: other players' characters in a shared campaign
+CREATE POLICY "characters_select_campaign_peers"
+    ON characters FOR SELECT
+    TO authenticated
+    USING (public.user_shares_campaign_with_character(id));
+
+-- Leaving a campaign: owner may set campaign to NULL (full update policy above also applies)
+CREATE POLICY "characters_leave_campaign"
+    ON characters FOR UPDATE
+    TO authenticated
+    USING (owner = auth.uid())
+    WITH CHECK (
+        owner = auth.uid()
+        AND campaign IS NULL
+    );
+
+-- -----------------------------------------------------------------------------
+-- campaigns: read-only for campaigns the user has a character in
+-- -----------------------------------------------------------------------------
+CREATE POLICY "campaigns_select_participant"
+    ON campaigns FOR SELECT
+    TO authenticated
+    USING (public.user_participates_in_campaign(id));
+
+-- -----------------------------------------------------------------------------
+-- Reference catalog: authenticated read-only
+-- -----------------------------------------------------------------------------
+CREATE POLICY "destinies_select_authenticated"
+    ON destinies FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "paths_select_authenticated"
+    ON paths FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "talents_select_authenticated"
+    ON talents FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "advances_select_authenticated"
+    ON advances FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "fighting_styles_select_authenticated"
+    ON fighting_styles FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "rituals_select_authenticated"
+    ON rituals FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "tags_select_authenticated"
+    ON tags FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "gear_select_authenticated"
+    ON gear FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "armor_select_authenticated"
+    ON armor FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "weapons_select_authenticated"
+    ON weapons FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "curios_select_authenticated"
+    ON curios FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "artifacts_select_authenticated"
+    ON artifacts FOR SELECT TO authenticated USING (true);
+
+-- -----------------------------------------------------------------------------
+-- Character-scoped instance tables (via user_owns_character)
+-- -----------------------------------------------------------------------------
+CREATE POLICY "inventory_instances_select_own"
+    ON inventory_instances FOR SELECT
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "inventory_instances_insert_own"
+    ON inventory_instances FOR INSERT
+    TO authenticated
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "inventory_instances_update_own"
+    ON inventory_instances FOR UPDATE
+    TO authenticated
+    USING (public.user_owns_character(character_id))
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "inventory_instances_delete_own"
+    ON inventory_instances FOR DELETE
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "path_instances_select_own"
+    ON path_instances FOR SELECT
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "path_instances_insert_own"
+    ON path_instances FOR INSERT
+    TO authenticated
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "path_instances_update_own"
+    ON path_instances FOR UPDATE
+    TO authenticated
+    USING (public.user_owns_character(character_id))
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "path_instances_delete_own"
+    ON path_instances FOR DELETE
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "talent_instances_select_own"
+    ON talent_instances FOR SELECT
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "talent_instances_insert_own"
+    ON talent_instances FOR INSERT
+    TO authenticated
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "talent_instances_update_own"
+    ON talent_instances FOR UPDATE
+    TO authenticated
+    USING (public.user_owns_character(character_id))
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "talent_instances_delete_own"
+    ON talent_instances FOR DELETE
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "destiny_tracker_select_own"
+    ON destiny_tracker FOR SELECT
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+CREATE POLICY "destiny_tracker_insert_own"
+    ON destiny_tracker FOR INSERT
+    TO authenticated
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "destiny_tracker_update_own"
+    ON destiny_tracker FOR UPDATE
+    TO authenticated
+    USING (public.user_owns_character(character_id))
+    WITH CHECK (public.user_owns_character(character_id));
+
+CREATE POLICY "destiny_tracker_delete_own"
+    ON destiny_tracker FOR DELETE
+    TO authenticated
+    USING (public.user_owns_character(character_id));
+
+-- -----------------------------------------------------------------------------
+-- tag_junctions: full access when linked to own inventory instance
+-- -----------------------------------------------------------------------------
+CREATE POLICY "tag_junctions_select_own_inventory"
+    ON tag_junctions FOR SELECT
+    TO authenticated
+    USING (
+        inventory_instance_id IS NOT NULL
+        AND public.user_owns_inventory_instance(inventory_instance_id)
+    );
+
+CREATE POLICY "tag_junctions_insert_own_inventory"
+    ON tag_junctions FOR INSERT
+    TO authenticated
+    WITH CHECK (
+        inventory_instance_id IS NOT NULL
+        AND public.user_owns_inventory_instance(inventory_instance_id)
+    );
+
+CREATE POLICY "tag_junctions_update_own_inventory"
+    ON tag_junctions FOR UPDATE
+    TO authenticated
+    USING (
+        inventory_instance_id IS NOT NULL
+        AND public.user_owns_inventory_instance(inventory_instance_id)
+    )
+    WITH CHECK (
+        inventory_instance_id IS NOT NULL
+        AND public.user_owns_inventory_instance(inventory_instance_id)
+    );
+
+CREATE POLICY "tag_junctions_delete_own_inventory"
+    ON tag_junctions FOR DELETE
+    TO authenticated
+    USING (
+        inventory_instance_id IS NOT NULL
+        AND public.user_owns_inventory_instance(inventory_instance_id)
+    );

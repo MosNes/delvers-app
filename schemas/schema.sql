@@ -2,9 +2,9 @@
 
 -- 1. USERS (Parent Table)
 CREATE TABLE users (
-    email TEXT PRIMARY KEY NOT NULL COLLATE NOCASE,
+    auth_id TEXT PRIMARY KEY NOT NULL,
+    email TEXT NOT NULL UNIQUE COLLATE NOCASE,
     name TEXT,
-    passwordHash TEXT NOT NULL,
     createdDate TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE campaigns (
     name TEXT NOT NULL,
     description TEXT,
     createdDate TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (campaign_owner) REFERENCES users(email) ON DELETE CASCADE
+    FOREIGN KEY (campaign_owner) REFERENCES users(auth_id) ON DELETE CASCADE
 );
 
 -- 3. CHARACTERS (Parent of all instances and trackers)
@@ -57,7 +57,7 @@ CREATE TABLE characters (
     mindStress INTEGER DEFAULT 0 CHECK (mindStress IN (0, 1)),
     spiritStress INTEGER DEFAULT 0 CHECK (spiritStress IN (0, 1)),
     notes TEXT,
-    FOREIGN KEY (owner) REFERENCES users(email) ON DELETE CASCADE,
+    FOREIGN KEY (owner) REFERENCES users(auth_id) ON DELETE CASCADE,
     FOREIGN KEY (campaign) REFERENCES campaigns(id) ON DELETE SET NULL
 );
 
