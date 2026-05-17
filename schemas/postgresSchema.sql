@@ -2,7 +2,6 @@
 -- Converted from schemas/schema.sql (Cloudflare D1 / SQLite)
 
 -- Extensions (enable in Supabase SQL editor if not already present)
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE EXTENSION IF NOT EXISTS "citext";
 
 -- 1. USERS (Parent Table)
