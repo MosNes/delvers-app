@@ -1,5 +1,34 @@
 -- PostgreSQL / Supabase schema
 -- Converted from schemas/schema.sql (Cloudflare D1 / SQLite)
+-- WARNING: Drops and recreates all public app tables. Destroys existing data.
+
+-- Auth triggers (recreated below)
+DROP TRIGGER IF EXISTS on_auth_user_email_updated ON auth.users;
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
+-- Tables (children first; CASCADE clears remaining FK dependencies)
+DROP TABLE IF EXISTS
+    tag_junctions,
+    destiny_tracker,
+    talent_instances,
+    path_instances,
+    inventory_instances,
+    characters,
+    campaigns,
+    advances,
+    talents,
+    paths,
+    gear,
+    armor,
+    weapons,
+    curios,
+    artifacts,
+    fighting_styles,
+    rituals,
+    tags,
+    destinies,
+    user_profiles
+CASCADE;
 
 -- Extensions (enable in Supabase SQL editor if not already present)
 CREATE EXTENSION IF NOT EXISTS "citext";
