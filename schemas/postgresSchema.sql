@@ -62,6 +62,7 @@ CREATE TABLE characters (
     notes text
 );
 
+-- Indexes for faster queries on the characters table
 CREATE INDEX idx_characters_owner ON characters(owner);
 CREATE INDEX idx_characters_campaign ON characters(campaign);
 
@@ -200,6 +201,7 @@ CREATE TABLE inventory_instances (
     "createdDate" timestamptz NOT NULL DEFAULT now()
 );
 
+-- Indexes for faster queries on the inventory_instances table, e.g. finding all inventory items for a character
 CREATE INDEX idx_inventory_instances_character_id ON inventory_instances(character_id);
 
 CREATE TABLE path_instances (
@@ -208,6 +210,7 @@ CREATE TABLE path_instances (
     path_name text NOT NULL REFERENCES paths(name) ON DELETE CASCADE
 );
 
+-- Indexes for faster queries on the path_instances table, e.g. finding all path instances for a character
 CREATE INDEX idx_path_instances_character_id ON path_instances(character_id);
 
 CREATE TABLE talent_instances (
@@ -216,6 +219,7 @@ CREATE TABLE talent_instances (
     talent_name text NOT NULL REFERENCES talents(name) ON DELETE CASCADE
 );
 
+-- Indexes for faster queries on the talent_instances table, e.g. finding all talent instances for a character
 CREATE INDEX idx_talent_instances_character_id ON talent_instances(character_id);
 
 CREATE TABLE tag_junctions (
@@ -231,6 +235,7 @@ CREATE TABLE tag_junctions (
     )
 );
 
+-- Indexes for faster queries on the tag_junctions table, e.g. finding all tag junctions for a weapon, armor, or inventory instance
 CREATE INDEX idx_tag_junctions_weapon_id ON tag_junctions(weapon_id);
 CREATE INDEX idx_tag_junctions_armor_id ON tag_junctions(armor_id);
 CREATE INDEX idx_tag_junctions_inventory_instance_id ON tag_junctions(inventory_instance_id);
@@ -241,4 +246,5 @@ CREATE TABLE destiny_tracker (
     completed_beats text NOT NULL DEFAULT '[]'
 );
 
+-- Indexes for faster queries on the destiny_tracker table, e.g. finding the destiny tracker for a character
 CREATE INDEX idx_destiny_tracker_character_id ON destiny_tracker(character_id);
