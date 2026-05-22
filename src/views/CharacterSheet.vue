@@ -139,16 +139,16 @@ const viewData = reactive({
           </div>
 
           <!-- body attribute card -->
-          <AttributeCard attributeTitle="Body" :maxValue="charData.maxBody" :currentValue="charData.currentBody"
+          <AttributeCard attributeTitle="Body" :maxValue="charData.maxBody" v-model:currentValue="charData.currentBody"
             v-model:stressMarked="charData.bodyStress" />
           <!-- speed attribute card -->
-          <AttributeCard attributeTitle="Speed" :maxValue="charData.maxSpeed" :currentValue="charData.currentSpeed"
+          <AttributeCard attributeTitle="Speed" :maxValue="charData.maxSpeed" v-model:currentValue="charData.currentSpeed"
             v-model:stressMarked="charData.speedStress" />
           <!-- mind attribute card -->
-          <AttributeCard attributeTitle="Mind" :maxValue="charData.maxMind" :currentValue="charData.currentMind"
+          <AttributeCard attributeTitle="Mind" :maxValue="charData.maxMind" v-model:currentValue="charData.currentMind"
             v-model:stressMarked="charData.mindStress" />
           <!-- spirit attribute card -->
-          <AttributeCard attributeTitle="Spirit" :maxValue="charData.maxSpirit" :currentValue="charData.currentSpirit"
+          <AttributeCard attributeTitle="Spirit" :maxValue="charData.maxSpirit" v-model:currentValue="charData.currentSpirit"
             v-model:stressMarked="charData.spiritStress" />
 
           <!-- blessings and curses counters -->

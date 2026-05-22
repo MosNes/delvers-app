@@ -1,7 +1,8 @@
 <script setup>
 import Card from '@/volt/Card.vue';
 import Button from '@/volt/Button.vue';
-import { computed, defineEmits } from 'vue';
+import Popover from '@/volt/Popover.vue';
+import { computed, ref } from 'vue';
 
 // define props
 const props = defineProps({
@@ -29,8 +30,25 @@ const valueCritical = computed(() => {
 });
 
 
-// allows parent component to update stressMarked value
-const emit = defineEmits(['update:stressMarked']);
+const emit = defineEmits(['update:stressMarked', 'update:currentValue']);
+
+const valuePopover = ref(null);
+
+const toggleValuePopover = (event) => {
+    valuePopover.value?.toggle(event);
+};
+
+const incrementValue = () => {
+    if (props.currentValue < props.maxValue) {
+        emit('update:currentValue', props.currentValue + 1);
+    }
+};
+
+const decrementValue = () => {
+    if (props.currentValue > 0) {
+        emit('update:currentValue', props.currentValue - 1);
+    }
+};
 
 const toggleStress = () => {
     emit('update:stressMarked', !props.stressMarked);
@@ -56,12 +74,20 @@ const toggleStress = () => {
                 </div>
             </template>
             <template #content>
-                <!-- current value changes color to red when valueCritical is true -->
+                <!-- click to open popover and adjust current value -->
                 <div
-                    class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2"
-                    :class="{ 'text-[var(--p-primary-400)]': valueCritical }">
+                    class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2 cursor-pointer"
+                    :class="{ 'text-[var(--p-primary-400)]': valueCritical }"
+                    @click="toggleValuePopover">
                     {{ currentValue }}
                 </div>
+                <Popover ref="valuePopover">
+                    <div class="flex items-center gap-3">
+                        <Button label="-" class="art-deco-frame font-display text-lg" @click="decrementValue" />
+                        <span class="text-2xl font-sans min-w-[2ch] text-center">{{ currentValue }}</span>
+                        <Button label="+" class="art-deco-frame font-display text-lg" @click="incrementValue" />
+                    </div>
+                </Popover>
                 <div
                     class="text-xl text-center mt-4 border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] mx-auto p-1">
                     <span class="font-sans">{{ maxValue }}</span>
