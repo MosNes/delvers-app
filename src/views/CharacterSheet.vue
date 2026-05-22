@@ -9,6 +9,7 @@ import Divider from '@/volt/Divider.vue';
 import AttributeCard from '@/components/AttributeCard.vue';
 import Button from '@/volt/Button.vue';
 import SmallCard from '@/components/SmallCard.vue';
+import SkillCard from '@/components/SkillCard.vue';
 
 //test character data
 // actual character data will be imported from pinia store
@@ -24,7 +25,7 @@ const charData = reactive({
   path: "Path of the Warrior",
   background: "Test Background",
   domains: ["Froggery", "Mannerisms"],
-  skills: ["Frogmannerisms"],
+  skills: ["Frogmannerisms", "Sleight of Frog", "Frogjitsu", "Antidisestablishmentarianism"],
   talents: ["Favored Weapon"],
   advances: [],
   minorAdvances: 0,
@@ -160,7 +161,10 @@ const viewData = reactive({
       </Panel>
       <Divider />
       <Panel id="skills-and-domains-el">
-        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <SkillCard title="Skills" :contentArray="charData.skills" />
+          <SkillCard title="Domains" :contentArray="charData.domains" />
+        </div>
       </Panel>
       <Divider />
       <Panel id="talents-el">
