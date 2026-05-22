@@ -34,7 +34,7 @@ const maxValueOverride = computed(() => props.maxValue + tempOverride.value);
 
 const displayedMaxValue = computed(() => {
     const raw = tempOverride.value !== 0 ? maxValueOverride.value : props.maxValue;
-    return Math.min(19, Math.max(0, raw));
+    return Math.min(20, Math.max(0, raw));
 });
 
 const valueCritical = computed(() => {
