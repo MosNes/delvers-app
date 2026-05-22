@@ -28,11 +28,20 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value']);
 
+const tempOverride = ref(0);
+
+const maxValueOverride = computed(() => props.maxValue + tempOverride.value);
+
+const displayedMaxValue = computed(() =>
+    tempOverride.value !== 0 ? maxValueOverride.value : props.maxValue
+);
+
 const valueCritical = computed(() => {
-    return props.hasMaxValue && props.value < props.maxValue * 0.5;
+    return props.hasMaxValue && props.value < maxValueOverride.value * 0.5;
 });
 
 const valuePopover = ref(null);
+const overridePopover = ref(null);
 
 const toggleValuePopover = (event) => {
     valuePopover.value?.toggle(event);
@@ -40,7 +49,7 @@ const toggleValuePopover = (event) => {
 
 const incrementValue = () => {
     const next = props.value + 1;
-    if (props.hasMaxValue && next > props.maxValue) return;
+    if (props.hasMaxValue && next > maxValueOverride.value) return;
     emit('update:value', next);
 };
 
@@ -48,6 +57,18 @@ const decrementValue = () => {
     if (props.value > 0) {
         emit('update:value', props.value - 1);
     }
+};
+
+const toggleOverridePopover = (event) => {
+    overridePopover.value?.toggle(event);
+};
+
+const incrementOverride = () => {
+    tempOverride.value += 1;
+};
+
+const decrementOverride = () => {
+    tempOverride.value -= 1;
 };
 
 </script>
@@ -80,9 +101,28 @@ const decrementValue = () => {
                         <Button label="+" class="art-deco-frame font-display text-lg" @click="incrementValue" />
                     </div>
                 </Popover>
-                <div v-if="hasMaxValue"
-                    class="text-xl text-center mt-2 border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] mx-auto mb-5">
-                    <span class="font-sans">{{ maxValue }}</span>
+                <div v-if="hasMaxValue" class="mt-2 flex items-center justify-center gap-2 mb-5">
+                    <div
+                        class="text-xl text-center border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] min-w-[50px] p-1"
+                        :class="{ 'box-orange': tempOverride !== 0 }">
+                        <span class="font-sans">{{ displayedMaxValue }}</span>
+                    </div>
+                    <Button label="±" class="art-deco-frame font-display text-lg shrink-0"
+                        @click="toggleOverridePopover" />
+                    <Popover ref="overridePopover">
+                        <div class="flex flex-col items-center">
+                            <div class="text-center p-1">
+                                <p>Override Max Value</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <Button label="-" class="art-deco-frame font-display text-lg"
+                                    @click="decrementOverride" />
+                                <span class="text-2xl font-sans min-w-[2ch] text-center">{{ tempOverride }}</span>
+                                <Button label="+" class="art-deco-frame font-display text-lg"
+                                    @click="incrementOverride" />
+                            </div>
+                        </div>
+                    </Popover>
                 </div>
             </template>
         </Card>
