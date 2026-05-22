@@ -101,7 +101,7 @@ const decrementOverride = () => {
                         <Button label="+" class="art-deco-frame font-display text-lg" @click="incrementValue" />
                     </div>
                 </Popover>
-                <div v-if="hasMaxValue" class="mt-2 flex items-center justify-center gap-2 mb-5">
+                <div v-if="hasMaxValue" class="mt-2 flex items-center justify-center gap-2 mb-12">
                     <div
                         class="text-xl text-center border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] rounded-full max-w-[50px] min-w-[50px] p-1"
                         :class="{ 'box-orange': tempOverride !== 0 }">
