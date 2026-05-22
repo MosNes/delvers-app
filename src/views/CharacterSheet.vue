@@ -28,6 +28,7 @@ const charData = reactive({
   skills: ["Frogmannerisms", "Sleight of Frog", "Frogjitsu", "Antidisestablishmentarianism"],
   talents: ["Favored Weapon"],
   advances: [],
+  inventory: [],
   minorAdvances: 0,
   majorAdvances: 0,
   pinnacleAdvances: 0,
