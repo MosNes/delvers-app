@@ -160,7 +160,7 @@ const viewData = reactive({
       </Panel>
       <Divider />
       <Panel id="skills-and-domains-el">
-        Contains Skills and Domains
+        
       </Panel>
       <Divider />
       <Panel id="talents-el">
