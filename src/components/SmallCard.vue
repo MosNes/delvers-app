@@ -64,11 +64,15 @@ const toggleOverridePopover = (event) => {
 };
 
 const incrementOverride = () => {
-    tempOverride.value += 1;
+    if (tempOverride.value < 20) {
+        tempOverride.value += 1;
+    }
 };
 
 const decrementOverride = () => {
-    tempOverride.value -= 1;
+    if (tempOverride.value > -20) {
+        tempOverride.value -= 1;
+    }
 };
 
 </script>
