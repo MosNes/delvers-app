@@ -75,10 +75,8 @@ const toggleStress = () => {
             </template>
             <template #content>
                 <!-- click to open popover and adjust current value -->
-                <div
-                    class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2 cursor-pointer"
-                    :class="{ 'text-[var(--p-primary-400)]': valueCritical }"
-                    @click="toggleValuePopover">
+                <div class="text-center text-6xl font-sans rounded-lg border border-[var(--p-accent-color)] bg-[var(--p-surface-900)] p-2 cursor-pointer"
+                    :class="{ 'text-[var(--p-primary-400)]': valueCritical }" @click="toggleValuePopover">
                     {{ currentValue }}
                 </div>
                 <Popover ref="valuePopover">
@@ -96,9 +94,10 @@ const toggleStress = () => {
             <template #footer class="text-center">
                 <div class="flex justify-center translate-y-3">
                     <!-- stress button -->
-                     <!-- changes color of button when stressMarked is true -->
+                    <!-- changes color of button when stressMarked is true -->
                     <Button :label="stressMarked ? 'Clear' : 'Stress'" class="art-deco-frame font-display text-lg"
-                        :class="stressMarked ? '!bg-[#f58834] hover:!bg-[#e07a2e] !text-[var(--p-surface-900)]' : ''" @click="toggleStress" />
+                        :class="stressMarked ? '!bg-[#f58834] hover:!bg-[#e07a2e] !text-[var(--p-surface-900)]' : ''"
+                        @click="toggleStress" />
                 </div>
             </template>
         </Card>

@@ -133,9 +133,9 @@ const viewData = reactive({
 
           <!-- guard tracker and armor -->
           <div class="flex flex-col gap-4 self-stretch min-h-0">
-            <SmallCard title="Guard" :value="charData.currentGuard" :maxValue="charData.maxGuard" :hasMaxValue="true"
+            <SmallCard title="Guard" v-model:value="charData.currentGuard" :maxValue="charData.maxGuard" :hasMaxValue="true"
               class="min-h-0 flex-1" />
-            <SmallCard title="Armor" :value="charData.armor" class="min-h-0 flex-1" />
+            <SmallCard title="Armor" v-model:value="charData.armor" class="min-h-0 flex-1" />
           </div>
 
           <!-- body attribute card -->
@@ -153,9 +153,9 @@ const viewData = reactive({
 
           <!-- blessings and curses counters -->
           <div class="flex flex-col gap-4 self-stretch min-h-0">
-            <SmallCard title="Blessings" :value="charData.blessings"
+            <SmallCard title="Blessings" v-model:value="charData.blessings"
               class="min-h-0 flex-1" />
-            <SmallCard title="Curses" :value="charData.curses" class="min-h-0 flex-1" />
+            <SmallCard title="Curses" v-model:value="charData.curses" class="min-h-0 flex-1" />
           </div>
 
         </div>
