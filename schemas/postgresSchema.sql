@@ -174,7 +174,7 @@ CREATE TABLE armor (
     cost integer CHECK (cost >= 0),
     slots integer CHECK (slots >= 0),
     special text,
-    tags text,
+    tags jsonb,
     "isMinor" boolean NOT NULL DEFAULT false,
     armor_value integer NOT NULL DEFAULT 0 CHECK (armor_value >= 0)
 );
@@ -187,7 +187,7 @@ CREATE TABLE weapons (
     cost integer CHECK (cost >= 0),
     slots integer CHECK (slots >= 0),
     special text,
-    tags text,
+    tags jsonb,
     "isMinor" boolean NOT NULL DEFAULT false,
     armor integer NOT NULL DEFAULT 0 CHECK (armor >= 0)
 );
@@ -273,7 +273,7 @@ CREATE INDEX idx_tag_junctions_inventory_instance_id ON tag_junctions(inventory_
 CREATE TABLE destiny_tracker (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     character_id uuid NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
-    completed_beats text NOT NULL DEFAULT '[]'
+    completed_beats jsonb NOT NULL DEFAULT '[]'
 );
 
 -- Indexes for faster queries on the destiny_tracker table, e.g. finding the destiny tracker for a character
