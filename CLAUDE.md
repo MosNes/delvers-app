@@ -17,7 +17,7 @@ No test runner is configured. No lint script is defined.
 
 This is a full-stack SPA for a tabletop RPG companion app (Delvers). It runs as a Cloudflare Worker with a Vue 3 frontend and an Express backend served from the same Worker.
 
-**Frontend** (`src/`): Vue 3 + Vite SPA. The app currently mounts `CharacterSheet.vue` directly — `<RouterView>` is commented out in `App.vue`. The single route (`/`) is defined in `src/router/index.js`.
+**Frontend** (`src/`): Vue 3 + Vite SPA. The app currently mounts `CharacterSheet.vue` directly for testing — `<RouterView>` is commented out in `App.vue`. The single route (`/`) is defined in `src/router/index.js`.
 
 **Backend** (`server/`): Express.js running inside a Cloudflare Worker via `@cloudflare/vite-plugin`. Entry is `server/index.js`. Routes live under `/api`. The `/api/seed` route is deprecated as the project has moved to Supabase instead of Cloudflare D1.
 
