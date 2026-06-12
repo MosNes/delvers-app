@@ -1,10 +1,10 @@
 <template>
-    <div class="p-6 flex flex-col gap-8 max-w-6xl mx-auto">
+    <LoadingState v-if="!dataState.isLoaded" :is-error="dataState.isError" />
+    <div v-else class="p-6 flex flex-col gap-8 max-w-6xl mx-auto">
 
         <!-- Characters -->
         <Panel header="Characters">
-            <div v-if="charactersLoading" class="text-surface-500 text-sm">Loading characters…</div>
-            <div v-else-if="charactersError" class="text-red-500 text-sm">{{ charactersError }}</div>
+            <div v-if="charactersError" class="text-red-500 text-sm">{{ charactersError }}</div>
             <div v-else-if="characters.length === 0" class="text-surface-500 text-sm">No characters yet.</div>
             <div v-else class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 <Card v-for="char in characters" :key="char.id">
@@ -30,8 +30,7 @@
 
         <!-- Campaigns -->
         <Panel header="Campaigns">
-            <div v-if="campaignsLoading" class="text-surface-500 text-sm">Loading campaigns…</div>
-            <div v-else-if="campaignsError" class="text-red-500 text-sm">{{ campaignsError }}</div>
+            <div v-if="campaignsError" class="text-red-500 text-sm">{{ campaignsError }}</div>
             <div v-else-if="campaigns.length === 0" class="text-surface-500">No Campaigns</div>
             <ul v-else class="flex flex-col gap-2">
                 <li
@@ -49,27 +48,32 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Panel from '@/volt/Panel.vue'
 import Card from '@/volt/Card.vue'
+import LoadingState from '@/components/LoadingState.vue'
 import { supabase } from '@/lib/supabaseClient'
 import { useAuth } from '@/composables/useAuth'
 
 const { user } = useAuth()
 
+const dataState = reactive({ isLoaded: false, isError: false })
+
 const characters = ref([])
-const charactersLoading = ref(true)
 const charactersError = ref('')
 
 const campaigns = ref([])
-const campaignsLoading = ref(true)
 const campaignsError = ref('')
 
 onMounted(async () => {
     const userId = user.value?.id
-    if (!userId) return
+    if (!userId) {
+        dataState.isLoaded = true
+        return
+    }
 
     await Promise.all([fetchCharacters(userId), fetchCampaigns(userId)])
+    dataState.isLoaded = true
 })
 
 async function fetchCharacters(userId) {
@@ -78,13 +82,11 @@ async function fetchCharacters(userId) {
         .select('id, characterName, ancestrySpecies, path, imgUrl')
         .eq('owner', userId)
 
-    charactersLoading.value = false
     if (error) { charactersError.value = error.message; return }
     characters.value = data
 }
 
 async function fetchCampaigns(userId) {
-    // Step 1: find campaign IDs the user participates in via their characters.
     const { data: charRows, error: charErr } = await supabase
         .from('characters')
         .select('campaign')
@@ -92,14 +94,12 @@ async function fetchCampaigns(userId) {
         .not('campaign', 'is', null)
 
     if (charErr) {
-        campaignsLoading.value = false
         campaignsError.value = charErr.message
         return
     }
 
     const memberIds = [...new Set(charRows.map(r => r.campaign))]
 
-    // Step 2: fetch campaigns owned by the user, plus any they participate in.
     const query = memberIds.length > 0
         ? supabase
             .from('campaigns')
@@ -111,7 +111,6 @@ async function fetchCampaigns(userId) {
             .eq('campaign_owner', userId)
 
     const { data, error } = await query
-    campaignsLoading.value = false
     if (error) { campaignsError.value = error.message; return }
     campaigns.value = data
 }

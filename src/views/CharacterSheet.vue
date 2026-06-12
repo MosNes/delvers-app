@@ -1,9 +1,10 @@
 <!-- the character sheet view displays all the information for a character, including their attributes, skills, talents, and inventory. -->
 <script setup>
 //import vue features
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 
 //import components
+import LoadingState from '@/components/LoadingState.vue';
 import Panel from '@/volt/Panel.vue';
 import Divider from '@/volt/Divider.vue';
 import AttributeCard from '@/components/AttributeCard.vue';
@@ -56,12 +57,17 @@ const charData = reactive({
 const viewData = reactive({
 });
 
+const dataState = reactive({ isLoaded: false, isError: false });
+
+onMounted(() => {
+    dataState.isLoaded = true;
+});
 </script>
 
 <template>
-  <!-- adjust padding on main -->
+  <LoadingState v-if="!dataState.isLoaded" :is-error="dataState.isError" class="min-h-screen" />
   <!-- flex flex-col creates vertical stack -->
-  <main class="min-h-screen flex flex-col p-2">
+  <main v-else class="min-h-screen flex flex-col p-2">
     <!-- flex-1 creates a flex container that takes up the remaining space in the parent container -->
     <section class="flex flex-1 flex-col">
       <Panel id="character-header-el">
