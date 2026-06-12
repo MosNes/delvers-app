@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '../views/LandingPage.vue'
 import SignUp from '../views/SignUp.vue'
+import Login from '../views/Login.vue'
 import AuthCallback from '../views/AuthCallback.vue'
 import CharacterSheet from '../views/CharacterSheet.vue'
 
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: SignUp,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
     {
       path: '/auth/callback',

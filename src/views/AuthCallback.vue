@@ -22,15 +22,22 @@ const error = ref('')
 onMounted(async () => {
     const code = route.query.code
 
-    if (!code) {
-        error.value = 'Invalid or missing confirmation link.'
+    if (code) {
+        // PKCE flow: exchange the authorization code for a session
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(String(code))
+        if (exchangeError) {
+            error.value = exchangeError.message
+            return
+        }
+        router.replace('/')
         return
     }
 
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(String(code))
-
-    if (exchangeError) {
-        error.value = exchangeError.message
+    // Implicit flow: tokens arrive in the URL hash (#access_token=...).
+    // Supabase JS v2 detects and processes the hash automatically via detectSessionInUrl.
+    const { data, error: sessionError } = await supabase.auth.getSession()
+    if (sessionError || !data.session) {
+        error.value = sessionError?.message ?? 'Invalid or missing confirmation link.'
         return
     }
 
