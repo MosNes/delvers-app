@@ -350,6 +350,42 @@ CREATE POLICY "destiny_tracker_select_campaign_peers"
     TO authenticated
     USING (public.user_shares_campaign_with_character(character_id));
 
+-- =============================================================================
+-- Table-level GRANT statements
+-- "permission denied for table X" means the role lacks a basic GRANT —
+-- this fires before RLS even runs and has nothing to do with policies.
+-- Tables created via raw SQL bypass Supabase's automatic grant setup, so
+-- grants must be applied explicitly.
+--
+-- Run these once in the Supabase SQL editor after applying this file, or
+-- include them in your migration. The ALTER DEFAULT PRIVILEGES line covers
+-- any tables added in future migrations.
+-- =============================================================================
+
+-- User-owned tables: full CRUD for authenticated
+GRANT SELECT, INSERT, UPDATE, DELETE ON user_profiles        TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON campaigns            TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON characters           TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON advances             TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON inventory_instances  TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON path_instances       TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON talent_instances     TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON tag_junctions        TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON destiny_tracker      TO authenticated;
+
+-- Reference / catalog tables: read-only for authenticated and anon
+GRANT SELECT ON armor           TO authenticated, anon;
+GRANT SELECT ON artifacts       TO authenticated, anon;
+GRANT SELECT ON curios          TO authenticated, anon;
+GRANT SELECT ON destinies       TO authenticated, anon;
+GRANT SELECT ON fighting_styles TO authenticated, anon;
+GRANT SELECT ON gear            TO authenticated, anon;
+GRANT SELECT ON paths           TO authenticated, anon;
+GRANT SELECT ON rituals         TO authenticated, anon;
+GRANT SELECT ON tags            TO authenticated, anon;
+GRANT SELECT ON talents         TO authenticated, anon;
+GRANT SELECT ON weapons         TO authenticated, anon;
+
 -- -----------------------------------------------------------------------------
 -- tag_junctions: full access when linked to own inventory instance
 -- -----------------------------------------------------------------------------
