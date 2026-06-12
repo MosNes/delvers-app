@@ -12,7 +12,6 @@ import SmallCard from '@/components/SmallCard.vue';
 import SkillCard from '@/components/SkillCard.vue';
 
 //test character data
-// actual character data will be imported from pinia store
 const charData = reactive({
   owner: "00000000-0000-0000-0000-000000000001",
   campaign: 1,
