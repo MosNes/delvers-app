@@ -17,7 +17,7 @@ No test runner is configured. No lint script is defined.
 
 This is a full-stack SPA for a tabletop RPG companion app (Delvers). It runs as a Cloudflare Worker with a Vue 3 frontend and an Express backend served from the same Worker.
 
-**Frontend** (`src/`): Vue 3 + Vite SPA. The app currently mounts `CharacterSheet.vue` directly for testing — `<RouterView>` is commented out in `App.vue`. The single route (`/`) is defined in `src/router/index.js`.
+**Frontend** (`src/`): Vue 3 + Vite SPA. Uses `<RouterView>` in `App.vue`. Routes are defined in `src/router/index.js`: `/` → `LandingPage.vue`, `/signup` → `SignUp.vue`, `/character` → `CharacterSheet.vue`.
 
 **Backend** (`server/`): Express.js running inside a Cloudflare Worker via `@cloudflare/vite-plugin`. Entry is `server/index.js`. Routes live under `/api`. The `/api/seed` route is deprecated as the project has moved to Supabase instead of Cloudflare D1.
 
@@ -41,7 +41,7 @@ PrimeVue is configured in `src/main.js` with `Aura` theme preset. TailwindCSS v4
 
 All client-side env vars must be prefixed `VITE_`. Currently used:
 - `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
 
 Cloudflare bindings (D1, KV, etc.) are accessed through the Worker `env` object, not via `import.meta.env`.
 
