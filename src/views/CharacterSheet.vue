@@ -2,6 +2,10 @@
 <script setup>
 //import vue features
 import { reactive, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+//import supabase client
+import { supabase } from '@/lib/supabaseClient';
 
 //import components
 import LoadingState from '@/components/LoadingState.vue';
@@ -59,8 +63,65 @@ const viewData = reactive({
 
 const dataState = reactive({ isLoaded: false, isError: false });
 
-onMounted(() => {
-    dataState.isLoaded = true;
+// route gives us access to the :id param (the character's uuid in supabase)
+const route = useRoute();
+
+onMounted(async () => {
+    try {
+        // fetch the character row whose uuid matches the :id route param.
+        // .single() returns one object (and errors if 0 or >1 rows match).
+        const { data, error } = await supabase
+            .from('characters')
+            .select('*')
+            .eq('id', route.params.id)
+            .single();
+
+        if (error) throw error;
+
+        // populate charData from the returned row. Each property below
+        // references a column on the characters table.
+        charData.owner = data.owner;
+        charData.campaign = data.campaign;
+        charData.imgUrl = data.imgUrl;
+        charData.characterName = data.characterName;
+        charData.player = data.player;
+        charData.ancestry = data.ancestry;
+        charData.ancestrySpecies = data.ancestrySpecies;
+        charData.path = data.path;
+        charData.background = data.background;
+        charData.domains = data.domains;
+        charData.skills = data.skills;
+        charData.talents = data.talents;
+        charData.advances = data.advances;
+        charData.minorAdvances = data.minorAdvances;
+        charData.majorAdvances = data.majorAdvances;
+        charData.pinnacleAdvances = data.pinnacleAdvances;
+        charData.maxGuard = data.maxGuard;
+        charData.currentGuard = data.currentGuard;
+        charData.armor = data.armor;
+        charData.maxBody = data.maxBody;
+        charData.currentBody = data.currentBody;
+        charData.maxSpeed = data.maxSpeed;
+        charData.currentSpeed = data.currentSpeed;
+        charData.maxMind = data.maxMind;
+        charData.currentMind = data.currentMind;
+        charData.maxSpirit = data.maxSpirit;
+        charData.currentSpirit = data.currentSpirit;
+        charData.blessings = data.blessings;
+        charData.curses = data.curses;
+        charData.doom = data.doom;
+        charData.bodyStress = data.bodyStress;
+        charData.speedStress = data.speedStress;
+        charData.mindStress = data.mindStress;
+        charData.spiritStress = data.spiritStress;
+        charData.notes = data.notes;
+
+        dataState.isLoaded = true;
+    } catch (err) {
+        console.error('Failed to load character:', err);
+        dataState.isError = true;
+        dataState.isLoaded = true;
+    }
 });
 </script>
 
