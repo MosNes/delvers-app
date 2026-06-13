@@ -33,10 +33,13 @@
 
                 <small v-if="authError" class="text-red-500 text-center">{{ authError }}</small>
 
+                <div ref="turnstileRef" class="my-2" />
+
                 <Button
                     type="submit"
                     label="Send Magic Link"
                     :loading="loading"
+                    :disabled="!captchaToken"
                     class="w-full mt-2"
                 />
             </form>
@@ -58,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from '@/volt/Button.vue'
 import { supabase } from '@/lib/supabaseClient'
@@ -69,6 +72,23 @@ const loading = ref(false)
 const authError = ref('')
 const errors = ref({})
 const submitted = ref(false)
+
+const captchaToken = ref('')
+const turnstileRef = ref(null)
+let turnstileId = null
+
+onMounted(() => {
+    turnstileId = window.turnstile?.render(turnstileRef.value, {
+        sitekey: import.meta.env.VITE_TURNSTILE_SITE_KEY,
+        callback: (token) => { captchaToken.value = token },
+        'expired-callback': () => { captchaToken.value = '' },
+        'error-callback': () => { captchaToken.value = '' },
+    })
+})
+
+onUnmounted(() => {
+    if (turnstileId !== null) window.turnstile?.remove(turnstileId)
+})
 
 const inputTheme = {
     root: `block w-full rounded-md border border-surface-300 bg-surface-0 px-3 py-2 text-sm
@@ -91,6 +111,20 @@ async function handleSignUp() {
     if (!validate()) return
 
     loading.value = true
+
+    const { data: captchaResult, error: captchaError } = await supabase.functions.invoke(
+        'cloudflare-turnstile',
+        { body: { token: captchaToken.value } }
+    )
+
+    if (captchaError || captchaResult !== 'success') {
+        authError.value = 'CAPTCHA validation failed. Please try again.'
+        window.turnstile?.reset(turnstileId)
+        captchaToken.value = ''
+        loading.value = false
+        return
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
         email: email.value.trim(),
         options: {
@@ -103,6 +137,8 @@ async function handleSignUp() {
 
     if (error) {
         authError.value = error.message
+        window.turnstile?.reset(turnstileId)
+        captchaToken.value = ''
         return
     }
 
