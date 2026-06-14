@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import AuthCallback from '../views/AuthCallback.vue'
 import Dashboard from '../views/Dashboard.vue'
 import CharacterSheet from '../views/CharacterSheet.vue'
+import EditCharacter from '../views/EditCharacter.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/character/:id',
       name: 'character',
       component: CharacterSheet,
+    },
+    {
+      path: '/character/:id/edit',
+      name: 'edit-character',
+      component: EditCharacter,
     },
   ],
 })

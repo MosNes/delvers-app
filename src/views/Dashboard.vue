@@ -24,6 +24,14 @@
                     <template #content>
                         <span class="text-sm text-surface-500">{{ char.path }}</span>
                     </template>
+                    <template #footer>
+                        <div class="flex gap-2">
+                            <Button label="View" icon="pi pi-eye" class="flex-1"
+                                @click="viewCharacter(char.id)" />
+                            <SecondaryButton label="Edit" icon="pi pi-pencil" outlined
+                                class="flex-1" @click="editCharacter(char.id)" />
+                        </div>
+                    </template>
                 </Card>
             </div>
         </Panel>
@@ -49,13 +57,27 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Panel from '@/volt/Panel.vue'
 import Card from '@/volt/Card.vue'
+import Button from '@/volt/Button.vue'
+import SecondaryButton from '@/volt/SecondaryButton.vue'
 import LoadingState from '@/components/LoadingState.vue'
 import { supabase } from '@/lib/supabaseClient'
 import { useAuth } from '@/composables/useAuth'
 
 const { user } = useAuth()
+const router = useRouter()
+
+// open the read-only character sheet for the given character uuid
+function viewCharacter(id) {
+    router.push({ name: 'character', params: { id } })
+}
+
+// open the edit character view for the given character uuid
+function editCharacter(id) {
+    router.push({ name: 'edit-character', params: { id } })
+}
 
 const dataState = reactive({ isLoaded: false, isError: false })
 
