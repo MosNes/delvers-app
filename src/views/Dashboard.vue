@@ -4,6 +4,10 @@
 
         <!-- Characters -->
         <Panel header="Characters">
+            <div class="flex justify-end mb-4">
+                <Button v-if="characters.length < 5" label="New Character" icon="pi pi-plus"
+                    @click="newCharacter" />
+            </div>
             <div v-if="charactersError" class="text-red-500 text-sm">{{ charactersError }}</div>
             <div v-else-if="characters.length === 0" class="text-surface-500 text-sm">No characters yet.</div>
             <div v-else class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -68,6 +72,11 @@ import { useAuth } from '@/composables/useAuth'
 
 const { user } = useAuth()
 const router = useRouter()
+
+// route to a blank EditCharacter view for creating a new character
+function newCharacter() {
+    router.push({ name: 'new-character' })
+}
 
 // open the read-only character sheet for the given character uuid
 function viewCharacter(id) {

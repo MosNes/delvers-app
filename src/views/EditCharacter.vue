@@ -1,7 +1,7 @@
 <!-- the edit character view allows the user to edit the character sheet for a character -->
 <!-- Additionally the user can create new characters -->
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { supabase } from '@/lib/supabaseClient'
@@ -54,9 +54,19 @@ const form = reactive({
 // path picklist options, sourced from the paths table
 const paths = ref([])
 
-const dataState = reactive({ isLoaded: false, isError: false })
+// isNew is true when creating (no :id route param), false when editing
+const dataState = reactive({
+    isLoaded: false,
+    isError: false,
+    errorMessage: '',
+    isNew: route.name === 'new-character',
+})
 const saving = ref(false)
 const saveError = ref('')
+
+// required fields (NOT NULL / FK columns) — Save is blocked until all have a value
+const REQUIRED = ['characterName', 'player', 'ancestry', 'ancestrySpecies', 'path']
+const isFormValid = computed(() => REQUIRED.every((key) => String(form[key]).trim() !== ''))
 
 // talent instances shown in the Talents panel (single reactive state object)
 const talentState = reactive({ instances: [], busy: false, selectorVisible: false })
@@ -98,6 +108,32 @@ async function onTalentsSaved() {
 
 onMounted(async () => {
     try {
+        if (dataState.isNew) {
+            // enforce the 5-character cap before showing a blank form
+            const { count, error: countError } = await supabase
+                .from('characters')
+                .select('id', { count: 'exact', head: true })
+                .eq('owner', user.value?.id)
+
+            if (countError) throw countError
+
+            if (count >= 5) {
+                dataState.errorMessage = 'Sorry, you are limited to 5 characters total.'
+                dataState.isError = true
+                dataState.isLoaded = true
+                return
+            }
+
+            // only the path picklist is needed for a new (blank) character
+            const { data: pathsData, error: pathsError } = await supabase
+                .from('paths').select('name').eq('isAncestry', false).order('name')
+            if (pathsError) throw pathsError
+
+            paths.value = pathsData
+            dataState.isLoaded = true
+            return
+        }
+
         const [charResult, pathsResult] = await Promise.all([
             supabase.from('characters').select('*').eq('id', route.params.id).single(),
             supabase.from('paths').select('name').eq('isAncestry', false).order('name'),
@@ -124,56 +160,77 @@ onMounted(async () => {
 })
 
 async function saveCharacter() {
+    // defensive guard — Save is already disabled while invalid
+    if (!isFormValid.value) return
+
     saving.value = true
     saveError.value = ''
 
-    // owner is set from the logged-in user rather than being an editable field
-    const { error } = await supabase
-        .from('characters')
-        .update({ ...form, owner: user.value?.id })
-        .eq('id', route.params.id)
+    try {
+        // owner is set from the logged-in user rather than being an editable field
+        if (dataState.isNew) {
+            const { data, error } = await supabase
+                .from('characters')
+                .insert({ ...form, owner: user.value?.id })
+                .select('id')
+                .single()
 
-    saving.value = false
+            if (error) throw error
+            router.push({ name: 'character', params: { id: data.id } })
+        } else {
+            const { error } = await supabase
+                .from('characters')
+                .update({ ...form, owner: user.value?.id })
+                .eq('id', route.params.id)
 
-    if (error) {
-        saveError.value = error.message
-        return
+            if (error) throw error
+            router.push({ name: 'character', params: { id: route.params.id } })
+        }
+    } catch (err) {
+        saveError.value = err.message
+    } finally {
+        saving.value = false
     }
-
-    router.push({ name: 'character', params: { id: route.params.id } })
 }
 
 function cancel() {
-    router.push({ name: 'dashboard' })
+    if (dataState.isNew) {
+        router.push({ name: 'dashboard' })
+    } else {
+        router.push({ name: 'character', params: { id: route.params.id } })
+    }
 }
 </script>
 
 <template>
-    <LoadingState v-if="!dataState.isLoaded" :is-error="dataState.isError" class="min-h-screen" />
+    <LoadingState v-if="!dataState.isLoaded || dataState.isError" :is-error="dataState.isError"
+        :error-message="dataState.errorMessage" class="min-h-screen" />
 
     <form v-else class="p-6 flex flex-col gap-6 max-w-4xl mx-auto" @submit.prevent="saveCharacter">
+
+        <h1 class="text-2xl font-bold">{{ dataState.isNew ? 'Create New Character' : 'Editing Character' }}</h1>
 
         <!-- Identity -->
         <Panel header="Identity">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1">
-                    <label for="characterName" class="text-sm font-medium">Character Name</label>
+                    <label for="characterName" class="text-sm font-medium">Character Name *</label>
                     <InputText id="characterName" v-model="form.characterName" fluid />
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="player" class="text-sm font-medium">Player</label>
+                    <label for="player" class="text-sm font-medium">Player *</label>
                     <InputText id="player" v-model="form.player" fluid />
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="ancestry" class="text-sm font-medium">Ancestry</label>
+                    <label for="ancestry" class="text-sm font-medium">Ancestry *</label>
                     <InputText id="ancestry" v-model="form.ancestry" fluid />
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="ancestrySpecies" class="text-sm font-medium">Ancestry Species</label>
+                    <label for="ancestrySpecies" class="text-sm font-medium">Ancestry Species *</label>
                     <InputText id="ancestrySpecies" v-model="form.ancestrySpecies" fluid />
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="path" class="text-sm font-medium">Core Path</label>
+                    <label for="path" class="text-sm font-medium">Core Path *</label>
                     <Select id="path" v-model="form.path" :options="paths" optionLabel="name" optionValue="name"
                         placeholder="Select a core path" fluid />
                 </div>
@@ -208,8 +265,8 @@ function cancel() {
             </div>
         </Panel>
 
-        <!-- Talents (relational talent_instances) -->
-        <Panel header="Talents">
+        <!-- Talents (relational talent_instances) — only for existing characters -->
+        <Panel v-if="!dataState.isNew" header="Talents">
             <LoadingState v-if="talentState.busy" />
             <div v-else class="flex flex-col gap-3">
                 <div class="flex justify-end">
@@ -289,9 +346,12 @@ function cancel() {
         <!-- Actions -->
         <div class="flex flex-col gap-2">
             <small v-if="saveError" class="text-red-500">{{ saveError }}</small>
+            <small v-else-if="!isFormValid" class="text-surface-500">
+                Fill in all required fields (*) to save.
+            </small>
             <div class="flex justify-end gap-2">
                 <SecondaryButton type="button" label="Cancel" @click="cancel" />
-                <Button type="submit" label="Save" :loading="saving" />
+                <Button type="submit" label="Save" :loading="saving" :disabled="!isFormValid || saving" />
             </div>
         </div>
 

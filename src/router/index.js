@@ -46,6 +46,11 @@ const router = createRouter({
       name: 'edit-character',
       component: EditCharacter,
     },
+    {
+      path: '/new-character',
+      name: 'new-character',
+      component: EditCharacter,
+    },
   ],
 })
 
@@ -57,6 +62,7 @@ router.beforeEach(async (to) => {
   const isAuthed = !!session
 
   if (to.name === 'dashboard' && !isAuthed) return { name: 'home' }
+  if (to.name === 'new-character' && !isAuthed) return { name: 'home' }
   if (to.name === 'home' && isAuthed) return { name: 'dashboard' }
 })
 
