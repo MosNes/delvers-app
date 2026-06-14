@@ -397,7 +397,7 @@ onMounted(async () => {
     </section>
     <Divider />
     <footer class="shrink-0 dark:text-surface-500" id="footer-el">
-      <Panel id="gambits">
+      <Panel id="gambits-el">
         <div class="text-2xl font-bold font-display">Gambits</div>
         <div class="italic text-gray-400 text-lg">4+ or higher on damage roll</div>
         <Divider />
@@ -410,6 +410,30 @@ onMounted(async () => {
             <li class="p-1"><i class="ra ra-broken-bone"></i> Impair an opponent's next attack</li>
             <li class="p-1"><i class="ra ra-cracked-shield"></i> Expose a weak point, so all attacks ignore 1 point of Armor until your next turn</li>
             <li class="p-1"><i class="ra ra-flame-symbol"></i> Other effects of similar impact</li>
+          </ul>
+        </div>
+      </Panel>
+      <Divider />
+      <Panel id="curses-el">
+        <div class="text-2xl font-bold font-display">Curses</div>
+        <div class="italic text-gray-400 text-lg">Spend 1 Curse to activate</div>
+        <Divider />
+        <div class="text-xl">
+          <ul>
+            <li class="p-1"><i class="ra ra-doubled"></i> Reroll a single die of an Action Roll, Save, or Attack Pool</li>
+            <li class="p-1"><i class="ra ra-doubled"></i> Gain +3 Boons to an Action Roll or Save, after the dice are rolled but before the outcome is resolved</li>
+          </ul>
+        </div>
+      </Panel>
+      <Divider />
+      <Panel id="blessings-el">
+        <div class="text-2xl font-bold font-display">Blessings</div>
+        <div class="italic text-gray-400 text-lg">Spend 1 Blessing to activate</div>
+        <Divider />
+        <div class="text-xl">
+          <ul>
+            <li class="p-1"><i class="ra ra-sun"></i> Ask the GM a specific question about a situation and receive a truthful answer</li>
+            <li class="p-1"><i class="ra ra-sun"></i> Spend Blessings in place of Stress to activate a Talent</li>
           </ul>
         </div>
       </Panel>
