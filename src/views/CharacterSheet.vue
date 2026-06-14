@@ -1,7 +1,7 @@
 <!-- the character sheet view displays all the information for a character, including their attributes, skills, talents, and inventory. -->
 <script setup>
 //import vue features
-import { reactive, onMounted } from 'vue';
+import { reactive, ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 //import supabase client
@@ -19,6 +19,7 @@ import DataTable from '@/volt/DataTable.vue';
 import Column from 'primevue/column';
 import DangerButton from '@/volt/DangerButton.vue';
 import InventorySelector from '@/components/InventorySelector.vue';
+import SavingState from '@/components/SavingState.vue';
 
 //test character data
 const charData = reactive({
@@ -73,9 +74,48 @@ const talentState = reactive({ instances: [] });
 // inventory instances for this character (single reactive state object)
 const invState = reactive({ instances: [], busy: false, selectorVisible: false });
 
+// autosave state (single reactive state object) + popover ref + debounce timer
+const saveState = reactive({ isError: false, errorMessage: '' });
+const savingState = ref(null);
+let saveTimer = null;
+
 // route gives us access to the :id param (the character's uuid in supabase)
 const route = useRoute();
 const router = useRouter();
+
+// debounced autosave: 5s after the last change to charData, persist the row.
+// Set up once after the initial load so populating charData doesn't trigger a save.
+function autosave() {
+    watch(charData, () => {
+        if (saveTimer) clearTimeout(saveTimer);
+        saveTimer = setTimeout(performSave, 5000);
+    }, { deep: true });
+}
+
+async function performSave() {
+    saveState.isError = false;
+    saveState.errorMessage = '';
+    savingState.value?.show();
+
+    // destiny and inventory are not columns on the characters table — exclude them
+    const { destiny, inventory, ...payload } = charData;
+    const { error } = await supabase
+        .from('characters')
+        .update(payload)
+        .eq('id', route.params.id);
+
+    if (error) {
+        // keep the popover open showing the error; the next change reschedules a save
+        saveState.isError = true;
+        saveState.errorMessage = error.message;
+    } else {
+        savingState.value?.hide();
+    }
+}
+
+onUnmounted(() => {
+    if (saveTimer) clearTimeout(saveTimer);
+});
 
 // route to the edit character view for this character
 function editCharacter() {
@@ -175,6 +215,9 @@ onMounted(async () => {
         charData.notes = data.notes;
 
         dataState.isLoaded = true;
+
+        // start watching for changes now that charData is fully populated
+        autosave();
     } catch (err) {
         console.error('Failed to load character:', err);
         dataState.isError = true;
@@ -187,6 +230,7 @@ onMounted(async () => {
   <LoadingState v-if="!dataState.isLoaded" :is-error="dataState.isError" class="min-h-screen" />
   <!-- flex flex-col creates vertical stack -->
   <main v-else class="min-h-screen flex flex-col p-2">
+    <SavingState ref="savingState" :is-error="saveState.isError" :error-message="saveState.errorMessage" />
     <!-- flex-1 creates a flex container that takes up the remaining space in the parent container -->
     <section class="flex flex-1 flex-col">
       <Panel id="character-header-el">
