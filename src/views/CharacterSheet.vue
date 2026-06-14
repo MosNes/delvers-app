@@ -22,6 +22,7 @@ import AccordionContent from '@/volt/AccordionContent.vue';
 import DangerButton from '@/volt/DangerButton.vue';
 import InventorySelector from '@/components/InventorySelector.vue';
 import SavingState from '@/components/SavingState.vue';
+import Textarea from '@/volt/Textarea.vue';
 
 //test character data
 const charData = reactive({
@@ -385,6 +386,13 @@ onMounted(async () => {
 
         <InventorySelector v-model:visible="invState.selectorVisible" :character-id="route.params.id"
           @saved="onInventorySaved" />
+      </Panel>
+    </section>
+    <Divider />
+    <section>
+      <Panel id="notes-el">
+        <div class="text-2xl font-bold font-display mb-2">Notes</div>
+        <Textarea v-model="charData.notes" fluid />
       </Panel>
     </section>
     <Divider />
