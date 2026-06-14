@@ -171,7 +171,7 @@ async function saveCharacter() {
         if (dataState.isNew) {
             const { data, error } = await supabase
                 .from('characters')
-                .insert({ ...form, owner: user.value?.id })
+                .insert({ ...form, owner: user.value?.id, currentGuard: form.maxGuard, currentBody: form.maxBody, currentSpeed: form.maxSpeed, currentMind: form.maxMind, currentSpirit: form.maxSpirit })
                 .select('id')
                 .single()
 
