@@ -2,7 +2,7 @@
 <script setup>
 //import vue features
 import { reactive, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 //import supabase client
 import { supabase } from '@/lib/supabaseClient';
@@ -15,6 +15,10 @@ import AttributeCard from '@/components/AttributeCard.vue';
 import Button from '@/volt/Button.vue';
 import SmallCard from '@/components/SmallCard.vue';
 import SkillCard from '@/components/SkillCard.vue';
+import DataTable from '@/volt/DataTable.vue';
+import Column from 'primevue/column';
+import DangerButton from '@/volt/DangerButton.vue';
+import InventorySelector from '@/components/InventorySelector.vue';
 
 //test character data
 const charData = reactive({
@@ -63,20 +67,74 @@ const viewData = reactive({
 
 const dataState = reactive({ isLoaded: false, isError: false });
 
+// talent instances for this character (single reactive state object)
+const talentState = reactive({ instances: [] });
+
+// inventory instances for this character (single reactive state object)
+const invState = reactive({ instances: [], busy: false, selectorVisible: false });
+
 // route gives us access to the :id param (the character's uuid in supabase)
 const route = useRoute();
+const router = useRouter();
+
+// route to the edit character view for this character
+function editCharacter() {
+    router.push({ name: 'edit-character', params: { id: route.params.id } });
+}
+
+async function fetchInventoryInstances() {
+    const { data, error } = await supabase
+        .from('inventory_instances')
+        .select('id, itemType, baseItem, displayName, isEquipped, stackValue')
+        .eq('character_id', route.params.id);
+
+    if (error) throw error;
+    invState.instances = data;
+}
+
+async function removeInventoryInstance(id) {
+    invState.busy = true;
+    try {
+        const { error } = await supabase.from('inventory_instances').delete().eq('id', id);
+        if (error) throw error;
+        await fetchInventoryInstances();
+    } catch (err) {
+        console.error('Failed to remove inventory item:', err);
+    } finally {
+        invState.busy = false;
+    }
+}
+
+async function onInventorySaved() {
+    invState.selectorVisible = false;
+    invState.busy = true;
+    try {
+        await fetchInventoryInstances();
+    } catch (err) {
+        console.error('Failed to refresh inventory:', err);
+    } finally {
+        invState.busy = false;
+    }
+}
 
 onMounted(async () => {
     try {
-        // fetch the character row whose uuid matches the :id route param.
-        // .single() returns one object (and errors if 0 or >1 rows match).
-        const { data, error } = await supabase
-            .from('characters')
-            .select('*')
-            .eq('id', route.params.id)
-            .single();
+        // fetch the character row (.single() errors if 0 or >1 rows match) and
+        // its talent instances in parallel.
+        const [charResult, talentsResult] = await Promise.all([
+            supabase.from('characters').select('*').eq('id', route.params.id).single(),
+            supabase
+                .from('talent_instances')
+                .select('id, value, talents(name, type, description)')
+                .eq('character_id', route.params.id),
+            fetchInventoryInstances(),
+        ]);
 
-        if (error) throw error;
+        if (charResult.error) throw charResult.error;
+        if (talentsResult.error) throw talentsResult.error;
+
+        const data = charResult.data;
+        talentState.instances = talentsResult.data;
 
         // populate charData from the returned row. Each property below
         // references a column on the characters table.
@@ -184,6 +242,7 @@ onMounted(async () => {
               <Button icon="ra ra-campfire" label="Rest" class="art-deco-frame font-display text-lg" />
               <Button icon="ra ra-torch" label="Light" class="art-deco-frame font-display text-lg" />
               <Button icon="ra ra-muscle-fat" label="Advancement" class="art-deco-frame font-display text-lg" />
+              <Button icon="ra ra-quill-ink" label="Edit" class="art-deco-frame font-display text-lg" @click="editCharacter" />
             </div>
           </div>
 
@@ -234,12 +293,34 @@ onMounted(async () => {
         </div>
       </Panel>
       <Divider />
-      <Panel id="talents-el">
-        Contains Talents - use Volt Accordion component, use Multiple property and pass in value as array of dynamic
-        Talent objects
+      <Panel id="talents-el" header="Talents">
+        <DataTable :value="talentState.instances" dataKey="id" paginator :rows="25">
+          <Column field="talents.name" header="Name" />
+          <Column field="talents.type" header="Type" />
+          <Column field="talents.description" header="Description" />
+        </DataTable>
       </Panel>
-      <Panel id="inventory-el">
-        Contains Inventory
+      <Panel id="inventory-el" header="Inventory">
+        <LoadingState v-if="invState.busy" />
+        <div v-else class="flex flex-col gap-3">
+          <div class="flex justify-end">
+            <Button type="button" label="Add Items" icon="pi pi-plus"
+              @click="invState.selectorVisible = true" />
+          </div>
+          <DataTable :value="invState.instances" dataKey="id" paginator :rows="25">
+            <Column field="displayName" header="Name" />
+            <Column field="itemType" header="Type" />
+            <Column field="isEquipped" header="Equipped" />
+            <Column header="" headerStyle="width: 7rem">
+              <template #body="{ data }">
+                <DangerButton type="button" label="Remove" @click="removeInventoryInstance(data.id)" />
+              </template>
+            </Column>
+          </DataTable>
+        </div>
+
+        <InventorySelector v-model:visible="invState.selectorVisible" :character-id="route.params.id"
+          @saved="onInventorySaved" />
       </Panel>
     </section>
     <footer class="shrink-0 dark:text-surface-500" id="footer-el">
