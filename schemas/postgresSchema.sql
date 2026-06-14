@@ -246,7 +246,7 @@ CREATE TABLE talent_instances (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     character_id uuid NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
     talent_name text NOT NULL REFERENCES talents(name) ON DELETE CASCADE,
-    value text DEFAULT NULL
+    value jsonb DEFAULT NULL
 );
 
 -- Indexes for faster queries on the talent_instances table, e.g. finding all talent instances for a character

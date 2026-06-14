@@ -45,7 +45,7 @@ async function fetchTalents() {
     try {
         const { data, error } = await supabase
             .from('talents')
-            .select('name, type, description, path_name, isRepeatable')
+            .select('name, type, description, flavorText, path_name, isRepeatable, hasPicklist, picklistValues, picklistHasObj')
             .order('name')
 
         if (error) throw error
@@ -82,9 +82,21 @@ async function save() {
     state.saving = true
     state.saveError = ''
 
+    // value is a jsonb column capturing the talent's picklist metadata plus the
+    // user's eventual selection (selectedValue starts null)
     const rows = state.selected.map((t) => ({
         character_id: props.characterId,
         talent_name: t.name,
+        value: {
+            path_name: t.path_name,
+            type: t.type,
+            description: t.description,
+            flavorText: t.flavorText,
+            hasPicklist: t.hasPicklist,
+            picklistValues: t.picklistValues,
+            picklistHasObj: t.picklistHasObj,
+            selectedValue: null,
+        },
     }))
 
     const { error } = await supabase.from('talent_instances').insert(rows)
@@ -110,7 +122,7 @@ async function save() {
 
         <template v-else>
             <DataTable :value="availableTalents" v-model:selection="state.selected" dataKey="name" paginator :rows="25"
-                :filters="state.filters" :globalFilterFields="['name', 'type', 'description']" removableSort>
+                :filters="state.filters" :globalFilterFields="['name', 'type', 'description', 'path_name']" removableSort>
                 <template #header>
                     <div class="flex justify-end">
                         <InputText v-model="state.filters['global'].value" placeholder="Search talents" />
@@ -118,6 +130,7 @@ async function save() {
                 </template>
                 <Column selectionMode="multiple" headerStyle="width: 3rem" />
                 <Column field="name" header="Name" sortable />
+                <Column field="path_name" header="Path" sortable />
                 <Column field="type" header="Type" sortable />
                 <Column field="description" header="Description" />
             </DataTable>

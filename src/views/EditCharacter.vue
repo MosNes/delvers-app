@@ -74,7 +74,7 @@ const talentState = reactive({ instances: [], busy: false, selectorVisible: fals
 async function fetchTalentInstances() {
     const { data, error } = await supabase
         .from('talent_instances')
-        .select('id, value, talents(name, type, description)')
+        .select('id, value, talents(name, type, description, path_name)')
         .eq('character_id', route.params.id)
 
     if (error) throw error
@@ -275,6 +275,7 @@ function cancel() {
                 </div>
                 <DataTable :value="talentState.instances" dataKey="id" paginator :rows="25">
                     <Column field="talents.name" header="Name" />
+                    <Column field="talents.path_name" header="Path" />
                     <Column field="talents.type" header="Type" />
                     <Column field="talents.description" header="Description" />
                     <Column header="" headerStyle="width: 7rem">

@@ -15,8 +15,10 @@ import AttributeCard from '@/components/AttributeCard.vue';
 import Button from '@/volt/Button.vue';
 import SmallCard from '@/components/SmallCard.vue';
 import SkillCard from '@/components/SkillCard.vue';
-import DataTable from '@/volt/DataTable.vue';
-import Column from 'primevue/column';
+import Accordion from '@/volt/Accordion.vue';
+import AccordionPanel from '@/volt/AccordionPanel.vue';
+import AccordionHeader from '@/volt/AccordionHeader.vue';
+import AccordionContent from '@/volt/AccordionContent.vue';
 import DangerButton from '@/volt/DangerButton.vue';
 import InventorySelector from '@/components/InventorySelector.vue';
 import SavingState from '@/components/SavingState.vue';
@@ -165,7 +167,7 @@ onMounted(async () => {
             supabase.from('characters').select('*').eq('id', route.params.id).single(),
             supabase
                 .from('talent_instances')
-                .select('id, value, talents(name, type, description)')
+                .select('id, talent_name, value')
                 .eq('character_id', route.params.id),
             fetchInventoryInstances(),
         ]);
@@ -338,12 +340,26 @@ onMounted(async () => {
       </Panel>
       <Divider />
       <Panel id="talents-el" header="Talents">
-        <DataTable :value="talentState.instances" dataKey="id" paginator :rows="25">
-          <Column field="talents.name" header="Name" />
-          <Column field="talents.type" header="Type" />
-          <Column field="talents.description" header="Description" />
-        </DataTable>
+        <Accordion>
+          <AccordionPanel v-for="talent in talentState.instances" :key="talent.id" :value="talent.id">
+            <AccordionHeader class="font-display text-2xl">{{ talent.talent_name }}</AccordionHeader>
+            <AccordionContent class="p-3 text-lg art-deco-frame">
+              <div class="text-md text-gray-400 font-display">Path</div>
+              <div class="mb-2">{{ talent.value?.path_name }}</div>
+              <div class="text-md text-gray-400 font-display">Type</div>
+              <div class="mb-2">{{ talent.value?.type }}</div>
+              <div class="text-md text-gray-400 font-display">Description</div>
+              <div class="mb-2">{{ talent.value?.description }}</div>
+              <div v-if="talent.value?.flavorText" class="mb-2 italic text-gray-400">{{ talent.value.flavorText }}</div>
+              <div v-if="talent.value?.selectedValue !== null && talent.value?.selectedValue !== undefined">
+                <div class="text-md text-gray-400 font-display">Selection</div>
+                <div>{{ talent.value.selectedValue }}</div>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+        </Accordion>
       </Panel>
+      <Divider />
       <Panel id="inventory-el" header="Inventory">
         <LoadingState v-if="invState.busy" />
         <div v-else class="flex flex-col gap-3">
@@ -351,16 +367,20 @@ onMounted(async () => {
             <Button type="button" label="Add Items" icon="pi pi-plus"
               @click="invState.selectorVisible = true" />
           </div>
-          <DataTable :value="invState.instances" dataKey="id" paginator :rows="25">
-            <Column field="displayName" header="Name" />
-            <Column field="itemType" header="Type" />
-            <Column field="isEquipped" header="Equipped" />
-            <Column header="" headerStyle="width: 7rem">
-              <template #body="{ data }">
-                <DangerButton type="button" label="Remove" @click="removeInventoryInstance(data.id)" />
-              </template>
-            </Column>
-          </DataTable>
+          <Accordion>
+            <AccordionPanel v-for="item in invState.instances" :key="item.id" :value="item.id">
+              <AccordionHeader class="font-display text-2xl">{{ item.displayName }}</AccordionHeader>
+              <AccordionContent class="p-3 text-lg art-deco-frame">
+                <div class="text-md text-gray-400 font-display">Type</div>
+                <div class="mb-2">{{ item.itemType }}</div>
+                <div class="text-md text-gray-400 font-display">Equipped</div>
+                <div class="mb-2">{{ item.isEquipped ? 'Yes' : 'No' }}</div>
+                <div class="flex justify-end">
+                  <DangerButton type="button" label="Remove" @click="removeInventoryInstance(item.id)" />
+                </div>
+              </AccordionContent>
+            </AccordionPanel>
+          </Accordion>
         </div>
 
         <InventorySelector v-model:visible="invState.selectorVisible" :character-id="route.params.id"
