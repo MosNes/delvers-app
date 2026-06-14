@@ -387,8 +387,24 @@ onMounted(async () => {
           @saved="onInventorySaved" />
       </Panel>
     </section>
+    <Divider />
     <footer class="shrink-0 dark:text-surface-500" id="footer-el">
-      Contains nav buttons on mobile view. use Volt Drawer component for mobile view?
+      <Panel id="gambits">
+        <div class="text-2xl font-bold font-display">Gambits</div>
+        <div class="italic text-gray-400 text-lg">4+ or higher on damage roll</div>
+        <Divider />
+        <div class="text-xl">
+          <ul>
+            <li class="p-1"><i class="ra ra-sword"></i> Press the attack for +1 total damage</li>
+            <li class="p-1"><i class="ra ra-feather-wing"></i> Move after the Attack, even if you already moved or are unable to move</li>
+            <li class="p-1"><i class="ra ra-shield"></i> Repel an enemy away from you</li>
+            <li class="p-1"><i class="ra ra-nails"></i> Pin an opponent down, preventing them from moving next turn</li>
+            <li class="p-1"><i class="ra ra-broken-bone"></i> Impair an opponent's next attack</li>
+            <li class="p-1"><i class="ra ra-cracked-shield"></i> Expose a weak point, so all attacks ignore 1 point of Armor until your next turn</li>
+            <li class="p-1"><i class="ra ra-flame-symbol"></i> Other effects of similar impact</li>
+          </ul>
+        </div>
+      </Panel>
     </footer>
   </main>
 </template>
