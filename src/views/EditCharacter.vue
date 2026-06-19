@@ -38,10 +38,6 @@ const form = reactive({
     background: '',
     domains: [],
     skills: [],
-    advances: '',
-    minorAdvances: 0,
-    majorAdvances: 0,
-    pinnacleAdvances: 0,
     maxGuard: 0,
     armor: 0,
     maxBody: 0,
@@ -53,6 +49,12 @@ const form = reactive({
 
 // path picklist options, sourced from the paths table
 const paths = ref([])
+
+// destiny picklist options (from destinies table) + selected value.
+// selectedDestiny lives outside `form` because destiny is not a characters column —
+// it persists on the per-character destiny_tracker row.
+const destinies = ref([])
+const selectedDestiny = ref(null)
 
 // isNew is true when creating (no :id route param), false when editing
 const dataState = reactive({
@@ -124,24 +126,32 @@ onMounted(async () => {
                 return
             }
 
-            // only the path picklist is needed for a new (blank) character
-            const { data: pathsData, error: pathsError } = await supabase
-                .from('paths').select('name').eq('isAncestry', false).order('name')
-            if (pathsError) throw pathsError
+            // a new (blank) character needs the path and destiny picklists
+            const [pathsRes, destiniesRes] = await Promise.all([
+                supabase.from('paths').select('name').eq('isAncestry', false).order('name'),
+                supabase.from('destinies').select('id, name').order('name'),
+            ])
+            if (pathsRes.error) throw pathsRes.error
+            if (destiniesRes.error) throw destiniesRes.error
 
-            paths.value = pathsData
+            paths.value = pathsRes.data
+            destinies.value = destiniesRes.data
             dataState.isLoaded = true
             return
         }
 
-        const [charResult, pathsResult] = await Promise.all([
+        const [charResult, pathsResult, destiniesResult, trackerResult] = await Promise.all([
             supabase.from('characters').select('*').eq('id', route.params.id).single(),
             supabase.from('paths').select('name').eq('isAncestry', false).order('name'),
+            supabase.from('destinies').select('id, name').order('name'),
+            supabase.from('destiny_tracker').select('destiny').eq('character_id', route.params.id).maybeSingle(),
             fetchTalentInstances(),
         ])
 
         if (charResult.error) throw charResult.error
         if (pathsResult.error) throw pathsResult.error
+        if (destiniesResult.error) throw destiniesResult.error
+        if (trackerResult.error) throw trackerResult.error
 
         const data = charResult.data
         // copy each editable column into the form; arrays default to [] when null
@@ -151,6 +161,8 @@ onMounted(async () => {
         }
 
         paths.value = pathsResult.data
+        destinies.value = destiniesResult.data
+        selectedDestiny.value = trackerResult.data?.destiny ?? null
         dataState.isLoaded = true
     } catch (err) {
         console.error('Failed to load character for editing:', err)
@@ -168,6 +180,7 @@ async function saveCharacter() {
 
     try {
         // owner is set from the logged-in user rather than being an editable field
+        let characterId
         if (dataState.isNew) {
             const { data, error } = await supabase
                 .from('characters')
@@ -176,7 +189,7 @@ async function saveCharacter() {
                 .single()
 
             if (error) throw error
-            router.push({ name: 'character', params: { id: data.id } })
+            characterId = data.id
         } else {
             const { error } = await supabase
                 .from('characters')
@@ -184,8 +197,16 @@ async function saveCharacter() {
                 .eq('id', route.params.id)
 
             if (error) throw error
-            router.push({ name: 'character', params: { id: route.params.id } })
+            characterId = route.params.id
         }
+
+        // create-or-update the character's destiny tracker (one row per character)
+        const { error: trackerError } = await supabase
+            .from('destiny_tracker')
+            .upsert({ character_id: characterId, destiny: selectedDestiny.value }, { onConflict: 'character_id' })
+        if (trackerError) throw trackerError
+
+        router.push({ name: 'character', params: { id: characterId } })
     } catch (err) {
         saveError.value = err.message
     } finally {
@@ -245,7 +266,16 @@ function cancel() {
             </div>
         </Panel>
 
-        <!-- Skills, Domains, Talents, Advances -->
+        <!-- Destiny (persisted to the per-character destiny_tracker, not the characters row) -->
+        <Panel header="Destiny">
+            <div class="flex flex-col gap-1">
+                <label for="destiny" class="text-sm font-medium">Destiny</label>
+                <Select id="destiny" v-model="selectedDestiny" :options="destinies" optionLabel="name"
+                    optionValue="name" placeholder="Select a destiny" showClear fluid />
+            </div>
+        </Panel>
+
+        <!-- Skills &amp; Domains -->
         <Panel header="Skills &amp; Domains">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1">
@@ -255,10 +285,6 @@ function cancel() {
                 <div class="flex flex-col gap-1">
                     <label for="skills" class="text-sm font-medium">Skills</label>
                     <TagInput input-id="skills" v-model="form.skills" placeholder="Type a skill and tap Add" />
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="advances" class="text-sm font-medium">Advances</label>
-                    <InputText id="advances" v-model="form.advances" fluid />
                 </div>
             </div>
         </Panel>
@@ -315,24 +341,6 @@ function cancel() {
                 <div class="flex flex-col gap-1">
                     <label for="maxSpirit" class="text-sm font-medium">Max Spirit</label>
                     <InputNumber id="maxSpirit" v-model="form.maxSpirit" :min="0" fluid />
-                </div>
-            </div>
-        </Panel>
-
-        <!-- Advancement counters -->
-        <Panel header="Progression">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="flex flex-col gap-1">
-                    <label for="minorAdvances" class="text-sm font-medium">Minor Advances</label>
-                    <InputNumber id="minorAdvances" v-model="form.minorAdvances" :min="0" fluid />
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="majorAdvances" class="text-sm font-medium">Major Advances</label>
-                    <InputNumber id="majorAdvances" v-model="form.majorAdvances" :min="0" fluid />
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="pinnacleAdvances" class="text-sm font-medium">Pinnacle Advances</label>
-                    <InputNumber id="pinnacleAdvances" v-model="form.pinnacleAdvances" :min="0" fluid />
                 </div>
             </div>
         </Panel>

@@ -199,17 +199,23 @@ onMounted(async () => {
     try {
         // fetch the character row (.single() errors if 0 or >1 rows match) and
         // its talent instances in parallel.
-        const [charResult, talentsResult] = await Promise.all([
+        const [charResult, talentsResult, trackerResult] = await Promise.all([
             supabase.from('characters').select('*').eq('id', route.params.id).single(),
             supabase
                 .from('talent_instances')
                 .select('id, talent_name, value')
                 .eq('character_id', route.params.id),
+            supabase
+                .from('destiny_tracker')
+                .select('destiny')
+                .eq('character_id', route.params.id)
+                .maybeSingle(),
             fetchInventoryInstances(),
         ]);
 
         if (charResult.error) throw charResult.error;
         if (talentsResult.error) throw talentsResult.error;
+        if (trackerResult.error) throw trackerResult.error;
 
         const data = charResult.data;
         talentState.instances = talentsResult.data;
@@ -251,6 +257,9 @@ onMounted(async () => {
         charData.mindStress = data.mindStress;
         charData.spiritStress = data.spiritStress;
         charData.notes = data.notes;
+
+        // destiny lives on the per-character destiny_tracker (not the characters row)
+        charData.destiny = trackerResult.data?.destiny ?? null;
 
         dataState.isLoaded = true;
 
@@ -298,7 +307,7 @@ onMounted(async () => {
 
                 <div>
                   <div class="text-sm text-gray-400 font-display">Destiny</div>
-                  <div class="text-lg">{{ charData.destiny }}</div>
+                  <div class="text-lg">{{ charData.destiny || '—' }}</div>
                 </div>
 
                 <div>
