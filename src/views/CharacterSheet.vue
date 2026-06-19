@@ -1,7 +1,7 @@
 <!-- the character sheet view displays all the information for a character, including their attributes, skills, talents, and inventory. -->
 <script setup>
 //import vue features
-import { reactive, ref, watch, onMounted, onUnmounted } from 'vue';
+import { reactive, ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 //import supabase client
@@ -19,8 +19,9 @@ import Accordion from '@/volt/Accordion.vue';
 import AccordionPanel from '@/volt/AccordionPanel.vue';
 import AccordionHeader from '@/volt/AccordionHeader.vue';
 import AccordionContent from '@/volt/AccordionContent.vue';
-import DangerButton from '@/volt/DangerButton.vue';
 import InventorySelector from '@/components/InventorySelector.vue';
+import Item from '@/components/Item.vue';
+import ToggleSwitch from '@/volt/ToggleSwitch.vue';
 import SavingState from '@/components/SavingState.vue';
 import Textarea from '@/volt/Textarea.vue';
 
@@ -77,6 +78,23 @@ const talentState = reactive({ instances: [] });
 // inventory instances for this character (single reactive state object)
 const invState = reactive({ instances: [], busy: false, selectorVisible: false });
 
+// inventory capacity: max derived from Body, current = sum of item slots
+const maxSlots = computed(() => Math.floor(10 + (charData.maxBody - 10) / 2));
+const currentSlots = computed(() =>
+    invState.instances.reduce((sum, item) => sum + (item.item_config?.slots ?? 0), 0)
+);
+const isEncumbered = computed(() => currentSlots.value >= maxSlots.value);
+
+// while encumbered, Guard is forced to 0 and held there; on becoming unencumbered, Guard is restored to max
+watch([isEncumbered, () => charData.currentGuard], ([encumbered], [prevEncumbered]) => {
+    if (encumbered) {
+        if (charData.currentGuard !== 0) charData.currentGuard = 0;
+    } else if (prevEncumbered) {
+        // transition out of encumbrance → restore Guard to full
+        charData.currentGuard = charData.maxGuard;
+    }
+});
+
 // autosave state (single reactive state object) + popover ref + debounce timer
 const saveState = reactive({ isError: false, errorMessage: '' });
 const savingState = ref(null);
@@ -128,11 +146,28 @@ function editCharacter() {
 async function fetchInventoryInstances() {
     const { data, error } = await supabase
         .from('inventory_instances')
-        .select('id, itemType, baseItem, displayName, isEquipped, stackValue')
+        .select('id, itemType, baseItem, displayName, isEquipped, stackValue, item_config')
         .eq('character_id', route.params.id);
 
     if (error) throw error;
     invState.instances = data;
+}
+
+function capitalizeType(t) {
+    return t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+}
+
+// Equipped toggles in the accordion title persist immediately (no edit mode there)
+async function toggleEquipped(item) {
+    // v-model has already flipped item.isEquipped
+    const { error } = await supabase
+        .from('inventory_instances')
+        .update({ isEquipped: item.isEquipped })
+        .eq('id', item.id);
+    if (error) {
+        console.error('Failed to update equipped state:', error);
+        item.isEquipped = !item.isEquipped; // revert on failure
+    }
 }
 
 async function removeInventoryInstance(id) {
@@ -341,7 +376,10 @@ onMounted(async () => {
         </div>
       </Panel>
       <Divider />
-      <Panel id="talents-el" header="Talents">
+      <Panel id="talents-el">
+        <template #header>
+          <span class="text-2xl font-bold font-display">Talents</span>
+        </template>
         <Accordion>
           <AccordionPanel v-for="talent in talentState.instances" :key="talent.id" :value="talent.id">
             <AccordionHeader class="font-display text-2xl">{{ talent.talent_name }}</AccordionHeader>
@@ -362,24 +400,42 @@ onMounted(async () => {
         </Accordion>
       </Panel>
       <Divider />
-      <Panel id="inventory-el" header="Inventory">
+      <Panel id="inventory-el">
+        <template #header>
+          <span class="text-2xl font-bold font-display">Inventory</span>
+        </template>
+        
         <LoadingState v-if="invState.busy" />
         <div v-else class="flex flex-col gap-3">
+          <div id="inventory-slots-el" class="flex justify-start">
+            <!-- current slots used / max slots -->
+            <div>
+              <div class="text-md text-gray-400 font-display">Inventory Slots</div>
+              <div class="text-2xl" :class="{ 'text-red-500': isEncumbered }">
+                {{ currentSlots }} / {{ maxSlots }}
+              </div>
+            </div>
+          </div>
           <div class="flex justify-end">
             <Button type="button" label="Add Items" icon="pi pi-plus"
               @click="invState.selectorVisible = true" />
           </div>
           <Accordion>
             <AccordionPanel v-for="item in invState.instances" :key="item.id" :value="item.id">
-              <AccordionHeader class="font-display text-2xl">{{ item.displayName }}</AccordionHeader>
-              <AccordionContent class="p-3 text-lg art-deco-frame">
-                <div class="text-md text-gray-400 font-display">Type</div>
-                <div class="mb-2">{{ item.itemType }}</div>
-                <div class="text-md text-gray-400 font-display">Equipped</div>
-                <div class="mb-2">{{ item.isEquipped ? 'Yes' : 'No' }}</div>
-                <div class="flex justify-end">
-                  <DangerButton type="button" label="Remove" @click="removeInventoryInstance(item.id)" />
+              <AccordionHeader class="font-display">
+                <div class="flex items-center gap-3 grow">
+                  <!-- @click.stop so toggling Equipped does NOT open/close the accordion -->
+                  <span class="flex items-center gap-2" @click.stop>
+                    <ToggleSwitch v-model="item.isEquipped" @change="toggleEquipped(item)" />
+                    <span class="text-base text-gray-400 font-display">Equipped</span>
+                  </span>
+                  <span class="text-2xl">{{ item.displayName }}</span>
+                  <span class="ml-auto text-base text-gray-400 mr-3">{{ capitalizeType(item.itemType) }}</span>
                 </div>
+              </AccordionHeader>
+              <AccordionContent class="p-3">
+                <Item :id="item.id" :item_config="item.item_config"
+                  @saved="onInventorySaved" @remove="removeInventoryInstance" />
               </AccordionContent>
             </AccordionPanel>
           </Accordion>

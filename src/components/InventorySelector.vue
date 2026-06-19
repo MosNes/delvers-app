@@ -29,6 +29,25 @@ const TYPE_TABLE = {
     artifact: 'artifacts',
 }
 
+// build the default item_config jsonb for a newly-created inventory instance
+// from the selected base item; see "Inventory Instances Data Model" in CLAUDE.md
+function buildItemConfig(item, itemType) {
+    return {
+        name: item.name,
+        dmg: itemType === 'weapon' ? (item.baseDmg ?? null) : null,
+        description: item.description ?? null,
+        effect: item.effect ?? null,
+        stackValue: item.stack != null ? Math.max(1, item.stack) : 1,
+        armor:
+            itemType === 'armor' ? (item.armor_value ?? 0)
+            : itemType === 'weapon' ? (item.armor ?? 0)
+            : 0,
+        hasClock: item.hasClock ?? false,
+        clockValue: item.clockValue ?? 0,
+        slots: item.slots ?? 0,
+    }
+}
+
 const typeOptions = [
     { label: 'Gear', value: 'gear' },
     { label: 'Armor', value: 'armor' },
@@ -55,7 +74,7 @@ async function fetchItems() {
     try {
         const { data, error } = await supabase
             .from(TYPE_TABLE[state.itemType])
-            .select('id, name, description, slots')
+            .select('*')
             .order('name')
 
         if (error) throw error
@@ -105,6 +124,7 @@ async function save() {
         itemType: state.itemType,
         baseItem: item.id,
         displayName: item.name,
+        item_config: buildItemConfig(item, state.itemType),
     }))
 
     const { error } = await supabase.from('inventory_instances').insert(rows)

@@ -227,6 +227,7 @@ CREATE TABLE inventory_instances (
     "slotOverride" integer CHECK ("slotOverride" >= 0),
     "stackValue" integer CHECK ("stackValue" >= 0),
     "specialOverride" text,
+    "item_config" jsonb NOT NULL DEFAULT '{}'::jsonb,
     "createdDate" timestamptz NOT NULL DEFAULT now()
 );
 

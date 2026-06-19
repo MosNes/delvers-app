@@ -94,4 +94,5 @@ item_config object schema:
     armor: int. custom armor value, defaults to baseItem value. Minimum 0.
     hasClock: boolean. custom hasClock value, defaults to baseItem value. If baseItem does does not specify, set to false.
     clockValue: int. custom clockValue, defaults to baseItem value. If baseItem does not specify, set to 0.
+    slots: int. custom slot value, defaults to baseItem value. If baseItem does not specify, set to 0.
 }
