@@ -76,3 +76,22 @@ Cloudflare bindings (D1, KV, etc.) are accessed through the Worker `env` object,
 ## Data Model
 
 The RPG domain includes: characters, attributes (Body/Speed/Mind/Spirit), skills, talents, paths, advances, domains, fighting styles, rituals, armor, weapons, gear, artifacts, and curios. JSON schemas for each type are in `schemas/`. The character sheet data shape is in `schemas/characterSheet.json` and `seeds/test_character.json`.
+
+### Inventory Instances Data Model
+Inventory Instances contains a jsonb column called item_config.
+item_config allows a user to customize the item for their character:
+- Rename the item
+- Customize the Slots and Damage dice
+- Add custom description
+
+item_config object schema:
+{
+    name: string. custom name, defaults to baseItem name
+    dmg: string. damage dice, defaults to baseItem damage if baseItem is a weapon, otherwise set to null
+    description: string. custom description, defaults to baseItem description
+    effect: string. custom effect, defaults to baseItem effect. If baseItem does not specify, set to null.
+    stackValue: int. custom stack value, defaults to baseItem stack value. Minimum 1.
+    armor: int. custom armor value, defaults to baseItem value. Minimum 0.
+    hasClock: boolean. custom hasClock value, defaults to baseItem value. If baseItem does does not specify, set to false.
+    clockValue: int. custom clockValue, defaults to baseItem value. If baseItem does not specify, set to 0.
+}
