@@ -26,6 +26,7 @@ DROP TABLE IF EXISTS
     fighting_styles,
     rituals,
     tags,
+    beats,
     destinies,
     user_profiles
 CASCADE;
@@ -101,6 +102,16 @@ CREATE TABLE destinies (
     name text NOT NULL,
     description text
 );
+
+CREATE TABLE beats (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    type text NOT NULL CHECK (type IN ('Minor', 'Major', 'Pinnacle')),
+    destiny_id uuid NOT NULL REFERENCES destinies(id) ON DELETE CASCADE,
+    description text
+);
+
+-- Index for faster lookups of beats by destiny
+CREATE INDEX idx_beats_destiny_id ON beats(destiny_id);
 
 -- paths table also includes Ancestry Talents
 CREATE TABLE paths (
