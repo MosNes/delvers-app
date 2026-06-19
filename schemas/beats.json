@@ -1,5 +1,6 @@
 {
     "id": "Internal UUID of beat",
+    "type": "enum. 'Minor', 'Major', 'Pinnacle'",
     "destiny_id": "FK. UUID of destiny in database",
     "name": "String name of beat",
     "description": "String description of beat"
