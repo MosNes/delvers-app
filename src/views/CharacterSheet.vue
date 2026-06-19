@@ -21,6 +21,8 @@ import AccordionHeader from '@/volt/AccordionHeader.vue';
 import AccordionContent from '@/volt/AccordionContent.vue';
 import InventorySelector from '@/components/InventorySelector.vue';
 import Item from '@/components/Item.vue';
+import BeatSelector from '@/components/BeatSelector.vue';
+import SecondaryButton from '@/volt/SecondaryButton.vue';
 import ToggleSwitch from '@/volt/ToggleSwitch.vue';
 import SavingState from '@/components/SavingState.vue';
 import Textarea from '@/volt/Textarea.vue';
@@ -63,7 +65,9 @@ const charData = reactive({
   speedStress: false,
   mindStress: false,
   spiritStress: false,
-  notes: "JIMMY FROGMAN IS A FROGMAN"
+  notes: "JIMMY FROGMAN IS A FROGMAN",
+  beat1: null,
+  beat2: null
 });
 
 // sheet view state data
@@ -118,8 +122,8 @@ async function performSave() {
     saveState.errorMessage = '';
     savingState.value?.show();
 
-    // destiny and inventory are not columns on the characters table — exclude them
-    const { destiny, inventory, ...payload } = charData;
+    // destiny, inventory, and session beats are not columns on the characters table — exclude them
+    const { destiny, inventory, beat1, beat2, ...payload } = charData;
     const { error } = await supabase
         .from('characters')
         .update(payload)
@@ -193,6 +197,17 @@ async function onInventorySaved() {
     } finally {
         invState.busy = false;
     }
+}
+
+// session beats: which card is selecting, and the selector dialog visibility
+const beatState = reactive({ visible: false, target: 'beat1' });
+function openBeatSelector(target) {
+    beatState.target = target;
+    beatState.visible = true;
+}
+function onBeatSelected(beat) {
+    charData[beatState.target] = beat;
+    beatState.visible = false;
 }
 
 onMounted(async () => {
@@ -376,6 +391,36 @@ onMounted(async () => {
           </div>
 
         </div>
+      </Panel>
+      <Divider />
+      <Panel id="session-beats-el">
+        <template #header>
+          <span class="text-2xl font-bold font-display">Session Beats</span>
+        </template>
+        <!-- 1 column stacked on small screens, 2 columns at md+ -->
+        <div class="flex flex-col md:flex-row gap-4">
+          <div v-for="slot in ['beat1', 'beat2']" :key="slot"
+            class="flex-1 attribute-card-border p-4 flex flex-col gap-2">
+            <template v-if="charData[slot]">
+              <div class="text-md text-gray-400 font-display">Type</div>
+              <div class="mb-1">{{ charData[slot].type }}</div>
+              <div class="text-md text-gray-400 font-display">Description</div>
+              <div>{{ charData[slot].description }}</div>
+              <div class="flex justify-end mt-2">
+                <SecondaryButton type="button" label="Clear" @click="charData[slot] = null" />
+              </div>
+            </template>
+            <template v-else>
+              <div class="flex justify-center">
+                <Button type="button" label="Select Beat" :disabled="!charData.destiny"
+                  @click="openBeatSelector(slot)" />
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <BeatSelector v-model:visible="beatState.visible" :destiny="charData.destiny"
+          @selected="onBeatSelected" />
       </Panel>
       <Divider />
       <Panel id="skills-and-domains-el">
