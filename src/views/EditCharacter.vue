@@ -15,7 +15,7 @@ import InputText from '@/volt/InputText.vue'
 import InputNumber from '@/volt/InputNumber.vue'
 import Select from '@/volt/Select.vue'
 import Textarea from '@/volt/Textarea.vue'
-import AutoComplete from '@/volt/AutoComplete.vue'
+import TagInput from '@/components/TagInput.vue'
 import DataTable from '@/volt/DataTable.vue'
 import Column from 'primevue/column'
 import DangerButton from '@/volt/DangerButton.vue'
@@ -250,13 +250,11 @@ function cancel() {
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1">
                     <label for="domains" class="text-sm font-medium">Domains</label>
-                    <AutoComplete id="domains" v-model="form.domains" multiple :typeahead="false"
-                        placeholder="Type and press Enter" fluid />
+                    <TagInput input-id="domains" v-model="form.domains" placeholder="Type a domain and tap Add" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="skills" class="text-sm font-medium">Skills</label>
-                    <AutoComplete id="skills" v-model="form.skills" multiple :typeahead="false"
-                        placeholder="Type and press Enter" fluid />
+                    <TagInput input-id="skills" v-model="form.skills" placeholder="Type a skill and tap Add" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="advances" class="text-sm font-medium">Advances</label>
