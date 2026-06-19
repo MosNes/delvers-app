@@ -1,0 +1,6 @@
+{
+    "id": "Internal UUID of beat",
+    "destiny_id": "FK. UUID of destiny in database",
+    "name": "String name of beat",
+    "description": "String description of beat"
+}
