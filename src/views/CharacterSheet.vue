@@ -233,6 +233,7 @@ onMounted(async () => {
   <LoadingState v-if="!dataState.isLoaded" :is-error="dataState.isError" class="min-h-screen" />
   <!-- flex flex-col creates vertical stack -->
   <main v-else class="min-h-screen flex flex-col p-2">
+    <Divider />
     <SavingState ref="savingState" :is-error="saveState.isError" :error-message="saveState.errorMessage" />
     <!-- flex-1 creates a flex container that takes up the remaining space in the parent container -->
     <section class="flex flex-1 flex-col">
