@@ -20,6 +20,7 @@ import AccordionPanel from '@/volt/AccordionPanel.vue';
 import AccordionHeader from '@/volt/AccordionHeader.vue';
 import AccordionContent from '@/volt/AccordionContent.vue';
 import InventorySelector from '@/components/InventorySelector.vue';
+import RandomSelector from '@/components/RandomSelector.vue';
 import Item from '@/components/Item.vue';
 import BeatSelector from '@/components/BeatSelector.vue';
 import SecondaryButton from '@/volt/SecondaryButton.vue';
@@ -81,6 +82,13 @@ const talentState = reactive({ instances: [] });
 
 // inventory instances for this character (single reactive state object)
 const invState = reactive({ instances: [], busy: false, selectorVisible: false });
+
+// random curio/artifact generator dialog
+const randomState = reactive({ visible: false, itemType: 'curio' });
+function openRandom(itemType) {
+    randomState.itemType = itemType;
+    randomState.visible = true;
+}
 
 // inventory capacity: max derived from Body, current = sum of item slots
 const maxSlots = computed(() => Math.floor(10 + (charData.maxBody - 10) / 2));
@@ -499,8 +507,10 @@ onMounted(async () => {
           <div class="flex flex-col sm:flex-row sm:justify-end gap-4">
             <Button type="button" label="Add Items" icon="pi pi-plus" class="art-deco-frame font-display text-lg w-full sm:w-auto"
               @click="invState.selectorVisible = true" />
-            <Button type="button" label="Random Curio" icon="ra ra-ball" class="art-deco-frame font-display text-lg w-full sm:w-auto" />
-            <Button type="button" label="Random Artifact" icon="ra ra-rune-stone" class="art-deco-frame font-display text-lg w-full sm:w-auto" />
+            <Button type="button" label="Random Curio" icon="ra ra-ball" class="art-deco-frame font-display text-lg w-full sm:w-auto"
+              @click="openRandom('curio')" />
+            <Button type="button" label="Random Artifact" icon="ra ra-rune-stone" class="art-deco-frame font-display text-lg w-full sm:w-auto"
+              @click="openRandom('artifact')" />
           </div>
           <Accordion>
             <AccordionPanel v-for="item in invState.instances" :key="item.id" :value="item.id">
@@ -525,6 +535,9 @@ onMounted(async () => {
 
         <InventorySelector v-model:visible="invState.selectorVisible" :character-id="route.params.id"
           @saved="onInventorySaved" />
+
+        <RandomSelector v-model:visible="randomState.visible" :character-id="route.params.id"
+          :item-type="randomState.itemType" @saved="onInventorySaved" />
       </Panel>
     </section>
     <Divider />
