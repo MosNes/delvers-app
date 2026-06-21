@@ -288,12 +288,16 @@ CREATE TABLE destiny_tracker (
     destiny_id uuid NOT NULL REFERENCES destinies(id) ON DELETE CASCADE,
     destiny text,                      -- currently selected destiny (by name); intentionally NOT a FK
     completed_beats jsonb NOT NULL DEFAULT '[]'::jsonb,  -- array of beat objects, may span multiple destinies
+    selected_beat_1 uuid REFERENCES beats(id) ON DELETE SET NULL,  -- first session beat slot
+    selected_beat_2 uuid REFERENCES beats(id) ON DELETE SET NULL,  -- second session beat slot
     UNIQUE (character_id)              -- one tracker per character → enables upsert on conflict
 );
 
 -- Indexes for faster queries on the destiny_tracker table, e.g. finding the destiny tracker for a character
 CREATE INDEX idx_destiny_tracker_character_id ON destiny_tracker(character_id);
 CREATE INDEX idx_destiny_tracker_destiny_id ON destiny_tracker(destiny_id);
+CREATE INDEX idx_destiny_tracker_selected_beat_1 ON destiny_tracker(selected_beat_1);
+CREATE INDEX idx_destiny_tracker_selected_beat_2 ON destiny_tracker(selected_beat_2);
 
 -- =============================================================================
 -- Supabase Auth → public.user_profiles sync

@@ -1,6 +1,6 @@
 <!-- modal for selecting a single beat belonging to a character's destiny -->
 <script setup>
-import { reactive, watch } from 'vue'
+import { reactive, computed, watch } from 'vue'
 
 import { supabase } from '@/lib/supabaseClient'
 
@@ -10,6 +10,7 @@ import DataTable from '@/volt/DataTable.vue'
 import Column from 'primevue/column'
 import Button from '@/volt/Button.vue'
 import SecondaryButton from '@/volt/SecondaryButton.vue'
+import Select from '@/volt/Select.vue'
 
 const props = defineProps({
     destinyId: { type: String, default: null }, // destiny_tracker.destiny_id
@@ -18,29 +19,33 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible', 'selected'])
 
+// beats.type is constrained to these values in the DB (postgresSchema.sql)
+const BEAT_TYPES = ['Minor', 'Major', 'Pinnacle']
+
 const state = reactive({
     items: [],
+    typeFilter: null,
     isLoaded: false,
     isError: false,
 })
 
+const filteredBeats = computed(() =>
+    state.typeFilter
+        ? state.items.filter((b) => b.type === state.typeFilter)
+        : state.items
+)
+
 async function fetchBeats() {
     state.isLoaded = false
     state.isError = false
+    state.typeFilter = null
     try {
-        // #region agent log
-        fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'479103'},body:JSON.stringify({sessionId:'479103',runId:'run1',hypothesisId:'A',location:'BeatSelector.vue:fetchBeats-entry',message:'fetchBeats called',data:{destinyId:props.destinyId,destinyIdType:typeof props.destinyId},timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
         // beats.destiny_id → destinies(id); filter directly by the character's destiny_id.
         const { data, error } = await supabase
             .from('beats')
             .select('id, type, description')
             .eq('destiny_id', props.destinyId)
             .order('type')
-
-        // #region agent log
-        fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'479103'},body:JSON.stringify({sessionId:'479103',runId:'run1',hypothesisId:'B,C',location:'BeatSelector.vue:fetchBeats-query',message:'beats query result',data:{rowCount:Array.isArray(data)?data.length:null,error:error?{message:error.message,code:error.code,details:error.details}:null,queriedDestinyId:props.destinyId},timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
 
         if (error) throw error
 
@@ -82,12 +87,18 @@ function select(beat) {
         <LoadingState v-if="!state.isLoaded" :is-error="state.isError" />
 
         <template v-else>
-            <DataTable :value="state.items" dataKey="id" paginator :rows="25" removableSort>
+            <DataTable :value="filteredBeats" dataKey="id" paginator :rows="25" removableSort>
+                <template #header>
+                    <div class="flex justify-end">
+                        <Select v-model="state.typeFilter" :options="BEAT_TYPES"
+                            placeholder="Filter by type" showClear />
+                    </div>
+                </template>
                 <Column field="type" header="Type" sortable />
                 <Column field="description" header="Description" />
                 <Column header="" headerStyle="width: 8rem">
                     <template #body="{ data }">
-                        <Button type="button" label="Select" @click="select(data)" />
+                        <Button type="button" label="Select" @click="select(data)" class="art-deco-frame font-display text-lg" />
                     </template>
                 </Column>
             </DataTable>
@@ -95,7 +106,7 @@ function select(beat) {
 
         <template #footer>
             <div class="flex justify-end">
-                <SecondaryButton type="button" label="Cancel" @click="emit('update:visible', false)" />
+                <Button type="button" label="Cancel" @click="emit('update:visible', false)" class="art-deco-frame font-display text-lg" />
             </div>
         </template>
     </Dialog>

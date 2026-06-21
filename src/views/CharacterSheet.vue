@@ -203,13 +203,32 @@ async function onInventorySaved() {
 // destinyId is kept out of charData so it isn't sent in the characters autosave payload.
 const destinyId = ref(null);
 const beatState = reactive({ visible: false, target: 'beat1' });
+// maps each on-sheet beat slot to its destiny_tracker FK column
+const SLOT_COLUMN = { beat1: 'selected_beat_1', beat2: 'selected_beat_2' };
+
 function openBeatSelector(target) {
     beatState.target = target;
     beatState.visible = true;
 }
+
+async function persistBeat(slot, beatId) {
+    const { error } = await supabase
+        .from('destiny_tracker')
+        .update({ [SLOT_COLUMN[slot]]: beatId })
+        .eq('character_id', route.params.id);
+    if (error) console.error('Failed to persist beat:', error);
+}
+
 function onBeatSelected(beat) {
-    charData[beatState.target] = beat;
+    const slot = beatState.target;
+    charData[slot] = beat;
     beatState.visible = false;
+    persistBeat(slot, beat.id);
+}
+
+function clearBeat(slot) {
+    charData[slot] = null;
+    persistBeat(slot, null);
 }
 
 onMounted(async () => {
@@ -224,7 +243,9 @@ onMounted(async () => {
                 .eq('character_id', route.params.id),
             supabase
                 .from('destiny_tracker')
-                .select('destiny, destiny_id')
+                .select(`destiny, destiny_id, selected_beat_1, selected_beat_2,
+                         beat1:beats!selected_beat_1 (id, type, description),
+                         beat2:beats!selected_beat_2 (id, type, description)`)
                 .eq('character_id', route.params.id)
                 .maybeSingle(),
             fetchInventoryInstances(),
@@ -278,10 +299,8 @@ onMounted(async () => {
         // destiny lives on the per-character destiny_tracker (not the characters row)
         charData.destiny = trackerResult.data?.destiny ?? null;
         destinyId.value = trackerResult.data?.destiny_id ?? null;
-
-        // #region agent log
-        fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'479103'},body:JSON.stringify({sessionId:'479103',runId:'run1',hypothesisId:'A,D',location:'CharacterSheet.vue:onMounted-tracker',message:'destiny_tracker loaded',data:{trackerRow:trackerResult.data,resolvedDestinyId:destinyId.value,destinyName:charData.destiny},timestamp:Date.now()})}).catch(()=>{});
-        // #endregion
+        charData.beat1 = trackerResult.data?.beat1 ?? null;
+        charData.beat2 = trackerResult.data?.beat2 ?? null;
 
         dataState.isLoaded = true;
 
@@ -407,19 +426,19 @@ onMounted(async () => {
         <!-- 1 column stacked on small screens, 2 columns at md+ -->
         <div class="flex flex-col md:flex-row gap-4">
           <div v-for="slot in ['beat1', 'beat2']" :key="slot"
-            class="flex-1 attribute-card-border p-4 flex flex-col gap-2">
+            class="flex-1 attribute-card-border p-6 flex flex-col gap-2  bg-[var(--p-surface-800)]">
             <template v-if="charData[slot]">
               <div class="text-md text-gray-400 font-display">Type</div>
               <div class="mb-1">{{ charData[slot].type }}</div>
               <div class="text-md text-gray-400 font-display">Description</div>
               <div>{{ charData[slot].description }}</div>
               <div class="flex justify-end mt-2">
-                <SecondaryButton type="button" label="Clear" @click="charData[slot] = null" />
+                <Button type="button" label="Clear" @click="clearBeat(slot)" class="art-deco-frame font-display text-lg" />
               </div>
             </template>
             <template v-else>
               <div class="flex justify-center">
-                <Button type="button" label="Select Beat" :disabled="!destinyId"
+                <Button type="button" label="Select Beat" :disabled="!destinyId" class="art-deco-frame font-display text-lg"
                   @click="openBeatSelector(slot)" />
               </div>
             </template>
