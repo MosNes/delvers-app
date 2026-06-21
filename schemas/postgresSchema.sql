@@ -285,6 +285,7 @@ CREATE INDEX idx_tag_junctions_inventory_instance_id ON tag_junctions(inventory_
 CREATE TABLE destiny_tracker (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     character_id uuid NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
+    destiny_id uuid NOT NULL REFERENCES destinies(id) ON DELETE CASCADE,
     destiny text,                      -- currently selected destiny (by name); intentionally NOT a FK
     completed_beats jsonb NOT NULL DEFAULT '[]'::jsonb,  -- array of beat objects, may span multiple destinies
     UNIQUE (character_id)              -- one tracker per character → enables upsert on conflict
@@ -292,6 +293,7 @@ CREATE TABLE destiny_tracker (
 
 -- Indexes for faster queries on the destiny_tracker table, e.g. finding the destiny tracker for a character
 CREATE INDEX idx_destiny_tracker_character_id ON destiny_tracker(character_id);
+CREATE INDEX idx_destiny_tracker_destiny_id ON destiny_tracker(destiny_id);
 
 -- =============================================================================
 -- Supabase Auth → public.user_profiles sync
