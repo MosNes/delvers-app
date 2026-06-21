@@ -496,11 +496,11 @@ onMounted(async () => {
               </div>
             </div>
           </div>
-          <div class="flex justify-end gap-4">
-            <Button type="button" label="Add Items" icon="pi pi-plus" class="art-deco-frame font-display text-lg"
+          <div class="flex flex-col sm:flex-row sm:justify-end gap-4">
+            <Button type="button" label="Add Items" icon="pi pi-plus" class="art-deco-frame font-display text-lg w-full sm:w-auto"
               @click="invState.selectorVisible = true" />
-            <Button type="button" label="Random Curio" icon="ra ra-ball" class="art-deco-frame font-display text-lg" />
-            <Button type="button" label="Random Artifact" icon="ra ra-rune-stone" class="art-deco-frame font-display text-lg" />
+            <Button type="button" label="Random Curio" icon="ra ra-ball" class="art-deco-frame font-display text-lg w-full sm:w-auto" />
+            <Button type="button" label="Random Artifact" icon="ra ra-rune-stone" class="art-deco-frame font-display text-lg w-full sm:w-auto" />
           </div>
           <Accordion>
             <AccordionPanel v-for="item in invState.instances" :key="item.id" :value="item.id">
