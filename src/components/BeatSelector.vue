@@ -12,7 +12,7 @@ import Button from '@/volt/Button.vue'
 import SecondaryButton from '@/volt/SecondaryButton.vue'
 
 const props = defineProps({
-    destiny: { type: String, default: null }, // destiny name (destiny_tracker.destiny)
+    destinyId: { type: String, default: null }, // destiny_tracker.destiny_id
     visible: { type: Boolean, default: false },
 })
 
@@ -28,17 +28,23 @@ async function fetchBeats() {
     state.isLoaded = false
     state.isError = false
     try {
-        // beats.destiny_id → destinies(id); the character's destiny is stored by name,
-        // so join through destinies and filter on its name.
+        // #region agent log
+        fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'479103'},body:JSON.stringify({sessionId:'479103',runId:'run1',hypothesisId:'A',location:'BeatSelector.vue:fetchBeats-entry',message:'fetchBeats called',data:{destinyId:props.destinyId,destinyIdType:typeof props.destinyId},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+        // beats.destiny_id → destinies(id); filter directly by the character's destiny_id.
         const { data, error } = await supabase
             .from('beats')
-            .select('id, type, description, destinies!inner(name)')
-            .eq('destinies.name', props.destiny)
+            .select('id, type, description')
+            .eq('destiny_id', props.destinyId)
             .order('type')
+
+        // #region agent log
+        fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'479103'},body:JSON.stringify({sessionId:'479103',runId:'run1',hypothesisId:'B,C',location:'BeatSelector.vue:fetchBeats-query',message:'beats query result',data:{rowCount:Array.isArray(data)?data.length:null,error:error?{message:error.message,code:error.code,details:error.details}:null,queriedDestinyId:props.destinyId},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
 
         if (error) throw error
 
-        state.items = (data ?? []).map(({ id, type, description }) => ({ id, type, description }))
+        state.items = data ?? []
         state.isLoaded = true
     } catch (err) {
         console.error('Failed to load beats:', err)
@@ -57,7 +63,7 @@ watch(
 
 // reload if the destiny changes while open
 watch(
-    () => props.destiny,
+    () => props.destinyId,
     () => {
         if (props.visible) fetchBeats()
     }

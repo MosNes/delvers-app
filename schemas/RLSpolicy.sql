@@ -90,6 +90,7 @@ ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE campaigns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE characters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE destinies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE beats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE paths ENABLE ROW LEVEL SECURITY;
 ALTER TABLE talents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE advances ENABLE ROW LEVEL SECURITY;
@@ -205,6 +206,9 @@ CREATE POLICY "campaigns_select_participant"
 -- -----------------------------------------------------------------------------
 CREATE POLICY "destinies_select_authenticated"
     ON destinies FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "beats_select_authenticated"
+    ON beats FOR SELECT TO authenticated USING (true);
 
 CREATE POLICY "paths_select_authenticated"
     ON paths FOR SELECT TO authenticated USING (true);
@@ -376,6 +380,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON destiny_tracker      TO authenticated;
 -- Reference / catalog tables: read-only for authenticated and anon
 GRANT SELECT ON armor           TO authenticated, anon;
 GRANT SELECT ON artifacts       TO authenticated, anon;
+GRANT SELECT ON beats           TO authenticated, anon;
 GRANT SELECT ON curios          TO authenticated, anon;
 GRANT SELECT ON destinies       TO authenticated, anon;
 GRANT SELECT ON fighting_styles TO authenticated, anon;

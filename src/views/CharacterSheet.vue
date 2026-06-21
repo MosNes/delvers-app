@@ -199,7 +199,9 @@ async function onInventorySaved() {
     }
 }
 
-// session beats: which card is selecting, and the selector dialog visibility
+// session beats: which card is selecting, and the selector dialog visibility.
+// destinyId is kept out of charData so it isn't sent in the characters autosave payload.
+const destinyId = ref(null);
 const beatState = reactive({ visible: false, target: 'beat1' });
 function openBeatSelector(target) {
     beatState.target = target;
@@ -222,7 +224,7 @@ onMounted(async () => {
                 .eq('character_id', route.params.id),
             supabase
                 .from('destiny_tracker')
-                .select('destiny')
+                .select('destiny, destiny_id')
                 .eq('character_id', route.params.id)
                 .maybeSingle(),
             fetchInventoryInstances(),
@@ -275,6 +277,11 @@ onMounted(async () => {
 
         // destiny lives on the per-character destiny_tracker (not the characters row)
         charData.destiny = trackerResult.data?.destiny ?? null;
+        destinyId.value = trackerResult.data?.destiny_id ?? null;
+
+        // #region agent log
+        fetch('http://127.0.0.1:7404/ingest/2d4e9d71-11c8-44e4-9942-b525874d6801',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'479103'},body:JSON.stringify({sessionId:'479103',runId:'run1',hypothesisId:'A,D',location:'CharacterSheet.vue:onMounted-tracker',message:'destiny_tracker loaded',data:{trackerRow:trackerResult.data,resolvedDestinyId:destinyId.value,destinyName:charData.destiny},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
 
         dataState.isLoaded = true;
 
@@ -412,14 +419,14 @@ onMounted(async () => {
             </template>
             <template v-else>
               <div class="flex justify-center">
-                <Button type="button" label="Select Beat" :disabled="!charData.destiny"
+                <Button type="button" label="Select Beat" :disabled="!destinyId"
                   @click="openBeatSelector(slot)" />
               </div>
             </template>
           </div>
         </div>
 
-        <BeatSelector v-model:visible="beatState.visible" :destiny="charData.destiny"
+        <BeatSelector v-model:visible="beatState.visible" :destiny-id="destinyId"
           @selected="onBeatSelected" />
       </Panel>
       <Divider />

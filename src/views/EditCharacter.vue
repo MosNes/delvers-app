@@ -52,7 +52,7 @@ const paths = ref([])
 
 // destiny picklist options (from destinies table) + selected value.
 // selectedDestiny lives outside `form` because destiny is not a characters column —
-// it persists on the per-character destiny_tracker row.
+// it persists on the per-character destiny_tracker row. Holds the destiny id (uuid).
 const destinies = ref([])
 const selectedDestiny = ref(null)
 
@@ -144,7 +144,7 @@ onMounted(async () => {
             supabase.from('characters').select('*').eq('id', route.params.id).single(),
             supabase.from('paths').select('name').eq('isAncestry', false).order('name'),
             supabase.from('destinies').select('id, name').order('name'),
-            supabase.from('destiny_tracker').select('destiny').eq('character_id', route.params.id).maybeSingle(),
+            supabase.from('destiny_tracker').select('destiny_id').eq('character_id', route.params.id).maybeSingle(),
             fetchTalentInstances(),
         ])
 
@@ -162,7 +162,7 @@ onMounted(async () => {
 
         paths.value = pathsResult.data
         destinies.value = destiniesResult.data
-        selectedDestiny.value = trackerResult.data?.destiny ?? null
+        selectedDestiny.value = trackerResult.data?.destiny_id ?? null
         dataState.isLoaded = true
     } catch (err) {
         console.error('Failed to load character for editing:', err)
@@ -200,11 +200,19 @@ async function saveCharacter() {
             characterId = route.params.id
         }
 
-        // create-or-update the character's destiny tracker (one row per character)
-        const { error: trackerError } = await supabase
-            .from('destiny_tracker')
-            .upsert({ character_id: characterId, destiny: selectedDestiny.value }, { onConflict: 'character_id' })
-        if (trackerError) throw trackerError
+        // create-or-update the character's destiny tracker (one row per character).
+        // destiny_id is a NOT NULL FK, so only upsert when a destiny is selected;
+        // clearing the selection leaves any existing tracker untouched.
+        if (selectedDestiny.value) {
+            const chosen = destinies.value.find((d) => d.id === selectedDestiny.value)
+            const { error: trackerError } = await supabase
+                .from('destiny_tracker')
+                .upsert(
+                    { character_id: characterId, destiny_id: selectedDestiny.value, destiny: chosen?.name ?? null },
+                    { onConflict: 'character_id' }
+                )
+            if (trackerError) throw trackerError
+        }
 
         router.push({ name: 'character', params: { id: characterId } })
     } catch (err) {
@@ -271,7 +279,7 @@ function cancel() {
             <div class="flex flex-col gap-1">
                 <label for="destiny" class="text-sm font-medium">Destiny</label>
                 <Select id="destiny" v-model="selectedDestiny" :options="destinies" optionLabel="name"
-                    optionValue="name" placeholder="Select a destiny" showClear fluid />
+                    optionValue="id" placeholder="Select a destiny" showClear fluid />
             </div>
         </Panel>
 
