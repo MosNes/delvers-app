@@ -166,6 +166,11 @@ async function save() {
                 <Column field="name" header="Name" sortable />
                 <Column field="slots" header="Slots" sortable />
                 <Column field="description" header="Description" />
+                <Column field="effect" header="Effect" sortable>
+                    <template #body="{ data }">
+                        {{ data.effect || '--' }}
+                    </template>
+                </Column>
             </DataTable>
             <small v-if="state.saveError" class="text-red-500">{{ state.saveError }}</small>
         </template>
