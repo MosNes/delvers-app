@@ -526,7 +526,7 @@ onMounted(async () => {
                 </div>
               </AccordionHeader>
               <AccordionContent class="p-3">
-                <Item :id="item.id" :item_config="item.item_config"
+                <Item :id="item.id" :item_config="item.item_config" :item-type="item.itemType"
                   @saved="onInventorySaved" @remove="removeInventoryInstance" />
               </AccordionContent>
             </AccordionPanel>

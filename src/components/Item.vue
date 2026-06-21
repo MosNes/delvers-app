@@ -1,6 +1,6 @@
 <!-- editable view of a single inventory instance, shown inside the inventory accordion content -->
 <script setup>
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 
 import { supabase } from '@/lib/supabaseClient'
 
@@ -17,6 +17,7 @@ import ToggleSwitch from '@/volt/ToggleSwitch.vue'
 const props = defineProps({
     id: { type: String, required: true }, // inventory_instances.id — needed for the DB write
     item_config: { type: Object, required: true },
+    itemType: { type: String, default: null },
 })
 
 const emit = defineEmits(['saved', 'remove'])
@@ -35,6 +36,14 @@ const TOP_FIELDS = [
     { key: 'description', label: 'Description', type: 'textarea' },
     { key: 'effect', label: 'Effect', type: 'textarea' },
 ]
+
+// artifact-only depletion fields, shown above the card grid when hasDepletion is set
+const DEPLETION_FIELDS = [
+    { key: 'depletionDie', label: 'Depletion Die', type: 'text' },
+    { key: 'depletionResult', label: 'Depletion Result', type: 'number', min: 0 },
+]
+
+const showDepletion = computed(() => props.itemType === 'artifact' && itemConfig.hasDepletion)
 
 // each entry is a card; type picks the editor used in edit mode
 const CARDS = [
@@ -111,6 +120,23 @@ function remove() {
                             fluid />
                     </template>
                     <div v-else>{{ formatValue(field, itemConfig[field.key]) }}</div>
+                </div>
+
+                <!-- artifact depletion: 2 columns, only when the artifact has depletion -->
+                <div v-if="showDepletion" class="flex flex-col md:flex-row gap-5 mt-3">
+                    <div v-for="field in DEPLETION_FIELDS" :key="field.key" class="flex-1">
+                        <Card>
+                            <template #content>
+                                <div class="text-md text-gray-400 font-display">{{ field.label }}</div>
+                                <template v-if="ui.editing">
+                                    <InputText v-if="field.type === 'text'" v-model="itemConfig[field.key]" fluid />
+                                    <InputNumber v-else-if="field.type === 'number'" v-model="itemConfig[field.key]"
+                                        :min="field.min" fluid />
+                                </template>
+                                <div v-else>{{ formatValue(field, itemConfig[field.key]) }}</div>
+                            </template>
+                        </Card>
+                    </div>
                 </div>
 
                 <!-- 3-card grid: 1 column on small screens, 3 columns at md+ -->

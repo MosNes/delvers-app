@@ -42,6 +42,9 @@ function buildItemConfig(item, itemType) {
         hasClock: item.hasClock ?? false,
         clockValue: item.clockValue ?? 0,
         slots: item.slots ?? 0,
+        hasDepletion: item.hasDepletion ?? false,
+        depletionDie: item.depletionDie ?? null,
+        depletionResult: item.depletionResult ?? null,
     }
 }
 
