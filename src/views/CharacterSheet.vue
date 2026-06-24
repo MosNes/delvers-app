@@ -27,6 +27,7 @@ import SecondaryButton from '@/volt/SecondaryButton.vue';
 import ToggleSwitch from '@/volt/ToggleSwitch.vue';
 import SavingState from '@/components/SavingState.vue';
 import Textarea from '@/volt/Textarea.vue';
+import Select from '@/volt/Select.vue';
 
 //test character data
 const charData = reactive({
@@ -144,6 +145,57 @@ async function performSave() {
     } else {
         savingState.value?.hide();
     }
+}
+
+// picklistValues may be stored as a real array or as a JSON-encoded string
+// (jsonb can hold either). PrimeVue Select requires an array for `options`,
+// so normalize to an array here to avoid "visibleOptions.findIndex is not a function".
+function picklistOptions(talent) {
+    const raw = talent?.value?.picklistValues;
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+        try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) return parsed;
+        } catch (e) { /* not JSON; fall through */ }
+    }
+    return [];
+}
+
+// persist a single talent instance's value jsonb back to its row
+async function saveTalentInstance(talent) {
+    saveState.isError = false;
+    saveState.errorMessage = '';
+    savingState.value?.show();
+    const { error } = await supabase
+        .from('talent_instances')
+        .update({ value: talent.value })
+        .eq('id', talent.id);
+
+    if (error) {
+        saveState.isError = true;
+        saveState.errorMessage = error.message;
+    } else {
+        savingState.value?.hide();
+    }
+}
+
+// watch each talent's picklist selection and save only the instance that changed.
+// Set up once after the initial load so populating instances doesn't trigger a save.
+function watchTalentSelections() {
+    watch(
+        () => talentState.instances.map((t) => ({ id: t.id, selectedValue: t.value?.selectedValue })),
+        (newVals, oldVals) => {
+            for (const nv of newVals) {
+                const ov = oldVals.find((o) => o.id === nv.id);
+                if (ov && ov.selectedValue !== nv.selectedValue) {
+                    const talent = talentState.instances.find((t) => t.id === nv.id);
+                    if (talent) saveTalentInstance(talent);
+                }
+            }
+        },
+        { deep: true }
+    );
 }
 
 onUnmounted(() => {
@@ -314,6 +366,7 @@ onMounted(async () => {
 
         // start watching for changes now that charData is fully populated
         autosave();
+        watchTalentSelections();
     } catch (err) {
         console.error('Failed to load character:', err);
         dataState.isError = true;
@@ -479,7 +532,13 @@ onMounted(async () => {
               <div class="text-md text-gray-400 font-display">Description</div>
               <div class="mb-2">{{ talent.value?.description }}</div>
               <div v-if="talent.value?.flavorText" class="mb-2 italic text-gray-400">{{ talent.value.flavorText }}</div>
-              <div v-if="talent.value?.selectedValue !== null && talent.value?.selectedValue !== undefined">
+              <template v-if="talent.value?.hasPicklist">
+                <div class="text-md text-gray-400 font-display">Selection</div>
+                <Button v-if="talent.value?.picklistHasObj" type="button" label="Select" />
+                <Select v-else v-model="talent.value.selectedValue" :options="picklistOptions(talent)"
+                  placeholder="Select a value" showClear fluid />
+              </template>
+              <div v-else-if="talent.value?.selectedValue !== null && talent.value?.selectedValue !== undefined">
                 <div class="text-md text-gray-400 font-display">Selection</div>
                 <div>{{ talent.value.selectedValue }}</div>
               </div>

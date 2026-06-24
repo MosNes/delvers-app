@@ -96,3 +96,21 @@ item_config object schema:
     clockValue: int. custom clockValue, defaults to baseItem value. If baseItem does not specify, set to 0.
     slots: int. custom slot value, defaults to baseItem value. If baseItem does not specify, set to 0.
 }
+
+## Talent Instances Data Model
+Talent Instances contains a jsonb column called 'value'.
+value allows a user to customize the talent by selecting picklist values (if applicable) or adding advances to the talent.
+The front end app reads the JSON object and displays values from it in the UI.
+
+value object schema:
+{
+    type: enum. Minor, Major, or Pinnacle
+    path_name: string. Name of the Path associated with the Talent
+    flavorText: string. Flavor text associated with the Talent. Defaults to Talent Flavor Text.
+    description: string. description of the Talent. Defaults to Talent Description.
+    hasPicklist: boolean. Whether the talent has an associated picklist.
+    selectedValue: string. The value selected from the picklist
+    picklistHasObj: boolean. Whether the picklist values are an array of objects
+    picklistValues: array. An array of strings or objects.
+    advances: array. An array of advances selected for this Talent. Defaults to an empty array.
+}
