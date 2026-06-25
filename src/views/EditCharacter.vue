@@ -18,7 +18,6 @@ import Textarea from '@/volt/Textarea.vue'
 import TagInput from '@/components/TagInput.vue'
 import DataTable from '@/volt/DataTable.vue'
 import Column from 'primevue/column'
-import DangerButton from '@/volt/DangerButton.vue'
 import TalentSelector from '@/components/TalentSelector.vue'
 
 const route = useRoute()
@@ -237,10 +236,10 @@ function cancel() {
 
     <form v-else class="p-6 flex flex-col gap-6 max-w-4xl mx-auto" @submit.prevent="saveCharacter">
 
-        <h1 class="text-2xl font-bold">{{ dataState.isNew ? 'Create New Character' : 'Editing Character' }}</h1>
+        <h1 class="text-2xl font-bold font-display">{{ dataState.isNew ? 'Create New Character' : 'Edit Character' }}</h1>
 
         <!-- Identity -->
-        <Panel header="Identity">
+        <Panel header="Identity" class="attribute-card-border p-2">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1">
                     <label for="characterName" class="text-sm font-medium">Character Name *</label>
@@ -275,7 +274,7 @@ function cancel() {
         </Panel>
 
         <!-- Destiny (persisted to the per-character destiny_tracker, not the characters row) -->
-        <Panel header="Destiny">
+        <Panel header="Destiny" class="attribute-card-border p-2">
             <div class="flex flex-col gap-1">
                 <label for="destiny" class="text-sm font-medium">Destiny</label>
                 <Select id="destiny" v-model="selectedDestiny" :options="destinies" optionLabel="name"
@@ -284,11 +283,11 @@ function cancel() {
         </Panel>
 
         <!-- Skills &amp; Domains -->
-        <Panel header="Skills &amp; Domains">
+        <Panel header="Skills &amp; Domains" class="attribute-card-border p-2">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1">
                     <label for="domains" class="text-sm font-medium">Domains</label>
-                    <TagInput input-id="domains" v-model="form.domains" placeholder="Type a domain and tap Add" />
+                    <TagInput input-id="domains" v-model="form.domains" placeholder="Type a domain and tap Add"/>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="skills" class="text-sm font-medium">Skills</label>
@@ -298,11 +297,11 @@ function cancel() {
         </Panel>
 
         <!-- Talents (relational talent_instances) — only for existing characters -->
-        <Panel v-if="!dataState.isNew" header="Talents">
+        <Panel v-if="!dataState.isNew" header="Talents" class="attribute-card-border p-2">
             <LoadingState v-if="talentState.busy" />
             <div v-else class="flex flex-col gap-3">
                 <div class="flex justify-end">
-                    <Button type="button" label="Add Talents" icon="pi pi-plus"
+                    <Button type="button" label="Add Talents" icon="pi pi-plus" class="art-deco-frame font-display"
                         @click="talentState.selectorVisible = true" />
                 </div>
                 <DataTable :value="talentState.instances" dataKey="id" paginator :rows="25">
@@ -312,7 +311,7 @@ function cancel() {
                     <Column field="talents.description" header="Description" />
                     <Column header="" headerStyle="width: 7rem">
                         <template #body="{ data }">
-                            <DangerButton type="button" label="Remove" @click="removeTalentInstance(data.id)" />
+                            <Button type="button" icon="pi pi-trash" class="art-deco-frame font-display [&_.pi]:text-white" @click="removeTalentInstance(data.id)" />
                         </template>
                     </Column>
                 </DataTable>
@@ -324,7 +323,7 @@ function cancel() {
         </Panel>
 
         <!-- Attributes -->
-        <Panel header="Attributes">
+        <Panel header="Attributes" class="attribute-card-border p-2">
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div class="flex flex-col gap-1">
                     <label for="maxGuard" class="text-sm font-medium">Max Guard</label>
@@ -354,7 +353,7 @@ function cancel() {
         </Panel>
 
         <!-- Notes -->
-        <Panel header="Notes">
+        <Panel header="Notes" class="attribute-card-border p-2">
             <Textarea v-model="form.notes" rows="5" fluid />
         </Panel>
 
@@ -365,8 +364,8 @@ function cancel() {
                 Fill in all required fields (*) to save.
             </small>
             <div class="flex justify-end gap-2">
-                <SecondaryButton type="button" label="Cancel" @click="cancel" />
-                <Button type="submit" label="Save" :loading="saving" :disabled="!isFormValid || saving" />
+                <SecondaryButton type="button" label="Cancel" class="art-deco-frame font-display" @click="cancel" />
+                <Button type="submit" label="Save" class="art-deco-frame font-display" :loading="saving" :disabled="!isFormValid || saving" />
             </div>
         </div>
 

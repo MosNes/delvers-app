@@ -534,7 +534,7 @@ onMounted(async () => {
               <div v-if="talent.value?.flavorText" class="mb-2 italic text-gray-400">{{ talent.value.flavorText }}</div>
               <template v-if="talent.value?.hasPicklist">
                 <div class="text-md text-gray-400 font-display">Selection</div>
-                <Button v-if="talent.value?.picklistHasObj" type="button" label="Select" />
+                <Button v-if="talent.value?.picklistHasObj" type="button" label="Select" class="art-deco-frame font-display" />
                 <Select v-else v-model="talent.value.selectedValue" :options="picklistOptions(talent)"
                   placeholder="Select a value" showClear fluid />
               </template>

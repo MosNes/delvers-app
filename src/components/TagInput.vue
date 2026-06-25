@@ -39,7 +39,7 @@ function remove(index) {
         <div class="flex gap-2">
             <!-- @keyup.enter is a convenience for desktop; the Add button is the reliable path -->
             <InputText :id="inputId" v-model="draft" :placeholder="placeholder" fluid @keyup.enter="add" />
-            <Button type="button" label="Add" icon="pi pi-plus" @click="add" />
+            <Button type="button" label="Add" icon="pi pi-plus"class="art-deco-frame font-display" @click="add" />
         </div>
         <ul v-if="modelValue.length" class="flex flex-wrap gap-1 list-none m-0 p-0">
             <li v-for="(item, i) in modelValue" :key="`${item}-${i}`"

@@ -164,12 +164,12 @@ function remove() {
 
                 <div class="flex justify-end gap-2 mt-3">
                     <template v-if="ui.editing">
-                        <SecondaryButton type="button" label="Cancel" @click="cancel" />
-                        <Button type="button" label="Save" :loading="ui.busy" @click="save" />
+                        <SecondaryButton type="button" label="Cancel" class="art-deco-frame font-display" @click="cancel" />
+                        <Button type="button" label="Save" class="art-deco-frame font-display" :loading="ui.busy" @click="save" />
                     </template>
                     <template v-else>
-                        <Button type="button" label="Edit" icon="pi pi-pencil" @click="startEdit" />
-                        <DangerButton type="button" label="Remove" @click="remove" />
+                        <Button type="button" label="Edit" icon="pi pi-pencil" class="art-deco-frame font-display" @click="startEdit" />
+                        <DangerButton type="button" icon="pi pi-trash" class="art-deco-frame font-display [&_.pi-trash]:text-white" @click="remove" />
                     </template>
                 </div>
             </main>
